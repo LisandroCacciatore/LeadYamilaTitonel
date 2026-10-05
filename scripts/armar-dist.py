@@ -258,6 +258,16 @@ def main() -> int:
         if assets.is_dir():
             shutil.copytree(assets, destino_dir / "assets")
 
+        # Y arrastra sus archivos sueltos: sitemap.xml, robots.txt, favicon. Sin esto el
+        # sitio publicado desmiente lo que la propuesta promete («sitemap.xml y
+        # robots.txt»), y el cotejo de promesas del §10 lo detecta.
+        for extra in sorted(origen.parent.iterdir()):
+            if extra.is_file() and extra.suffix.lower() in (
+                    ".xml", ".txt", ".ico", ".svg", ".webmanifest", ".json"):
+                if extra.name == "evidencia-despues.json":
+                    continue
+                shutil.copyfile(extra, destino_dir / extra.name)
+
         archivos = sum(1 for _ in destino_dir.rglob("*") if _.is_file())
         kb = sum(f.stat().st_size for f in destino_dir.rglob("*") if f.is_file()) // 1024
         print(f"{slug:<14}{archivos:>10}{kb:>8}")
