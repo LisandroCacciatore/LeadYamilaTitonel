@@ -347,6 +347,7 @@ def main() -> int:
     conv = cfg.get("conversion") or {}
     prop = cfg.get("propuesta") or {}
     callout = cfg.get("callout") or {}
+    modelo = cfg.get("modelo") or {}
     saludo = prop.get("saludo") or (meta.get("nombre", "").split()[-1] or "")
     nombre_enc = esc(meta.get("nombre", "")).replace(" ", "%20")
     saludo_enc = str(saludo).replace(" ", "%20")
@@ -391,6 +392,11 @@ def main() -> int:
             f"Cálculo: {esc(base_calculo)} · [INFERIBLE] — " + narrativa(
                 "costoNota", "en la llamada lo validamos con tus números reales, que yo no veo.")),
         "UNIDAD": str(conv.get("unidad") or "sesiones"),
+        "MODELO_CTA_HTML": (
+            f'<a class="btn btn-light" href="{esc(modelo.get("url"))}" target="_blank" rel="noopener">'
+            f'{esc(modelo.get("cta") or "Ver la página modelo")} &nearr;</a>'
+            if (modelo.get("url") or "").strip() else ""
+        ),
         "MAILTO_INTERESA": (
             f"mailto:{esc(author.get('email'))}?subject=Propuesta%20-%20{nombre_enc}"
             f"&body=Hola%20{saludo_enc}%2C%20me%20interesa%20avanzar%20con%3A%20"),

@@ -109,6 +109,7 @@ def con_noindex(texto: str) -> str:
 
 def portada(css: str, cfg: dict, lista: list) -> str:
     meta = cfg.get("meta") or {}
+    modelo = cfg.get("modelo") or {}
     nombre = meta.get("nombre", "Lead")
     fecha = meta.get("fecha", "")
     tarjetas = "".join(
@@ -121,6 +122,17 @@ def portada(css: str, cfg: dict, lista: list) -> str:
         </a>"""
         for i, p in enumerate(lista, start=1)
     )
+    # La página modelo suele vivir en otro dominio (el sitio ya construido): se
+    # enlaza directo y marcada como externa, para que no se confunda con el preview.
+    if (modelo.get("url") or "").strip():
+        n = len(lista) + 1
+        tarjetas += f"""
+        <a class="tarjeta tarjeta--modelo" href="{html.escape(modelo['url'])}" target="_blank" rel="noopener">
+          <span class="tarjeta__n">{n:02d} · externo</span>
+          <h2>{html.escape(modelo.get('titulo') or 'Página modelo')}</h2>
+          <p>{html.escape(modelo.get('bajada') or '')}</p>
+          <span class="tarjeta__ir">{html.escape(modelo.get('cta') or 'Abrir la página modelo')} &nearr;</span>
+        </a>"""
     return f"""<!DOCTYPE html>
 <html lang="es-AR">
 <head>
@@ -148,6 +160,8 @@ body {{ background: var(--surface-alt); }}
 .tarjeta h2 {{ font-size: var(--fs-xl); margin: var(--space-1) 0 var(--space-2); }}
 .tarjeta p {{ font-size: var(--fs-sm); color: var(--ink-body); }}
 .tarjeta__ir {{ font-size: var(--fs-sm); font-weight: 700; color: var(--brand-default); }}
+.tarjeta--modelo {{ border-color: var(--brand-default); }}
+.tarjeta--modelo .tarjeta__n {{ color: var(--ink-muted); }}
 .nota {{ font-size: var(--fs-sm); color: var(--ink-muted); border-top: 1px solid var(--line-default);
   padding-top: var(--space-4); }}
 </style>
