@@ -353,6 +353,14 @@
           ' el ' + esc(m.fecha || '') + '.</li>';
       body.appendChild(el('div', 'scope', '<ul>' + alcanceHTML + '</ul>'));
 
+      // La fuente medida, enlazada: para Yamila la presencia es su bio de Instagram y no
+      // un sitio, así que el número se puede ir a verificar.
+      if (m.presenciaUrl) {
+        body.appendChild(el('p', 'evsrc',
+          'Fuente medida: <a href="' + esc(m.presenciaUrl) + '" rel="noopener">' +
+          esc(m.presenciaEtiqueta || m.presenciaUrl) + '</a>'));
+      }
+
       // --- Cierre (§4.6): el informe es diagnóstico, no vende. Manda a la propuesta.
       openSheet();
       startOf.cierre = sheets.length;
