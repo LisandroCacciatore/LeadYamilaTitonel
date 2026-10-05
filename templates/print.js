@@ -173,7 +173,6 @@
           '<div><strong>Válido hasta</strong>' + esc(m.validez || '') + '</div>' +
           '<div><strong>Preparado por</strong>' + esc(author) +
             (email ? '<br>' + esc(email) : '') + '</div>' +
-          '<div><strong>Inversión total</strong>' + money(t.total) + '</div>' +
         '</div>' +
       '</div>');
     docEl().appendChild(sheet);
@@ -192,10 +191,8 @@
     { id: 'resumen',     title: 'Resumen Ejecutivo' },
     { id: 'diagnostico', title: 'Diagnóstico' },
     { id: 'comparativo', title: 'Comparativo verificado', optional: true },
-    { id: 'propuesta',   title: 'Propuesta de Valor' },
-    { id: 'inversion',   title: 'Inversión y Próximos Pasos' },
     { id: 'alcance',     title: 'Alcance de esta revisión' },
-    { id: 'firma',       title: 'Aceptación de la propuesta' }
+    { id: 'cierre',      title: 'Qué propongo hacer con esto' }
   ];
 
   function resolveSections() {
@@ -230,6 +227,8 @@
   }
 
   function kpiRow(kpis) {
+    // §4.1 del spec editorial: máximo 4 números en el cuadro.
+    kpis = (kpis || []).slice(0, 4);
     if (!(kpis || []).length) return null;
     return el('div', 'kpi-row', kpis.map(function (k) {
       return '<div class="kpi"><span class="kpi__value">' + esc(k.valor) +
@@ -267,12 +266,12 @@
       body.appendChild(secHead(NUM.resumen, 'Resumen Ejecutivo'));
       var resumenLead = 'Sobre ' + esc(m.url || 'su presencia online') + ' se midieron <strong>' +
         hallazgos.length + ' hallazgos</strong> que están costando oportunidades. ';
-      if (cfg.costoMensual) {
-        resumenLead += 'El impacto estimado acumulado es de <strong>' + esc(cfg.costoMensual) + '</strong> por mes.';
-      } else {
-        resumenLead += 'No declaro un impacto en pesos porque no tengo acceso a tus números: ' +
+      // §7.1: la tarifa del profesional se nombra UNA sola vez, en la sección de costo.
+      // Acá va sin monto: la cuenta está abajo, a la vista.
+      resumenLead += cfg.costoMensual
+        ? 'La cuenta de lo que eso cuesta por mes está en la sección de costo, con el cálculo a la vista.'
+        : 'No declaro un impacto en pesos porque no tengo acceso a tus números: ' +
           'lo que sigue es lo medido, con la cuenta a la vista.';
-      }
       body.appendChild(el('p', 'sec-lead', resumenLead));
       place(el('ul', '', hallazgos.map(function (h) {
         return '<li><strong>' + esc(h.titulo) + '</strong> — ' + esc(h.impacto) + '</li>';
@@ -330,58 +329,10 @@
         }
       }
 
-      // --- Propuesta de Valor
-      openSheet();
-      startOf.propuesta = sheets.length;
-      body.appendChild(secHead(NUM.propuesta, 'Propuesta de Valor'));
-      body.appendChild(el('p', 'sec-lead', esc(
-        ((cfg.propuesta || {}).informeLead) ||
-        'Un sitio profesional propio y módulos que se suman según prioridad y presupuesto.')));
-      body.appendChild(el('div', 'base-card',
-        '<span class="base-flag">Siempre incluida</span>' +
-        '<div class="base-head">' +
-          '<span class="base-label">' + esc(((cfg.propuesta || {}).baseLabel) ||
-            'Base — Sitio profesional completo') + '</span>' +
-          '<span class="base-price">' + money(t.base) + '</span>' +
-        '</div>' +
-        '<ul>' + ((cfg.base || {}).items || []).map(function (i) {
-          return '<li>' + esc(i) + '</li>';
-        }).join('') + '</ul>'));
-      body.appendChild(el('div', 'sec-sub', 'Módulos'));
-      place(el('table', 'price-table',
-        '<thead><tr><th>Módulo</th><th>Precio</th><th>Qué resuelve</th></tr></thead>' +
-        '<tbody>' + modulos.map(function (mod) {
-          return '<tr class="mod-row"><td>' + esc(mod.title) + '</td>' +
-            '<td>+ ' + money(priceOf(mod)) + '</td>' +
-            '<td>' + esc(mod.short) + '</td></tr>';
-        }).join('') + '</tbody>'), 'Propuesta de Valor · continúa');
+      // --- §4: acá NO va la propuesta ni la inversión. El informe es diagnóstico;
+      // la solución, los precios y la aceptación viven en /propuesta/ y se enlazan
+      // en la sección de cierre.
 
-      body.appendChild(el('div', 'sec-sub', 'Escenarios de inversión'));
-      place(el('ul', '', [
-        '<li><strong>Entrada:</strong> Base sola — ' + money(t.base) + '.</li>',
-        '<li><strong>Intermedio:</strong> Base + 2 módulos — ' + money(t.combo2) + '.</li>',
-        '<li><strong>Recomendado:</strong> Base + 3 módulos — ' + money(t.combo3) + '.</li>',
-        '<li><strong>Pack completo:</strong> Base + los ' + modulos.length + ' módulos — ' +
-          money(t.total) + ' (con 15% off: ' + money(t.pack) + ').</li>'
-      ].join('')), 'Propuesta de Valor · continúa');
-
-      // --- Inversión y Próximos Pasos
-      openSheet();
-      startOf.inversion = sheets.length;
-      body.appendChild(secHead(NUM.inversion, 'Inversión y Próximos Pasos'));
-      body.appendChild(el('p', 'sec-lead',
-        'Detalle del cálculo. Sin costos mensuales de plataforma ni licencias recurrentes.'));
-      place(el('table', 'price-table',
-        '<thead><tr><th>Concepto</th><th>Monto</th></tr></thead><tbody>' +
-        '<tr class="base-row"><td>Sitio base · publicado en tu dominio</td><td>' + money(t.base) + '</td></tr>' +
-        modulos.map(function (mod) {
-          return '<tr><td>' + esc(mod.code) + ' — ' + esc(mod.title) + '</td><td>' + money(priceOf(mod)) + '</td></tr>';
-        }).join('') +
-        '<tr class="total-row"><td>Total</td><td>' + money(t.total) + '</td></tr>' +
-        '</tbody>'), 'Inversión · continúa');
-      body.appendChild(el('div', 'sec-sub', 'Próximos pasos'));
-      place(el('ol', '', pasos.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('')),
-        'Inversión · continúa');
 
       // --- Alcance de esta revisión
       openSheet();
@@ -402,32 +353,22 @@
           ' el ' + esc(m.fecha || '') + '.</li>';
       body.appendChild(el('div', 'scope', '<ul>' + alcanceHTML + '</ul>'));
 
-      // --- Aceptación
+      // --- Cierre (§4.6): el informe es diagnóstico, no vende. Manda a la propuesta.
       openSheet();
-      startOf.firma = sheets.length;
-      body.appendChild(secHead(NUM.firma, 'Aceptación de la propuesta'));
-      body.appendChild(el('p', 'sig-intro',
-        'Si estás de acuerdo con el alcance y la inversión detallados, firmá este documento y ' +
-        'devolvelo por correo a <strong>' + esc((cfg.author || {}).email || '') + '</strong>. ' +
-        'Con eso arrancamos con la carga de tus datos reales y la publicación en tu dominio.'));
-      body.appendChild(el('div', 'sig-terms',
-        '<strong>Condiciones generales.</strong> La propuesta es válida hasta el <strong>' +
-        esc(m.validez || '') + '</strong>. Los plazos de entrega se confirman al inicio del trabajo ' +
-        'según el alcance elegido. Cualquier alcance no detallado en este documento se cotiza aparte.'));
-      body.appendChild(el('div', 'sig-grid',
-        '<div class="sig-col">' +
-          '<div class="sig-role">Por el consultor</div>' +
-          '<div class="sig-line"></div>' +
-          '<div class="sig-name">' + esc((cfg.author || {}).nombre || '') + '</div>' +
-          '<div class="sig-detail">' + esc((cfg.author || {}).email || '') + '</div>' +
-        '</div>' +
-        '<div class="sig-col">' +
-          '<div class="sig-role">Por el cliente</div>' +
-          '<div class="sig-line"></div>' +
-          '<div class="sig-name">' + esc(m.nombre) + '</div>' +
-          '<div class="sig-detail">Aclaración y firma</div>' +
-          '<div class="sig-detail">Fecha: ____ / ____ / ________</div>' +
-        '</div>'));
+      startOf.cierre = sheets.length;
+      body.appendChild(secHead(NUM.cierre, 'Qué propongo hacer con esto'));
+      body.appendChild(el('p', 'sec-lead',
+        'Este documento es el diagnóstico: qué se midió y qué está costando. La solución, ' +
+        'con lo que incluye cada bloque y lo que cuesta, va en la propuesta.'));
+      place(el('div', 'scope', '<ul>' +
+        '<li><span class="yes">✓</span> Cada hallazgo de este informe tiene su bloque asociado ' +
+          'en la propuesta: nada queda en el aire.</li>' +
+        '<li><span class="yes">✓</span> Los precios, los escenarios y la aceptación están sólo en ' +
+          'la propuesta, para que este informe no mezcle diagnóstico con venta.</li>' +
+        '</ul>'), 'Cierre · continúa');
+      place(el('div', 'cta-row',
+        '<a class="btn btn-ink" href="../propuesta/">Ver la propuesta &rarr;</a> ' +
+        '<a class="btn btn-light" href="../">Volver al inicio &rarr;</a>'), 'Cierre · continúa');
 
       // 4. Membrete y numeración en todas las hojas menos la portada.
       var total = sheets.length;

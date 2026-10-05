@@ -38,13 +38,13 @@ CHROME = [
     r"C:\Program Files\Microsoft\Edge\Application\msedge.exe",
 ]
 
+# §4 del spec v2.0: el informe es SÓLO diagnóstico. La propuesta de valor, la
+# inversión y la aceptación viven en la propuesta, no acá.
 BASE_SECCIONES = [
     "Resumen Ejecutivo",
     "Diagnóstico",
-    "Propuesta de Valor",
-    "Inversión y Próximos Pasos",
     "Alcance de esta revisión",
-    "Aceptación de la propuesta",
+    "Qué propongo hacer con esto",
 ]
 RANGO_HOJAS_DEFAULT = (8, 16)
 
@@ -167,19 +167,24 @@ def main() -> int:
         for c in choques[:3]:
             print(f"      · {c}")
 
-    # ---- Totales y módulos: config -> PDF
+    # ---- §4: el informe no puede mostrar precios ni módulos.
     total_str = miles(total)
-    print(f"  total     : USD {total_str} {'presente' if total_str in todo else 'AUSENTE'}")
-    if total_str not in todo:
-        errores.append(f"el total de la config (USD {total_str}) no aparece en el PDF")
+    fugas = []
+    for titulo in mod_titles:
+        if titulo.upper() in todo.upper():
+            fugas.append(titulo)
+    if total_str in todo:
+        fugas.append(f"total USD {total_str}")
+    if "Pack completo" in todo:
+        fugas.append("escenario «Pack completo»")
+    if fugas:
+        errores.append("el informe muestra precios o módulos (§4: sólo diagnóstico): "
+                       + ", ".join(fugas[:4]))
+    else:
+        print("  precios   : ninguno en el informe (sólo diagnóstico)")
 
-    sin_mod = [t for t in mod_titles if t.upper() not in todo.upper()]
-    print(f"  módulos   : {len(mod_titles) - len(sin_mod)}/{len(mod_titles)} en el PDF")
-    if sin_mod:
-        errores.append(f"módulos ausentes en el PDF: {sin_mod}")
-
-    if "Pack completo" not in todo:
-        errores.append("falta el escenario «Pack completo»")
+    if "VER LA PROPUESTA" not in todo.upper():
+        errores.append("el informe no cierra con el CTA «Ver la propuesta →»")
 
     # ---- Los datos verificados del cliente tienen que estar sostenidos en el documento.
     #      Salen de la config: los propios y los que el cliente declare en verificacionPDF.datos.
@@ -198,7 +203,7 @@ def main() -> int:
         return 2
     print(f"  ✓ {paginas} hojas, {len(secciones)}/{len(secciones)} secciones en orden")
     print("  ✓ Membrete repetido y pie sin encimado")
-    print("  ✓ Total, módulos y datos verificados presentes en el PDF")
+    print("  ✓ Datos verificados sostenidos y ningún precio en el informe (§4)")
     return 0
 
 

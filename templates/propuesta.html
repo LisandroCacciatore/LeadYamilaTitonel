@@ -5,15 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Propuesta — {{NOMBRE_CLIENTE}}</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="Auditoría y propuesta de mejora del sitio de {{NOMBRE_CLIENTE}}, con evidencia medida.">
+<meta name="description" content="Propuesta de sitio nuevo para {{NOMBRE_CLIENTE}}, con la evidencia medida.">
 <style>
 {{BRAND_CSS}}
+/* ---------- El sitio nuevo, mostrado antes que el problema (§3.4) ---------- */
+.shot { border:1px solid var(--line-default); border-radius:var(--radius-lg);
+  overflow:hidden; margin:1rem 0; background:var(--surface-default); }
+.shot-img { display:block; width:100%; height:auto; }
+.shot-frame { display:block; width:100%; height:70vh; min-height:420px; border:0; background:#fff; }
+/* §9.4: toda captura lleva epígrafe — izquierda «Hoy — …», derecha «Nuevo — …». */
+.shot-cap { font-size:var(--fs-sm); color:var(--ink-muted); margin:.5rem 0 0; }
+
+/* ---------- La tabla de colegas pasa a bullets en mobile (§6.2) ---------- */
+@media (max-width:700px){
+  .compare-table thead { display:none; }
+  .compare-table, .compare-table tbody, .compare-table tr, .compare-table td { display:block; width:100%; }
+  .compare-table tr { border:1px solid var(--line-default); border-radius:var(--radius-md);
+    padding:.6rem .8rem; margin-bottom:.6rem; }
+  .compare-table td { border:0; padding:.15rem 0; }
+  .compare-table td:first-child { font-weight:var(--fw-bold); }
+  .compare-table td:not(:first-child)::before { content:attr(data-col) ": "; color:var(--ink-muted); }
+}
 </style>
 </head>
 <body>
 {{HEADER}}
 
-<!-- ══════════════ A · EL GANCHO ══════════════ -->
+<!-- ══════════════ 1-3 · GANCHO, CONTEXTO Y NÚMEROS ══════════════ -->
 <section class="band band--ink">
   <div class="wrap">
     <span class="eyebrow" style="background:rgba(255,255,255,.14);color:#fff">Propuesta · {{FECHA}} · válida hasta el {{VALIDEZ}}</span>
@@ -21,27 +39,35 @@
     <p class="lead" style="color:rgba(255,255,255,.78);max-width:44rem">{{HERO_LEAD}}</p>
     {{KPI_HTML}}
     <div class="cta-row">
-      <a class="btn btn-brand" href="#propuesta">Ver qué propongo</a>
-      {{MODELO_CTA_HTML}}
-      <a class="btn btn-light" href="#evidencia">Ver la evidencia</a>
+      <a class="btn btn-brand" href="#sitio-nuevo">Mirá cómo se vería tu sitio &rarr;</a>
+      <a class="btn btn-light" href="#propuesta">Ver qué propongo</a>
     </div>
   </div>
 </section>
 
-<!-- ══════════════ B · QUÉ ENCONTRÉ (diagnóstico en su idioma) ══════════════ -->
+<!-- ══════════════ 4 · TU SITIO NUEVO (el resultado, primero) ══════════════ -->
+<section class="band band--soft" id="sitio-nuevo">
+  <div class="wrap">
+    <span class="eyebrow">El resultado, antes que el problema</span>
+    <h2 style="font-size:1.5rem;margin-top:.75rem">Tu sitio nuevo</h2>
+    {{SITIO_NUEVO_HTML}}
+  </div>
+</section>
+
+<!-- ══════════════ 5 · LO QUE ENCONTRÉ (§5) ══════════════ -->
 <section class="band" id="evidencia">
   <div class="wrap">
     <span class="eyebrow">Lo que encontré</span>
     <h2 style="font-size:1.5rem;margin-top:.75rem">{{NUM_HALLAZGOS}} hallazgos medidos</h2>
     <p>
-      Cada tarjeta trae el número crudo y de dónde sale. Lo que no pude medir, lo digo:
-      no hay una sola afirmación de este documento que no se pueda reproducir.
+      Cada hallazgo va con el número crudo, qué significa para tu trabajo y qué propongo.
+      Lo que no pude medir, lo digo: cada afirmación de este documento se puede reproducir con el comando que tiene al lado.
     </p>
     {{HALLAZGOS_HTML}}
   </div>
 </section>
 
-<!-- ══════════════ C · DÓNDE ESTÁS PARADO ══════════════ -->
+<!-- ══════════════ 6-7 · CONTRA COLEGAS ══════════════ -->
 <section class="band band--soft">
   <div class="wrap">
     <span class="eyebrow">Dónde estás parado</span>
@@ -51,13 +77,13 @@
     <p class="evsrc">{{COMPARATIVO_NOTA}}</p>
     <p class="evsrc">{{COMPARATIVO_FUENTE}}</p>
     <div class="todo" style="margin-top:1.25rem">
-      <strong>Lo que dice esta tabla, en una línea:</strong>
+      <strong>Lo que dice esto, en una línea:</strong>
       <p style="margin:.5rem 0 0">{{COMPARATIVO_CIERRE}}</p>
     </div>
   </div>
 </section>
 
-<!-- ══════════════ EL NÚMERO QUE SOSTIENE LA PROPUESTA ══════════════ -->
+<!-- ══════════════ 8 · EL NÚMERO QUE SOSTIENE LA PROPUESTA ══════════════ -->
 <section class="band">
   <div class="wrap wrap--tight">
     <div class="callout">
@@ -68,10 +94,20 @@
   </div>
 </section>
 
-<!-- ══════════════ ANTES / DESPUÉS ══════════════ -->
-{{SHOTS_BAND}}
+<!-- ══════════════ CTA INTERMEDIO (§7.3 del spec editorial) ══════════════
+     El lector que ya se convenció no tiene que scrollear hasta el final para actuar. -->
+<section class="band band--soft">
+  <div class="wrap wrap--tight">
+    <p style="font-size:var(--fs-lg);font-weight:600;margin-bottom:1rem">
+      Si querés, hablamos. Y si no, seguí leyendo.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-brand" href="{{MAILTO_LLAMADA}}">Agendar 20 minutos &rarr;</a>
+    </div>
+  </div>
+</section>
 
-<!-- ══════════════ D · LA PROPUESTA ══════════════ -->
+<!-- ══════════════ 9-11 · BASE, MÓDULOS, ESCENARIOS Y PRECIOS (USD) ══════════════ -->
 <section class="band" id="propuesta">
   <div class="wrap">
     <span class="eyebrow">Qué propongo</span>
@@ -98,28 +134,21 @@
         <div class="total-value" id="total">USD {{PRECIO_BASE}}</div>
         <div class="total-list" id="list">Sitio base</div>
       </div>
-      <a class="btn btn-light no-print" href="{{MAILTO_INTERESA}}">
-        Responder esta propuesta
-      </a>
+      <a class="btn btn-light no-print" href="{{MAILTO_ACEPTAR}}">Aceptar propuesta &rarr;</a>
     </div>
 
     <h3 style="margin-top:2rem">Escenarios, para no decidir todo de una</h3>
     <ul>{{ESCENARIOS_HTML}}</ul>
-
-    <h3>{{CONVERSION_TITULO}}</h3>
-    {{CONVERSION_HTML}}
+    <p class="evsrc">{{RECOMENDADO_LINE}}</p>
+    <p class="evsrc">Todos los precios están en dólares. No hay costos mensuales de plataforma ni licencias recurrentes.
+       La propuesta es válida por 30 días desde el {{FECHA}}.</p>
   </div>
 </section>
 
-<!-- ══════════════ QUÉ NO INCLUYE ══════════════ -->
+<!-- ══════════════ 12-13 · QUÉ NO INCLUYE / LO QUE NECESITO ══════════════ -->
 <section class="band band--soft">
   <div class="wrap">
-    <div class="grid-2">
-      <div>
-        <span class="eyebrow">Para que no haya sorpresas</span>
-        <h2 style="font-size:1.25rem;margin-top:.75rem">Qué no incluye</h2>
-        <ul style="font-size:var(--fs-sm)">{{SIN_INCLUIR_HTML}}</ul>
-      </div>
+    <div class="wrap--tight">
       <div>
         <span class="eyebrow">Lo que necesito de vos</span>
         <h2 style="font-size:1.25rem;margin-top:.75rem">{{PREGUNTAS_TITULO}}</h2>
@@ -131,7 +160,7 @@
   </div>
 </section>
 
-<!-- ══════════════ E · PRÓXIMO PASO ══════════════ -->
+<!-- ══════════════ 14 · PRÓXIMO PASO ══════════════ -->
 <section class="band">
   <div class="wrap">
     <span class="eyebrow">Próximo paso</span>
@@ -139,19 +168,59 @@
     <p>{{CIERRE_BODY}}</p>
     <ol class="step-list">{{PASOS_HTML}}</ol>
     <div class="cta-row">
-      <a class="btn btn-ink" href="{{MAILTO_AVANZAR}}">Responder por correo</a>
-      {{WHATSAPP_CTA_HTML}}
+      <a class="btn btn-brand" href="{{MAILTO_LLAMADA}}">Agendar llamada de 20 minutos &rarr;</a>
+      <a class="btn btn-ink" href="{{MAILTO_ACEPTAR}}">Aceptar propuesta &rarr;</a>
+      {{MODELO_CTA_HTML}}
     </div>
-    <p style="margin-top:1rem"><small>Si preferís que no te escriba más, respondé «no gracias» y no vuelvo a contactarte. Sin insistencia.</small></p>
+    <p style="margin-top:1rem"><small>Si no te sirve el mail, respondé este mensaje con «dale, hablemos» y coordinamos.
+       Si preferís que no te escriba más, respondé «no gracias» y no vuelvo a contactarte. Sin insistencia.</small></p>
   </div>
 </section>
 
-<!-- ══════════════ ALCANCE ══════════════ -->
+<!-- ══════════════ 15 · LÍMITES ══════════════
+     §3.15 del spec v2.0 pide «Alcance de esta revisión»; §7.2 del spec editorial pide
+     consolidar ahí los tres límites (medido / no medido / no incluido). Un solo bloque
+     cumple las dos cosas: antes eran tres secciones que declaraban límites por separado. -->
 <section class="band band--soft">
   <div class="wrap wrap--tight">
     <div class="scope">
-      <div class="scope-label">Alcance de esta revisión — qué miré y qué no</div>
-      <ul>{{ALCANCE_HTML}}</ul>
+      <div class="scope-label">Alcance de esta revisión — límites de este documento</div>
+      <div class="sec-sub">Lo que medí</div>
+      <ul>{{MEDIDO_HTML}}</ul>
+      <div class="sec-sub">Lo que no pude medir</div>
+      <ul>{{NO_MEDIDO_HTML}}</ul>
+      <div class="sec-sub">Lo que no incluye la propuesta</div>
+      <ul>{{SIN_INCLUIR_HTML}}</ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 16 · ACEPTACIÓN Y FIRMA ══════════════ -->
+<section class="band">
+  <div class="wrap wrap--tight">
+    <span class="eyebrow">Aceptación</span>
+    <h2 style="font-size:1.25rem;margin-top:.75rem">Si estás de acuerdo, arrancamos</h2>
+    <p>
+      Con que me respondas «de acuerdo» ya alcanza para empezar: cargamos tus datos reales
+      y publicamos el sitio en tu dominio. Si querés dejarlo firmado, imprimí esta página.
+    </p>
+    <div class="sig-grid">
+      <div class="sig-col">
+        <div class="sig-role">Por el consultor</div>
+        <div class="sig-line"></div>
+        <div class="sig-name">{{AUTHOR_NOMBRE}}</div>
+        <div class="sig-detail">{{AUTHOR_EMAIL}}</div>
+      </div>
+      <div class="sig-col">
+        <div class="sig-role">Por el cliente</div>
+        <div class="sig-line"></div>
+        <div class="sig-name">{{NOMBRE_CLIENTE}}</div>
+        <div class="sig-detail">Aclaración y firma</div>
+        <div class="sig-detail">Fecha: ____ / ____ / ________</div>
+      </div>
+    </div>
+    <div class="cta-row">
+      <a class="btn btn-ink" href="{{MAILTO_ACEPTAR}}">Aceptar propuesta &rarr;</a>
     </div>
   </div>
 </section>
@@ -159,9 +228,6 @@
 {{FOOTER}}
 
 <script>
-  window.TIPO_CAMBIO = {{TIPO_CAMBIO}};
-  window.UNIDAD = "{{UNIDAD}}";
-
   var BASE = {{PRECIO_BASE}};
   var MODULES = {{MODULOS_JSON}};
   var selected = {};
@@ -215,14 +281,6 @@
 
     document.getElementById('list').textContent =
       codes.length ? 'Base + ' + codes.join(' + ') : 'Sitio base';
-
-    var eq = document.getElementById('equiv');
-    if (eq) {
-      var tc = Number(window.TIPO_CAMBIO || 0);
-      if (tc) {
-        eq.textContent = '≈ AR$ ' + Math.round(total * tc).toLocaleString('es-AR');
-      }
-    }
   }
 
   render();

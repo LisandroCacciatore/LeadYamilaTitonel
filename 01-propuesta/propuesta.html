@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Propuesta — Lic. Yamila Titonel</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="Auditoría y propuesta de mejora del sitio de Lic. Yamila Titonel, con evidencia medida.">
+<meta name="description" content="Propuesta de sitio nuevo para Lic. Yamila Titonel, con la evidencia medida.">
 <style>
 /* ==========================================================================
    brand/brand.css — FUENTE ÚNICA DE LA IDENTIDAD VISUAL
@@ -449,6 +449,24 @@ li { margin-bottom: var(--space-2); }
   --brand-soft:    #EEF3F1;
 }
 
+/* ---------- El sitio nuevo, mostrado antes que el problema (§3.4) ---------- */
+.shot { border:1px solid var(--line-default); border-radius:var(--radius-lg);
+  overflow:hidden; margin:1rem 0; background:var(--surface-default); }
+.shot-img { display:block; width:100%; height:auto; }
+.shot-frame { display:block; width:100%; height:70vh; min-height:420px; border:0; background:#fff; }
+/* §9.4: toda captura lleva epígrafe — izquierda «Hoy — …», derecha «Nuevo — …». */
+.shot-cap { font-size:var(--fs-sm); color:var(--ink-muted); margin:.5rem 0 0; }
+
+/* ---------- La tabla de colegas pasa a bullets en mobile (§6.2) ---------- */
+@media (max-width:700px){
+  .compare-table thead { display:none; }
+  .compare-table, .compare-table tbody, .compare-table tr, .compare-table td { display:block; width:100%; }
+  .compare-table tr { border:1px solid var(--line-default); border-radius:var(--radius-md);
+    padding:.6rem .8rem; margin-bottom:.6rem; }
+  .compare-table td { border:0; padding:.15rem 0; }
+  .compare-table td:first-child { font-weight:var(--fw-bold); }
+  .compare-table td:not(:first-child)::before { content:attr(data-col) ": "; color:var(--ink-muted); }
+}
 </style>
 </head>
 <body>
@@ -468,113 +486,129 @@ li { margin-bottom: var(--space-2); }
   </div>
 </header>
 
-<!-- ══════════════ A · EL GANCHO ══════════════ -->
+<!-- ══════════════ 1-3 · GANCHO, CONTEXTO Y NÚMEROS ══════════════ -->
 <section class="band band--ink">
   <div class="wrap">
     <span class="eyebrow" style="background:rgba(255,255,255,.14);color:#fff">Propuesta · 5 de octubre de 2026 · válida hasta el 4 de noviembre de 2026</span>
     <h1 class="hero-h1" style="margin-top:1.25rem">Tu bio trabaja para otros.<br>Una web propia trabaja para vos.</h1>
     <p class="lead" style="color:rgba(255,255,255,.78);max-width:44rem">Yamila: revisé los veinte links de tu bio y los medí uno por uno. Dieciocho van a marcas ajenas; tres llevan a tus turnos, y están abajo de todos. Ninguno va a un sitio tuyo, y ninguna de esas visitas te deja un contacto.</p>
-    <div class="kpi-row"><div class="kpi"><span class="kpi__value">18</span><span class="kpi__label">links de marcas ajenas en tu bio</span></div><div class="kpi"><span class="kpi__value">3</span><span class="kpi__label">links a tus propios turnos</span></div><div class="kpi"><span class="kpi__value">0</span><span class="kpi__label">links a un sitio tuyo</span></div><div class="kpi"><span class="kpi__value">0</span><span class="kpi__label">formas de capturar un contacto</span></div><div class="kpi"><span class="kpi__value">420.000</span><span class="kpi__label">seguidores que dependen del algoritmo</span></div></div>
+    <div class="kpi-row"><div class="kpi"><span class="kpi__value">18</span><span class="kpi__label">links de marcas ajenas en tu bio</span></div><div class="kpi"><span class="kpi__value">3</span><span class="kpi__label">links a tus propios turnos</span></div><div class="kpi"><span class="kpi__value">0</span><span class="kpi__label">formas de capturar un contacto</span></div><div class="kpi"><span class="kpi__value">420.000</span><span class="kpi__label">seguidores que dependen del algoritmo</span></div></div>
     <div class="cta-row">
-      <a class="btn btn-brand" href="#propuesta">Ver qué propongo</a>
-      <a class="btn btn-light" href="https://lisandrocacciatore.github.io/nutricionyat-web-/" rel="noopener">Ver la página modelo &nearr;</a>
-      <a class="btn btn-light" href="#evidencia">Ver la evidencia</a>
+      <a class="btn btn-brand" href="#sitio-nuevo">Mirá cómo se vería tu sitio &rarr;</a>
+      <a class="btn btn-light" href="#propuesta">Ver qué propongo</a>
     </div>
   </div>
 </section>
 
-<!-- ══════════════ B · QUÉ ENCONTRÉ (diagnóstico en su idioma) ══════════════ -->
+<!-- ══════════════ 4 · TU SITIO NUEVO (el resultado, primero) ══════════════ -->
+<section class="band band--soft" id="sitio-nuevo">
+  <div class="wrap">
+    <span class="eyebrow">El resultado, antes que el problema</span>
+    <h2 style="font-size:1.5rem;margin-top:.75rem">Tu sitio nuevo</h2>
+    
+    <p>El sitio ya construido y navegable: sus secciones, sus servicios y la agenda a un toque.</p>
+    <div class="shot"><iframe class="shot-frame" src="https://lisandrocacciatore.github.io/nutricionyat-web-/" loading="lazy" title="Sitio nuevo de Lic. Yamila Titonel"></iframe></div>
+    <p class="shot-cap">Nuevo — sitio propio, con tus turnos a un toque, WhatsApp visible y captura de contacto en cada sección.</p>
+    <div class="cta-row">
+      <a class="btn btn-brand" href="https://lisandrocacciatore.github.io/nutricionyat-web-/">Abrir el sitio nuevo &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 5 · LO QUE ENCONTRÉ (§5) ══════════════ -->
 <section class="band" id="evidencia">
   <div class="wrap">
     <span class="eyebrow">Lo que encontré</span>
     <h2 style="font-size:1.5rem;margin-top:.75rem">4 hallazgos medidos</h2>
     <p>
-      Cada tarjeta trae el número crudo y de dónde sale. Lo que no pude medir, lo digo:
-      no hay una sola afirmación de este documento que no se pueda reproducir.
+      Cada hallazgo va con el número crudo, qué significa para tu trabajo y qué propongo.
+      Lo que no pude medir, lo digo: cada afirmación de este documento se puede reproducir con el comando que tiene al lado.
     </p>
     
     <div class="finding">
       <div class="finding-head">
         <span class="tag tag-medido">[MEDIDO]</span>
         <span class="tag tag-prio-alta">Prioridad alta</span>
-        <span class="finding-title">Dieciocho de los veinte links de tu bio trabajan para otras marcas</span>
+        <span class="finding-title">1. Dieciocho marcas ajenas en tu bio</span>
       </div>
-      <p>Fabletics, Babbel, Headspace, Talkspace, HelloFresh, Factor75, Gobble, Maev, Daily Harvest, Purple Carrot, Clearstem, ARMR A, Omnilux, The Zero Proof, Equip Foods, JLab y Upside: dieciocho de los veinte links de tu bio llevan a marcas ajenas. Tu bio monetiza para terceros antes que para vos.</p>
-      <div class="finding-meta">
-        <span>Impacto estimado: <strong>Cada visita que llega buscando tu trabajo se va a una marca que no te deja el contacto.</strong></span>
-        <span class="tag">[INFERIBLE]</span>
-      </div>
+      <p><strong>Medido:</strong> 18 marcas, entre ellas Fabletics, Babbel, Headspace, HelloFresh y Talkspace, ocupan los primeros links de tu bio.</p>
+      <p><strong>Qué significa:</strong> Tu bio trabaja para otras marcas justo donde tu paciente decide.</p>
+      <p><strong>Qué propongo:</strong> Base — sitio propio con tus turnos arriba y WhatsApp directo, no una lista de marcas.</p>
     </div>
     <div class="finding">
       <div class="finding-head">
         <span class="tag tag-medido">[MEDIDO]</span>
         <span class="tag tag-prio-alta">Prioridad alta</span>
-        <span class="finding-title">Los únicos tres links a tus turnos están abajo de los dieciocho primeros</span>
+        <span class="finding-title">2. Tus turnos, últimos en la fila</span>
       </div>
-      <p>Los tres links que llevan a Docturno —donde se reserva tu consulta— compiten por el mismo dedo contra los dieciocho anteriores, y quedan abajo de todos. El que entra decidido a agendar tiene que atravesar el catálogo de marcas antes de encontrarte.</p>
-      <div class="finding-meta">
-        <span>Impacto estimado: <strong>La acción que te trae pacientes es la menos visible de tu bio.</strong></span>
-        <span class="tag">[INFERIBLE]</span>
-      </div>
+      <p><strong>Medido:</strong> 3 links a Docturno, al final del recorrido: la acción que te trae pacientes es la última de la fila.</p>
+      <p><strong>Qué significa:</strong> El que quiere reservar tiene que buscarte entre publicidades.</p>
+      <p><strong>Qué propongo:</strong> Base — el botón de turnos en el primer scroll, con un solo toque.</p>
     </div>
     <div class="finding">
       <div class="finding-head">
         <span class="tag tag-medido">[MEDIDO]</span>
         <span class="tag tag-prio-alta">Prioridad alta</span>
-        <span class="finding-title">Ningún link de tu bio va a un sitio tuyo</span>
+        <span class="finding-title">3. Sin sitio propio</span>
       </div>
-      <p>Cero. Todo lo que publicás vive en plataformas que no controlás: si mañana cambian las reglas, no queda nada tuyo. No hay un dominio propio donde recibir a nadie.</p>
-      <div class="finding-meta">
-        <span>Impacto estimado: <strong>Sin dominio propio no hay activo: no podés mudar tu contenido, ni llevarte tus métricas, ni aparecer en Google como marca.</strong></span>
-        <span class="tag">[INFERIBLE]</span>
-      </div>
+      <p><strong>Medido:</strong> 0 links a un dominio propio: todo lo que publicás vive en plataformas de terceros.</p>
+      <p><strong>Qué significa:</strong> Sin dominio propio, el contenido y las métricas no son tuyos.</p>
+      <p><strong>Qué propongo:</strong> Base — dominio propio y el contenido publicado ahí, no en plataformas de terceros.</p>
     </div>
     <div class="finding">
       <div class="finding-head">
         <span class="tag tag-medido">[MEDIDO]</span>
         <span class="tag tag-prio-media">Prioridad media</span>
-        <span class="finding-title">Ninguna de esas visitas te deja un contacto</span>
+        <span class="finding-title">4. Sin forma de capturar un contacto</span>
       </div>
-      <p>No hay forma de capturar un email ni un teléfono en ningún punto del recorrido. A las 420.000 personas que te siguen las alcanzás sólo si el algoritmo quiere ese día.</p>
-      <div class="finding-meta">
-        <span>Impacto estimado: <strong>Sin lista propia, cada cambio de alcance te borra el canal entero: no tenés a quién avisarle.</strong></span>
-        <span class="tag">[INFERIBLE]</span>
-      </div>
+      <p><strong>Medido:</strong> 0 formas de capturar un email o un teléfono en todo el recorrido de tu bio.</p>
+      <p><strong>Qué significa:</strong> Cada cambio de alcance te deja sin canal para avisarle a nadie.</p>
+      <p><strong>Qué propongo:</strong> M2 — captura de contacto en cada sección, para que la lista sea tuya.</p>
     </div>
   </div>
 </section>
 
-<!-- ══════════════ C · DÓNDE ESTÁS PARADO ══════════════ -->
+<!-- ══════════════ 6-7 · CONTRA COLEGAS ══════════════ -->
 <section class="band band--soft">
   <div class="wrap">
     <span class="eyebrow">Dónde estás parado</span>
-    <h2 style="font-size:1.5rem;margin-top:.75rem">Comparado con lo que hoy te ofrecen las agencias del rubro</h2>
+    <h2 style="font-size:1.5rem;margin-top:.75rem">Dónde se va hoy tu tráfico</h2>
     <p>Comparado con una agencia que hace webs para profesionales de la salud. La columna «Esta propuesta» está verificada sobre el sitio ya publicado; los rangos y extras de la columna «Agencia» son orientativos de mercado y no provienen de una fuente publicada: van como orden de magnitud, no como cotización.</p>
-    <table class="compare-table"><thead><tr><th>Qué incluye</th><th>Agencia</th><th>Esta propuesta</th></tr></thead><tbody><tr class=""><td class="">Diseño a medida, celular y escritorio</td><td class="">sí</td><td class="">Incluido</td></tr><tr class=""><td class="">Siete páginas más la de error 404</td><td class="">sí</td><td class="">Incluido</td></tr><tr class=""><td class="">SEO básico: títulos y descripciones</td><td class="">sí</td><td class="">Incluido</td></tr><tr class=""><td class="">WhatsApp con mensaje según la sección</td><td class="">costo aparte (≈ USD 150)</td><td class="">Incluido</td></tr><tr class=""><td class="">Contraste y accesibilidad verificados</td><td class="">no</td><td class="">Incluido</td></tr><tr class=""><td class="">Navegación de celular con el agendar siempre visible</td><td class="">costo aparte (≈ USD 120)</td><td class="">Incluido</td></tr><tr class=""><td class="">Comprobación automática antes de publicar</td><td class="">no</td><td class="">Incluido</td></tr><tr class=""><td class="">Capacitación para editar sin romper nada</td><td class="">costo aparte (≈ USD 100)</td><td class="">Incluido</td></tr><tr class=""><td class="">Apuntado de dominio y verificación en vivo</td><td class="">a veces</td><td class="">Incluido</td></tr><tr class=""><td class="">Sin costo mensual de plataforma</td><td class="">no</td><td class="">Incluido</td></tr></tbody></table>
-    <p class="evsrc">La base de una agencia arranca en el orden de USD 350 a 900 según el alcance, y cada extra se cobra aparte. Para nutricionistas existen además opciones freelance más baratas, del orden de USD 100 a 500, que no están en esta tabla: si te las ofrecen, compará ítem por ítem con esta columna.</p>
+    <ul class="comp-bullets"><li>Las marcas ajenas ocupan los primeros lugares de tu bio; los accesos a tus turnos quedan al final del recorrido.</li><li>Ningún link de tu bio va a un sitio tuyo: todo lo que publicás vive en plataformas de terceros.</li><li>En ninguna parte del recorrido se captura un contacto, aunque el alcance es de cientos de miles de personas.</li></ul>
+    <p class="evsrc">Medido sobre tu bio publicada el 3 de octubre de 2026, link por link. Las cifras exactas están en los hallazgos de arriba; el listado completo de marcas, en el informe.</p>
     <p class="evsrc">Medición propia del 5 de octubre de 2026 · reproducible con: python scripts/medir.py --pares 00-auditoria/pares.txt</p>
     <div class="todo" style="margin-top:1.25rem">
-      <strong>Lo que dice esta tabla, en una línea:</strong>
-      <p style="margin:.5rem 0 0">Tu bio hoy cobra por otros: de veinte links, dieciocho van a marcas que te pagan por recomendarlas, y el botón que sí te trae pacientes es uno de tres y está abajo de todos. Una web propia no tiene competencia adentro: el botón de agendar es el único que hay.</p>
+      <strong>Lo que dice esto, en una línea:</strong>
+      <p style="margin:.5rem 0 0">No estás solo: el problema es del conjunto. La mejora más barata del rubro y todavía nadie la levantó.</p>
     </div>
   </div>
 </section>
 
-<!-- ══════════════ EL NÚMERO QUE SOSTIENE LA PROPUESTA ══════════════ -->
+<!-- ══════════════ 8 · EL NÚMERO QUE SOSTIENE LA PROPUESTA ══════════════ -->
 <section class="band">
   <div class="wrap wrap--tight">
     <div class="callout">
-      <div class="callout-label">Lo que hoy ya se mide</div>
-      <div class="callout-strong">18 de los 20 links de tu bio trabajan para otras marcas.</div>
-      <p class="callout-note">Medido sobre tu bio publicada el 3 de octubre de 2026. Tus turnos compiten por el mismo dedo que esos dieciocho links, y quedan abajo de todos. · [MEDIDO]</p>
+      <div class="callout-label">Costo de no hacer nada</div>
+      <div class="callout-strong">Hoy tu alcance no te deja ningún contacto propio.</div>
+      <p class="callout-note">Cada visita que llega a tu bio se va a una marca que no te deja el contacto, y no queda registro de quién vino. Medido sobre tu bio publicada el 3 de octubre de 2026; el listado completo de marcas está en el informe.</p>
     </div>
   </div>
 </section>
 
-<!-- ══════════════ ANTES / DESPUÉS ══════════════ -->
+<!-- ══════════════ CTA INTERMEDIO (§7.3 del spec editorial) ══════════════
+     El lector que ya se convenció no tiene que scrollear hasta el final para actuar. -->
+<section class="band band--soft">
+  <div class="wrap wrap--tight">
+    <p style="font-size:var(--fs-lg);font-weight:600;margin-bottom:1rem">
+      Si querés, hablamos. Y si no, seguí leyendo.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-brand" href="mailto:lisandrocacciatore@gmail.com?subject=Hablemos%20sobre%20mi%20sitio&body=Hola%2C%20quiero%20agendar%20la%20llamada%20de%2020%20minutos.">Agendar 20 minutos &rarr;</a>
+    </div>
+  </div>
+</section>
 
-
-<!-- ══════════════ D · LA PROPUESTA ══════════════ -->
+<!-- ══════════════ 9-11 · BASE, MÓDULOS, ESCENARIOS Y PRECIOS (USD) ══════════════ -->
 <section class="band" id="propuesta">
   <div class="wrap">
     <span class="eyebrow">Qué propongo</span>
@@ -601,38 +635,21 @@ li { margin-bottom: var(--space-2); }
         <div class="total-value" id="total">USD 350</div>
         <div class="total-list" id="list">Sitio base</div>
       </div>
-      <a class="btn btn-light no-print" href="mailto:lisandrocacciatore@gmail.com?subject=Propuesta%20-%20Lic.%20Yamila%20Titonel&body=Hola%20Yamila%2C%20me%20interesa%20avanzar%20con%3A%20">
-        Responder esta propuesta
-      </a>
+      <a class="btn btn-light no-print" href="mailto:lisandrocacciatore@gmail.com?subject=Acepto%20la%20propuesta%20-%20Lic.%20Yamila%20Titonel&body=Hola%2C%20acepto%20la%20propuesta.%20Arrancamos.">Aceptar propuesta &rarr;</a>
     </div>
 
     <h3 style="margin-top:2rem">Escenarios, para no decidir todo de una</h3>
-    <ul><li><strong>Entrada:</strong> Base sola — <strong>USD 350</strong></li><li><strong>Intermedio:</strong> Base + M1 + M2 — <strong>USD 680</strong></li><li><strong>Recomendado:</strong> Base + M1 + M2 + M3 — <strong>USD 800</strong></li><li><strong>Pack completo:</strong> Base + los 4 módulos — <strong>USD 900</strong></li><li><strong>Pack con descuento:</strong> Pack completo con 15% de descuento — <strong>USD 765</strong></li></ul>
-
-    <h3>Cómo se ubica el número</h3>
-    
-    <p>Traducido a lo que ya sabés contar, con dos referencias tuyas: el orden de magnitud de tu consulta, que usamos como referencia
-       (AR$ 40.000) y el tipo de cambio del 5 de octubre de 2026
-       (USD 1 = AR$ 1.539,60, fuente: dolarapi.com (dólar bolsa, venta)).</p>
-    <table class="price-table">
-      <thead><tr><th>Escenario</th><th>En dólares</th><th>En pesos</th><th>Equivale a</th></tr></thead>
-      <tbody><tr><td>Base sola</td><td>USD 350</td><td>AR$ 538.860</td><td>13,5 consultas</td></tr><tr><td>Base + M1 + M2</td><td>USD 680</td><td>AR$ 1.046.928</td><td>26,2 consultas</td></tr><tr><td>Base + M1 + M2 + M3</td><td>USD 800</td><td>AR$ 1.231.680</td><td>30,8 consultas</td></tr><tr><td>Base + los 4 módulos</td><td>USD 900</td><td>AR$ 1.385.640</td><td>34,6 consultas</td></tr><tr><td>Pack completo con 15% de descuento</td><td>USD 765</td><td>AR$ 1.177.794</td><td>29,4 consultas</td></tr>
-      </tbody>
-    </table>
-    <p class="evsrc">El pack completo (USD 900) se paga con 34,6 consultas.</p>
-    <p class="evsrc">[INFERIBLE] El valor de tu consulta no está publicado: lo tomamos como orden de magnitud y lo confirmamos en la llamada. La cantidad de consultas equivalentes, en cambio, es aritmética sobre ese valor.</p>
+    <ul><li><strong>Entrada:</strong> Base sola — <strong>USD 350</strong></li><li><strong>Intermedio:</strong> Base + M1 + M2 — <strong>USD 680</strong></li><li><strong>Recomendado:</strong> Base + M1 + M2 + M3 — <strong>USD 800</strong></li><li><strong>Pack completo:</strong> Base + los 4 módulos — <strong>USD 900</strong></li><li><strong>Pack con descuento:</strong> Pack completo con 15 % de descuento — <strong>USD 765</strong></li></ul>
+    <p class="evsrc">Recomendado para tu caso: Base + M1 + M2 + M3 = USD 800.</p>
+    <p class="evsrc">Todos los precios están en dólares. No hay costos mensuales de plataforma ni licencias recurrentes.
+       La propuesta es válida por 30 días desde el 5 de octubre de 2026.</p>
   </div>
 </section>
 
-<!-- ══════════════ QUÉ NO INCLUYE ══════════════ -->
+<!-- ══════════════ 12-13 · QUÉ NO INCLUYE / LO QUE NECESITO ══════════════ -->
 <section class="band band--soft">
   <div class="wrap">
-    <div class="grid-2">
-      <div>
-        <span class="eyebrow">Para que no haya sorpresas</span>
-        <h2 style="font-size:1.25rem;margin-top:.75rem">Qué no incluye</h2>
-        <ul style="font-size:var(--fs-sm)"><li>Las automatizaciones (agenda online, recordatorios por WhatsApp, formulario con backend real): se suman cuando estén probadas, y ahí se cotizan</li><li>Producción de contenido nuevo más allá de la migración acordada</li><li>Fotografía profesional: sirven las que ya tenés, en buena calidad</li><li>Campañas publicitarias pagas ni gestión de redes sociales</li><li>Costo mensual de plataforma: el sitio es estático y no tiene</li><li>Testimonios sin autorización de cada paciente</li></ul>
-      </div>
+    <div class="wrap--tight">
       <div>
         <span class="eyebrow">Lo que necesito de vos</span>
         <h2 style="font-size:1.25rem;margin-top:.75rem">Datos que sólo tenés vos</h2>
@@ -644,7 +661,7 @@ li { margin-bottom: var(--space-2); }
   </div>
 </section>
 
-<!-- ══════════════ E · PRÓXIMO PASO ══════════════ -->
+<!-- ══════════════ 14 · PRÓXIMO PASO ══════════════ -->
 <section class="band">
   <div class="wrap">
     <span class="eyebrow">Próximo paso</span>
@@ -652,19 +669,59 @@ li { margin-bottom: var(--space-2); }
     <p>Mirá el sitio primero con calma, y también en el celular, que es donde va a entrar la mayoría de la gente. Después nos sentamos veinte minutos y cerramos tres cosas: los datos y las fotos reales, a qué correo querés que lleguen las consultas, y si arrancamos sólo con el sitio o con el blog también.</p>
     <ol class="step-list"><li>Confirmar los datos y las fotos reales, que sólo tenés vos: matrícula, sedes, WhatsApp de contacto y testimonios con autorización de cada paciente.</li><li>Nos sentamos veinte minutos para cerrar el alcance: sólo el sitio, o sitio más blog.</li><li>Carga de tus datos reales y apuntado de tu dominio propio, con publicación de prueba para mirar desde el celular.</li><li>Verificación en vivo, capacitación de una hora grabada y entrega del manual para publicar sola.</li></ol>
     <div class="cta-row">
-      <a class="btn btn-ink" href="mailto:lisandrocacciatore@gmail.com?subject=Propuesta%20-%20Lic.%20Yamila%20Titonel&body=Hola%20Yamila%2C%20quiero%20avanzar%20con%3A%20">Responder por correo</a>
-      
+      <a class="btn btn-brand" href="mailto:lisandrocacciatore@gmail.com?subject=Hablemos%20sobre%20mi%20sitio&body=Hola%2C%20quiero%20agendar%20la%20llamada%20de%2020%20minutos.">Agendar llamada de 20 minutos &rarr;</a>
+      <a class="btn btn-ink" href="mailto:lisandrocacciatore@gmail.com?subject=Acepto%20la%20propuesta%20-%20Lic.%20Yamila%20Titonel&body=Hola%2C%20acepto%20la%20propuesta.%20Arrancamos.">Aceptar propuesta &rarr;</a>
+      <a class="btn btn-light" href="https://lisandrocacciatore.github.io/nutricionyat-web-/" rel="noopener">Ver la página modelo &nearr;</a>
     </div>
-    <p style="margin-top:1rem"><small>Si preferís que no te escriba más, respondé «no gracias» y no vuelvo a contactarte. Sin insistencia.</small></p>
+    <p style="margin-top:1rem"><small>Si no te sirve el mail, respondé este mensaje con «dale, hablemos» y coordinamos.
+       Si preferís que no te escriba más, respondé «no gracias» y no vuelvo a contactarte. Sin insistencia.</small></p>
   </div>
 </section>
 
-<!-- ══════════════ ALCANCE ══════════════ -->
+<!-- ══════════════ 15 · LÍMITES ══════════════
+     §3.15 del spec v2.0 pide «Alcance de esta revisión»; §7.2 del spec editorial pide
+     consolidar ahí los tres límites (medido / no medido / no incluido). Un solo bloque
+     cumple las dos cosas: antes eran tres secciones que declaraban límites por separado. -->
 <section class="band band--soft">
   <div class="wrap wrap--tight">
     <div class="scope">
-      <div class="scope-label">Alcance de esta revisión — qué miré y qué no</div>
-      <ul><li><span class="yes">✓</span> Revisé tu bio de Instagram el 3 de octubre de 2026 y conté, uno por uno, los links publicados: veinte en total, dieciocho a marcas ajenas, tres a tus turnos y cero a un sitio propio.</li><li><span class="yes">✓</span> Verifiqué el sitio ya construido: las rutas responden y el contraste está medido (17 pares, 16 dentro del mínimo de accesibilidad).</li><li><span class="no">✗</span> No tengo acceso a tus métricas de Instagram: no sé cuántas visitas recibe tu bio ni cuántas se convierten, y no lo estimo.</li><li><span class="no">✗</span> Los rangos de agencia de la comparación son orientativos de mercado: no provienen de una fuente publicada.</li><li><span class="no">✗</span> No revisé tu facturación ni tu agenda real.</li><li><span class="no">✗</span> No revisé tus otras redes ni tu perfil de Google.</li></ul>
+      <div class="scope-label">Alcance de esta revisión — límites de este documento</div>
+      <div class="sec-sub">Lo que medí</div>
+      <ul><li><span class="yes">✓</span> Revisé tu bio de Instagram el 3 de octubre de 2026 y conté, uno por uno, los links publicados: veinte en total, dieciocho a marcas ajenas, tres a tus turnos y cero a un sitio propio.</li><li><span class="yes">✓</span> Verifiqué el sitio ya construido: las rutas responden y el contraste está medido (17 pares, 16 dentro del mínimo de accesibilidad).</li></ul>
+      <div class="sec-sub">Lo que no pude medir</div>
+      <ul><li><span class="no">✗</span> No tengo acceso a tus métricas de Instagram: no sé cuántas visitas recibe tu bio ni cuántas se convierten, y no lo estimo.</li><li><span class="no">✗</span> Los rangos de agencia de la comparación son orientativos de mercado: no provienen de una fuente publicada.</li><li><span class="no">✗</span> No revisé tu facturación ni tu agenda real.</li><li><span class="no">✗</span> No revisé tus otras redes ni tu perfil de Google.</li></ul>
+      <div class="sec-sub">Lo que no incluye la propuesta</div>
+      <ul><li>Rediseño de marca: logo, paleta y tipografías quedan como están</li><li>Producción de contenido nuevo para redes</li><li>Gestión de las marcas que hoy auspician tu bio: se ordenan, no se negocian</li><li>Campañas pagas y pauta</li><li>Mantenimiento mensual obligatorio: el sitio queda tuyo y funciona sin cuota</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 16 · ACEPTACIÓN Y FIRMA ══════════════ -->
+<section class="band">
+  <div class="wrap wrap--tight">
+    <span class="eyebrow">Aceptación</span>
+    <h2 style="font-size:1.25rem;margin-top:.75rem">Si estás de acuerdo, arrancamos</h2>
+    <p>
+      Con que me respondas «de acuerdo» ya alcanza para empezar: cargamos tus datos reales
+      y publicamos el sitio en tu dominio. Si querés dejarlo firmado, imprimí esta página.
+    </p>
+    <div class="sig-grid">
+      <div class="sig-col">
+        <div class="sig-role">Por el consultor</div>
+        <div class="sig-line"></div>
+        <div class="sig-name">Lisandro Cacciatore</div>
+        <div class="sig-detail">lisandrocacciatore@gmail.com</div>
+      </div>
+      <div class="sig-col">
+        <div class="sig-role">Por el cliente</div>
+        <div class="sig-line"></div>
+        <div class="sig-name">Lic. Yamila Titonel</div>
+        <div class="sig-detail">Aclaración y firma</div>
+        <div class="sig-detail">Fecha: ____ / ____ / ________</div>
+      </div>
+    </div>
+    <div class="cta-row">
+      <a class="btn btn-ink" href="mailto:lisandrocacciatore@gmail.com?subject=Acepto%20la%20propuesta%20-%20Lic.%20Yamila%20Titonel&body=Hola%2C%20acepto%20la%20propuesta.%20Arrancamos.">Aceptar propuesta &rarr;</a>
     </div>
   </div>
 </section>
@@ -677,9 +734,6 @@ li { margin-bottom: var(--space-2); }
 </footer>
 
 <script>
-  window.TIPO_CAMBIO = 1539.6;
-  window.UNIDAD = "consultas";
-
   var BASE = 350;
   var MODULES = [{"id": "m1", "code": "M1", "icon": "edit_note", "title": "Blog con SEO", "price": 180, "short": "Que te encuentren cuando te buscan, con artículos propios.", "bullets": ["Cada artículo con su título, su descripción y su dirección propia", "Panel de edición visual: escribís y publicás sin tocar código", "Tus recetas de Instagram se vuelven artículos que siguen sumando visitas meses después", "Mapa del sitio y alta del blog en Google"]}, {"id": "m2", "code": "M2", "icon": "neurology", "title": "GEO y AEO: que las IA te nombren y Google te responda", "price": 150, "short": "Cada vez más gente le pregunta a una IA qué nutricionista recomendar.", "bullets": ["Cada artículo publicado en el formato que usan los asistentes de IA", "Archivo llms.txt para que las IA lean tu sitio ordenado", "Estructura de respuesta corta: el recuadro de arriba de todo se lo lleva quien la tiene", "Perfil de negocio alineado con lo que dicen tus artículos"]}, {"id": "m3", "code": "M3", "icon": "move_to_inbox", "title": "Migración de tus contenidos", "price": 120, "short": "Tus recetas y notas, adentro de tu sitio y con tu autoría.", "bullets": ["Traslado de tus publicaciones reales a artículos con autoría", "Sin inventar métricas ni testimonios", "Etiquetas y buscador por tema", "Un mínimo de arranque acordado (por ejemplo, diez artículos)"]}, {"id": "m4", "code": "M4", "icon": "monitoring", "title": "Medición y capacitación", "price": 100, "short": "Para que lo puedas manejar sola, sin depender de nadie.", "bullets": ["Alta y verificación en Google Search Console", "Analítica para ver qué artículo te trae consultas", "Capacitación de una hora, grabada", "Manual en PDF para publicar sola"]}];
   var selected = {};
@@ -733,14 +787,6 @@ li { margin-bottom: var(--space-2); }
 
     document.getElementById('list').textContent =
       codes.length ? 'Base + ' + codes.join(' + ') : 'Sitio base';
-
-    var eq = document.getElementById('equiv');
-    if (eq) {
-      var tc = Number(window.TIPO_CAMBIO || 0);
-      if (tc) {
-        eq.textContent = '≈ AR$ ' + Math.round(total * tc).toLocaleString('es-AR');
-      }
-    }
   }
 
   render();

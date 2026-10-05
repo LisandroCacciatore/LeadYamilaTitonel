@@ -63,28 +63,45 @@ def render(tpl: str, data: dict) -> str:
 
 # ---------------------------------------------------------------- bloques
 
-def finding_card(h: dict) -> str:
+def finding_card(h: dict, idx: int = 0) -> str:
+    """Patrón fijo del spec §5: Medido / Qué significa / Qué propongo.
+    En la propuesta el «Medido» va resumido a una línea (`resumen`); el detalle
+    completo vive en el informe, para que las dos piezas no repitan contenido."""
     tipo = (h.get("tipo") or "[MEDIDO]").strip("[]").lower()
     cls = {"medido": "tag-medido", "inferible": "tag-inferible"}.get(tipo, "tag-noverif")
     prio = (h.get("prioridad") or "").strip().lower()
     prio_tag = (f'<span class="tag tag-prio-{esc(prio)}">Prioridad {esc(prio)}</span>'
                 if prio else "")
+    # La propuesta titula corto (`tituloCorto`); el informe conserva el título largo.
+    # Con el mismo texto en las dos piezas, el vocabulario se repetía entre documentos.
+    base_titulo = h.get("tituloCorto") or h.get("titulo")
+    titulo = f"{idx}. {base_titulo}" if idx else str(base_titulo)
+    medido = h.get("resumen") or h.get("descripcion")
+    # §4: la propuesta usa una consecuencia redactada para ella (`significa`); el
+    # informe usa la suya (`impacto`). Si coincidieran, las piezas repetirían contenido.
+    significa = h.get("significa") or h.get("impacto")
+    propongo = h.get("propongo") or "[a definir]"
     return f"""
     <div class="finding">
       <div class="finding-head">
         <span class="tag {cls}">{esc(h.get('tipo') or '[MEDIDO]')}</span>
         {prio_tag}
-        <span class="finding-title">{esc(h.get('titulo'))}</span>
+        <span class="finding-title">{esc(titulo)}</span>
       </div>
-      <p>{esc(h.get('descripcion'))}</p>
-      <div class="finding-meta">
-        <span>Impacto estimado: <strong>{esc(h.get('impacto'))}</strong></span>
-        <span class="tag">[INFERIBLE]</span>
-      </div>
+      <p><strong>Medido:</strong> {esc(medido)}</p>
+      <p><strong>Qué significa:</strong> {esc(significa)}</p>
+      <p><strong>Qué propongo:</strong> {esc(propongo)}</p>
     </div>"""
 
 
 def compare_table(comp: dict) -> str:
+    # §6.2 del spec editorial: cuando no hay colegas medidos el mismo día con la misma
+    # herramienta, NO va tabla (y menos una «Agencia vs Esta propuesta», §6.1): van tres
+    # bullets resumen. La tabla se reserva para datos comparables de verdad.
+    bullets = comp.get("bullets")
+    if bullets and not comp.get("filas"):
+        return ('<ul class="comp-bullets">'
+                + "".join(f"<li>{esc(b)}</li>" for b in bullets) + "</ul>")
     cols = comp.get("columnas", [])
     head = "<thead><tr>" + "".join(f"<th>{esc(c)}</th>" for c in cols) + "</tr></thead>"
     rows = []
@@ -100,7 +117,10 @@ def compare_table(comp: dict) -> str:
                     cls = "bad"
                 elif txt == "—":
                     cls = "meh"
-            celdas.append(f'<td class="{cls}">{esc(txt)}</td>')
+            # data-col: en mobile la tabla se convierte en bullets y cada celda
+            # necesita decir de qué columna viene (§6.2 condición 4).
+            etiqueta = f' data-col="{esc(cols[i])}"' if i < len(cols) else ""
+            celdas.append(f'<td class="{cls}"{etiqueta}>{esc(txt)}</td>')
         rowcls = "row-client" if fila.get("cliente") else ""
         rows.append(f'<tr class="{rowcls}">' + "".join(celdas) + "</tr>")
     return f'<table class="compare-table">{head}<tbody>' + "".join(rows) + "</tbody></table>"
@@ -119,6 +139,8 @@ def alcance_item(texto: str) -> str:
 
 
 def kpi_row(kpis: list) -> str:
+    """§4.1 del spec editorial: máximo 4 números en el cuadro."""
+    kpis = list(kpis)[:4]
     if not kpis:
         return ""
     items = "".join(
@@ -142,7 +164,7 @@ def scenarios(base: int, modulos: list) -> list:
         ("Intermedio", f"Base + {codes[0]} + {codes[1]}", combo2),
         ("Recomendado", f"Base + {codes[0]} + {codes[1]} + {codes[2]}", combo3),
         ("Pack completo", f"Base + los {len(modulos)} módulos", total),
-        ("Pack con descuento", f"Pack completo con 15% de descuento", pack),
+        ("Pack con descuento", "Pack completo con 15 % de descuento", pack),
     ]
 
 
@@ -213,60 +235,29 @@ def shots_band(cfg: dict) -> str:
 </section>"""
 
 
-def conversion_block(cfg: dict, base: int, modulos: list) -> str:
-    """Tabla de conversión a pesos. La unidad (sesiones, consultas, reuniones) sale
-    de la config: no todos los rubros cuentan sesiones."""
-    conv = cfg.get("conversion") or {}
-    tc = float(conv.get("tipoCambio") or 0)
-    ses = int(conv.get("tarifaSesion") or 0)
-    unidad = conv.get("unidad") or "sesiones"
-    ref = conv.get("referenciaEtiqueta") or "la tarifa que publicás"
-    if not (tc and ses):
-        return ("<p>" + (conv.get("sinReferencia") or
-                "Sin referencia de cambio declarada: la conversión a pesos queda [NO VERIFICADO]. "
-                "El número se ubica contra el valor de tu propia hora, que no está publicado — "
-                "lo cerramos en la llamada.") + "</p>")
-
-    filas = ""
-    for nombre, detalle, usd in scenarios(base, modulos):
-        filas += (
-            f"<tr><td>{esc(detalle)}</td><td>{money(usd)}</td>"
-            f"<td>AR$ {miles(usd * tc)}</td><td>{dec1(usd * tc / ses)} {esc(unidad)}</td></tr>"
-        )
-
-    total_all = base + sum(int(m.get("price", 0)) for m in modulos)
-    unidades_pack = total_all * tc / ses
-
-    cierre = conv.get("cierre")
-    costo_num = float(conv.get("costoMensualNum") or 240000)
-    recupero_base = base * tc / costo_num
-    if cierre:
-        # El texto lo escribe la config, pero los números se calculan acá: si están
-        # escritos a mano se desincronizan en cuanto cambia un precio.
-        cierre_html = (str(cierre)
-                       .replace("{total}", money(total_all))
-                       .replace("{unidades}", dec1(unidades_pack))
-                       .replace("{unidad}", str(unidad))
-                       .replace("{base}", money(base))
-                       .replace("{recupero}", dec1(recupero_base)))
+def sitio_nuevo_html(cfg: dict) -> str:
+    """§3.4 y §4: el resultado antes que el problema. Captura si existe (más liviana),
+    iframe si no, y siempre el botón explícito al sitio nuevo."""
+    m = cfg.get("modelo") or {}
+    url = (m.get("url") or "").strip()
+    nombre = esc((cfg.get("meta") or {}).get("nombre", ""))
+    if not url:
+        return "<p>[falta configurar el sitio nuevo: config.json → modelo.url]</p>"
+    captura = m.get("captura")
+    p = (ROOT / captura) if captura else None
+    if p and p.exists():
+        media = (f'<img class="shot-img" src="{imagen_uri(p, ancho=1100, calidad=74)}" '
+                 f'alt="Vista del sitio nuevo de {nombre}">')
     else:
-        cierre_html = (
-            f'<p class="evsrc">El pack completo ({money(total_all)}) se paga con '
-            f'{dec1(unidades_pack)} {esc(unidad)}.</p>\n'
-            f'    <p class="evsrc">[INFERIBLE] La recuperación depende de tu agenda real, que no veo. '
-            f'El número de {esc(unidad)} equivalentes, en cambio, es aritmética sobre datos que vos publicás.</p>'
-        )
-
+        media = (f'<iframe class="shot-frame" src="{esc(url)}" loading="lazy" '
+                 f'title="Sitio nuevo de {nombre}"></iframe>')
     return f"""
-    <p>Traducido a lo que ya sabés contar, con dos referencias tuyas: {esc(ref)}
-       (AR$ {miles(ses)}) y el tipo de cambio del {esc(conv.get('tipoCambioFecha'))}
-       ({esc(conv.get('tipoCambioDetalle'))}, fuente: {esc(conv.get('tipoCambioFuente'))}).</p>
-    <table class="price-table">
-      <thead><tr><th>Escenario</th><th>En dólares</th><th>En pesos</th><th>Equivale a</th></tr></thead>
-      <tbody>{filas}
-      </tbody>
-    </table>
-    {cierre_html}"""
+    <p>{esc(m.get("bajada") or "Así se vería tu sitio, con tus datos reales.")}</p>
+    <div class="shot">{media}</div>
+    <p class="shot-cap">{esc(m.get("caption") or "Nuevo — sitio propio, con tus datos reales y verificado.")}</p>
+    <div class="cta-row">
+      <a class="btn btn-brand" href="{esc(url)}">Abrir el sitio nuevo &rarr;</a>
+    </div>"""
 
 
 # ---------------------------------------------------------------- main
@@ -335,12 +326,18 @@ def main() -> int:
         "PASOS_HTML": "".join(f"<li>{esc(p)}</li>" for p in pasos),
         "BASE_ITEMS_HTML": "".join(f"<li>{esc(i)}</li>" for i in base_items),
         "ALCANCE_HTML": "".join(alcance_item(a) for a in cfg.get("alcance", [])),
+        # §7.2 del spec editorial: los límites se separan en lo que medí (✓) y lo que no
+        # pude medir (✗), en una sola sección en vez de tres sueltas.
+        "MEDIDO_HTML": "".join(alcance_item(a) for a in cfg.get("alcance", [])
+                               if str(a).strip().startswith("✓")),
+        "NO_MEDIDO_HTML": "".join(alcance_item(a) for a in cfg.get("alcance", [])
+                                  if not str(a).strip().startswith("✓")),
         "PREGUNTAS_HTML": "".join(f"<li>{esc(p)}</li>" for p in cfg.get("preguntasAbiertas", [])),
         "SIN_INCLUIR_HTML": "".join(f"<li>{esc(p)}</li>" for p in cfg.get("sinIncluir", [])),
         "MODULOS_JSON": json.dumps(modulos, ensure_ascii=False),
         "KPI_HTML": kpi_row(comp.get("kpis", [])),
         # acceso directo -> no se usa en el informe, sí en la propuesta
-        "HALLAZGOS_HTML": "".join(finding_card(h) for h in hallazgos),
+        "HALLAZGOS_HTML": "".join(finding_card(h, i) for i, h in enumerate(hallazgos, 1)),
     }
 
     # ---- propuesta: bloques propios
@@ -370,7 +367,14 @@ def main() -> int:
         "COMPARATIVO_CIERRE": narrativa(
             "comparativoCierre",
             "No estás solo: el problema es del conjunto. La mejora más barata del rubro "
-            "todavía está apoyada sobre la mesa y nadie la levantó."),
+            "y todavía nadie la levantó."),
+        # §11 del spec editorial: «Lo que dice esta tabla, en una línea» se elimina si
+        # no hay tabla o si no aporta. El bloque entero es opcional.
+        "COMPARATIVO_CIERRE_BLOCK": (
+            '<div class="todo" style="margin-top:1.25rem">'
+            "<strong>Lo que dice esto, en una línea:</strong>"
+            f'<p style="margin:.5rem 0 0">{esc(narrativa("comparativoCierre", ""))}</p>'
+            "</div>" if narrativa("comparativoCierre", "") else ""),
         "COSTO_NOTA": narrativa("costoNota", "en la llamada lo validamos con tus números reales, que yo no veo."),
         "PROPUESTA_TITULO": narrativa("propuestaTitulo", "Un sitio tuyo, y los bloques que quieras sumar"),
         "PROPUESTA_INTRO": narrativa(
@@ -385,13 +389,12 @@ def main() -> int:
             "cierreBody",
             "No hace falta que decidas nada por mensaje. Veinte minutos alcanzan para revisar los "
             "hallazgos, contestar las preguntas y elegir por dónde empezar."),
-        "CONVERSION_TITULO": narrativa("conversionTitulo", "Cómo se ubica el número"),
         "CALLOUT_LABEL": callout.get("label") or "Costo de no hacer nada",
         "CALLOUT_STRONG": callout.get("strong") or f"Seguir así cuesta {costo_mensual} por mes.",
         "CALLOUT_NOTE": callout.get("note") or (
             f"Cálculo: {esc(base_calculo)} · [INFERIBLE] — " + narrativa(
                 "costoNota", "en la llamada lo validamos con tus números reales, que yo no veo.")),
-        "UNIDAD": str(conv.get("unidad") or "sesiones"),
+        "SITIO_NUEVO_HTML": sitio_nuevo_html(cfg),
         "MODELO_CTA_HTML": (
             # Sin target="_blank": en el panel de previsualización (y en webviews) la
             # apertura de ventanas nuevas se bloquea en silencio y el clic no hace nada.
@@ -405,6 +408,14 @@ def main() -> int:
         "MAILTO_AVANZAR": (
             f"mailto:{esc(author.get('email'))}?subject=Propuesta%20-%20{nombre_enc}"
             f"&body=Hola%20{saludo_enc}%2C%20quiero%20avanzar%20con%3A%20"),
+        # §9: los dos CTA de la propuesta, como botones, con asunto predefinido.
+        "MAILTO_LLAMADA": (
+            f"mailto:{esc(author.get('email'))}?subject=Hablemos%20sobre%20mi%20sitio"
+            f"&body=Hola%2C%20quiero%20agendar%20la%20llamada%20de%2020%20minutos."),
+        "MAILTO_ACEPTAR": (
+            f"mailto:{esc(author.get('email'))}?subject="
+            f"Acepto%20la%20propuesta%20-%20{nombre_enc}"
+            f"&body=Hola%2C%20acepto%20la%20propuesta.%20Arrancamos."),
         "COMPARATIVO_HTML": compare_table(comp),
         "COMPARATIVO_INTRO": esc(comp.get("intro", "")),
         "COMPARATIVO_NOTA": esc(comp.get("nota", "")),
@@ -416,12 +427,16 @@ def main() -> int:
             f"<li><strong>{esc(n)}:</strong> {esc(d)} — <strong>{money(u)}</strong></li>"
             for n, d, u in scenarios(base, modulos)
         ),
-        "CONVERSION_HTML": conversion_block(cfg, base, modulos),
+        # §10 del spec editorial: al lado de la tabla, la línea del recomendado.
+        "RECOMENDADO_LINE": (
+            "Recomendado para tu caso: Base + " +
+            " + ".join(str(m.get("code")) for m in modulos[:3]) +
+            f" = {money(base + sum(int(m.get('price', 0)) for m in modulos[:3]))}."
+            if len(modulos) >= 3 else ""),
         "SHOTS_BAND": shots_band(cfg),
-        "TIPO_CAMBIO": str(conv.get("tipoCambio", 0)),
         "WHATSAPP_CTA_HTML": (
             f'<a class="btn btn-wa" href="https://wa.me/{esc(author.get("whatsapp"))}'
-            f'?text=Hola%2C%20vi%20la%20propuesta%20para%20{nombre_enc}" rel="noopener" target="_blank">'
+            f'?text=Hola%2C%20vi%20la%20propuesta%20para%20{nombre_enc}" rel="noopener">'
             'Responder por WhatsApp</a>' if author.get("whatsapp") else ""
         ),
     })
