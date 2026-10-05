@@ -393,7 +393,9 @@ def main() -> int:
                 "costoNota", "en la llamada lo validamos con tus números reales, que yo no veo.")),
         "UNIDAD": str(conv.get("unidad") or "sesiones"),
         "MODELO_CTA_HTML": (
-            f'<a class="btn btn-light" href="{esc(modelo.get("url"))}" target="_blank" rel="noopener">'
+            # Sin target="_blank": en el panel de previsualización (y en webviews) la
+            # apertura de ventanas nuevas se bloquea en silencio y el clic no hace nada.
+            f'<a class="btn btn-light" href="{esc(modelo.get("url"))}" rel="noopener">'
             f'{esc(modelo.get("cta") or "Ver la página modelo")} &nearr;</a>'
             if (modelo.get("url") or "").strip() else ""
         ),

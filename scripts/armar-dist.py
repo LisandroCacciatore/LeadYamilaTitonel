@@ -131,7 +131,7 @@ def portada(css: str, cfg: dict, lista: list) -> str:
     if url_modelo and not any(url_modelo.endswith("/" + s) for s in slugs):
         n = len(lista) + 1
         tarjetas += f"""
-        <a class="tarjeta tarjeta--modelo" href="{html.escape(modelo['url'])}" target="_blank" rel="noopener">
+        <a class="tarjeta tarjeta--modelo" href="{html.escape(modelo['url'])}" rel="noopener">
           <span class="tarjeta__n">{n:02d} · externo</span>
           <h2>{html.escape(modelo.get('titulo') or 'Página modelo')}</h2>
           <p>{html.escape(modelo.get('bajada') or '')}</p>
