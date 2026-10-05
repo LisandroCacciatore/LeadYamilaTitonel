@@ -52,8 +52,7 @@
     "cierreTitulo": "Nos sentamos veinte minutos",
     "cierreBody": "Mirá el sitio primero con calma, y también en el celular, que es donde va a entrar la mayoría de la gente. Después nos sentamos veinte minutos y cerramos tres cosas: los datos y las fotos reales, a qué correo querés que lleguen las consultas, y si arrancamos sólo con el sitio o con el blog también.",
     "conversionTitulo": "Cómo se ubica el número",
-    "informeLead": "Un sitio propio con tu agenda a la vista, y el blog con SEO, GEO y AEO como escalón siguiente.",
-    "comparativoIntro": "No comparé colegas: medí tu propio recorrido, link por link, sobre tu bio publicada. Es el número más incómodo del informe y se sostiene solo."
+    "informeLead": "Un sitio propio con tu agenda a la vista, y el blog con SEO, GEO y AEO como escalón siguiente."
   },
   "callout": {
     "label": "Costo de no hacer nada",
@@ -118,7 +117,7 @@
     }
   ],
   "comparativo": {
-    "intro": "Comparado con una agencia que hace webs para profesionales de la salud. La columna «Esta propuesta» está verificada sobre el sitio ya publicado; los rangos y extras de la columna «Agencia» son orientativos de mercado y no provienen de una fuente publicada: van como orden de magnitud, no como cotización.",
+    "intro": "No comparé colegas: medí tu propio recorrido, link por link, sobre tu bio publicada. Es el número más incómodo del informe y se sostiene solo.",
     "medidoEl": "5 de octubre de 2026",
     "mostrarEnInforme": false,
     "filas": [],
@@ -242,7 +241,6 @@
     "✓ Revisé tu bio de Instagram el 3 de octubre de 2026 y conté, uno por uno, los links publicados: veinte en total, dieciocho a marcas ajenas, tres a tus turnos y cero a un sitio propio.",
     "✓ Verifiqué el sitio ya construido: las rutas responden y el contraste está medido (17 pares, 16 dentro del mínimo de accesibilidad).",
     "✗ No tengo acceso a tus métricas de Instagram: no sé cuántas visitas recibe tu bio ni cuántas se convierten, y no lo estimo.",
-    "✗ Los rangos de agencia de la comparación son orientativos de mercado: no provienen de una fuente publicada.",
     "✗ No revisé tu facturación ni tu agenda real.",
     "✗ No revisé tus otras redes ni tu perfil de Google."
   ]
