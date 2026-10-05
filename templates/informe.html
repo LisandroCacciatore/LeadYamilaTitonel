@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Informe de Valor — {{NOMBRE_CLIENTE}}</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+{{BRAND_CSS}}
+{{PRINT_CSS}}
+</style>
+</head>
+<!--
+  Este informe NO usa @page para el membrete ni position:fixed.
+
+  Chrome no soporta las cajas de margen de @page (@top-left, @bottom-right) y
+  con position:fixed el membrete y el pie se encimaban sobre el contenido.
+
+  Acá pagina print.js: cada hoja es un <div class="page"> de 210x296mm con el
+  membrete y el pie ADENTRO, y el contenido se reparte midiendo el desborde real
+  contra la altura útil (con un margen de seguridad calibrado de 14mm).
+-->
+<body>
+<div class="toolbar no-print">
+  <button class="btn btn-light" onclick="window.print()">Guardar PDF</button>
+</div>
+
+<div id="doc"></div>
+
+<script>
+  window.CLIENT_CONFIG = {{CONFIG_JSON}};
+  window.BRAND_PARTS = { header: {{HEADER_JSON}}, footer: {{FOOTER_JSON}} };
+</script>
+<script>
+{{PAGINATOR_JS}}
+</script>
+</body>
+</html>

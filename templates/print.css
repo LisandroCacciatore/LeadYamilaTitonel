@@ -1,0 +1,157 @@
+/* ==========================================================================
+   templates/print.css — LAYOUT DE HOJAS PARA EL INFORME
+   No define marca: usa los tokens de brand.css, que se inyecta antes.
+
+   MODELO DE PAGINADO (portado de ~/propuestas/print.js, que ya funciona)
+   Chrome no soporta las cajas de margen de @page (@top-left, @bottom-right) y
+   `position: fixed` en impresión se encima sobre el contenido. Así que acá NO
+   hay position:fixed ni cajas de margen:
+
+     - cada hoja es un <div class="page"> de 210x296mm
+     - el membrete y el pie van DENTRO de cada hoja, como bloques del flujo
+     - el paginador (print.js) llena cada cuerpo midiendo el desborde real
+
+   296mm y no 297: con 297 Chrome agrega una hoja en blanco al final.
+   ========================================================================== */
+
+@page { size: A4; margin: 0; }
+
+html, body { margin: 0; padding: 0; background: #fff; }
+
+/* ---------- La hoja ---------- */
+
+.page {
+  width: 210mm;
+  height: 296mm;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-default);
+  page-break-after: always;
+  break-after: page;
+  position: relative;
+}
+.page:last-child { page-break-after: auto; break-after: auto; }
+
+.page__body {
+  flex: 1 1 auto;
+  overflow: hidden;
+  padding: 6mm 14mm 4mm;
+}
+
+/* ---------- Portada (sin membrete ni pie) ---------- */
+
+.page--cover { justify-content: center; }
+
+.cover { padding: 0 20mm; }
+.cover__brand-name { font-weight: var(--fw-bold); color: var(--brand-default); }
+.cover__label {
+  font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: .08em;
+  color: var(--ink-muted); float: right;
+}
+.cover__eyebrow {
+  font-size: var(--fs-sm); font-weight: var(--fw-bold); text-transform: uppercase;
+  letter-spacing: .1em; color: var(--brand-default); margin-bottom: var(--space-3);
+}
+.cover__title { font-size: 34pt; line-height: 1.1; margin: 0 0 var(--space-4); }
+.cover__subtitle { font-size: var(--fs-lg); color: var(--ink-body); margin-bottom: var(--space-8); }
+.cover__client {
+  border-left: 3px solid var(--brand-default);
+  padding: var(--space-2) 0 var(--space-2) var(--space-4);
+  margin-bottom: var(--space-10);
+}
+.cover__client-label {
+  font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-muted);
+}
+.cover__client-name { font-size: var(--fs-2xl); font-weight: var(--fw-bold); color: var(--ink-title); }
+.cover__client-sub { color: var(--ink-body); }
+.cover__meta {
+  display: flex; gap: var(--space-8); flex-wrap: wrap;
+  border-top: 1px solid var(--line-default); padding-top: var(--space-4);
+  font-size: var(--fs-sm); color: var(--ink-muted);
+}
+.cover__meta strong { display: block; color: var(--ink-title); }
+
+/* ---------- Encabezado de sección ---------- */
+
+.sec-head {
+  display: flex; align-items: baseline; gap: var(--space-3);
+  border-bottom: 2px solid var(--brand-default);
+  padding-bottom: var(--space-2); margin-bottom: var(--space-5);
+}
+.sec-num {
+  font-size: var(--fs-sm); font-weight: var(--fw-extrabold);
+  color: var(--brand-default); letter-spacing: .08em;
+}
+.sec-title { margin: 0; font-size: var(--fs-2xl); }
+.sec-sub {
+  font-size: var(--fs-sm); font-weight: var(--fw-bold); text-transform: uppercase;
+  letter-spacing: .08em; color: var(--brand-default);
+  margin: var(--space-5) 0 var(--space-3);
+}
+.sec-lead { font-size: var(--fs-base); color: var(--ink-body); margin-bottom: var(--space-5); }
+.cont-label {
+  font-size: .7rem; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--ink-muted); margin-bottom: var(--space-3);
+}
+
+/* ---------- Índice ---------- */
+
+.toc { list-style: none; padding: 0; margin: 0; }
+.toc li {
+  border-bottom: 1px dotted var(--line-default);
+  padding: var(--space-2) 0;
+}
+.toc a { text-decoration: none; display: flex; gap: var(--space-3); }
+.toc__item-name { flex: 1; color: var(--ink-title); font-weight: var(--fw-medium); }
+.toc__item-page { color: var(--brand-default); font-weight: var(--fw-bold); white-space: nowrap; }
+
+/* ---------- Aceptación (firma) ---------- */
+
+.sig-intro { font-size: var(--fs-sm); margin-bottom: var(--space-5); }
+.sig-terms {
+  background: var(--surface-alt); border: 1px solid var(--line-default);
+  border-radius: var(--radius-md); padding: var(--space-4);
+  font-size: var(--fs-sm); color: var(--ink-body); margin-bottom: var(--space-8);
+}
+.sig-grid { display: flex; gap: var(--space-10); }
+.sig-col { flex: 1; }
+.sig-role {
+  font-size: .7rem; font-weight: var(--fw-bold); text-transform: uppercase;
+  letter-spacing: .08em; color: var(--ink-muted); margin-bottom: var(--space-8);
+}
+.sig-line { border-bottom: 1px solid var(--ink-title); height: 20mm; }
+.sig-image { height: 20mm; }
+.sig-name { font-weight: var(--fw-bold); color: var(--ink-title); margin-top: var(--space-2); }
+.sig-detail { font-size: var(--fs-sm); color: var(--ink-muted); }
+.footnote { font-size: var(--fs-sm); color: var(--ink-muted); margin-top: var(--space-8); }
+
+/* ---------- Error visible (el documento roto tiene que gritarlo) ---------- */
+
+.banner {
+  background: var(--error); color: #fff; padding: var(--space-4);
+  font-weight: var(--fw-bold); font-size: var(--fs-sm);
+}
+
+/* ---------- Pantalla: las hojas se ven apiladas ---------- */
+
+@media screen {
+  body { background: var(--surface-alt); padding: var(--space-6) 0; }
+  .page { box-shadow: var(--shadow-md); margin: 0 auto var(--space-6); }
+  .toolbar {
+    position: fixed; top: var(--space-3); right: var(--space-3); z-index: 50;
+  }
+}
+
+@media print {
+  .no-print { display: none !important; }
+}
+
+/* ---------- El margen del último bloque no cuenta como alto de hoja ----------
+   Un bloque con margin-bottom en el cierre de la hoja sumaba 11-15px de alto
+   scrolleable sin que nada se viera cortado, y el auto-chequeo del paginador lo
+   reportaba como desborde. El margen no aporta nada al final de una hoja:
+   vale para el último bloque y para el último hijo dentro de él (listas, párrafos). */
+
+.page__body > *:last-child,
+.page__body > *:last-child > *:last-child { margin-bottom: 0; }

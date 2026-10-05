@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta — Lic. Yamila Titonel</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Auditoría y propuesta de mejora del sitio de Lic. Yamila Titonel, con evidencia medida.">
+<style>
+/* ==========================================================================
+   brand/brand.css — FUENTE ÚNICA DE LA IDENTIDAD VISUAL
+   Ningún template declara colores, fuentes ni medidas propias.
+   Si algo visual falta, se agrega ACÁ.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. TOKENS
+   -------------------------------------------------------------------------- */
+:root {
+  /* Marca */
+  --brand-default: #4A6770;
+  --brand-hover:   #3D545C;
+  --brand-soft:    #F0F4F6;
+
+  /* Texto */
+  --ink-title: #2C343C;
+  --ink-body:  #5A6672;
+  --ink-muted: #7A8794;
+
+  /* Líneas y superficies */
+  --line-default:    #E3E6EA;
+  --surface-default: #FFFFFF;
+  --surface-alt:     #F7F8FA;
+
+  /* Estados */
+  --success: #28A745;
+  --warning: #FFC107;
+  --error:   #DC3545;
+  --info:    #17A2B8;
+
+  /* Tipografía */
+  --font-sans: 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fs-sm:   0.875rem;
+  --fs-base: 1rem;
+  --fs-lg:   1.125rem;
+  --fs-xl:   1.25rem;
+  --fs-2xl:  1.5rem;
+  --fs-3xl:  1.875rem;
+  --fw-regular:   400;
+  --fw-medium:    500;
+  --fw-bold:      600;
+  --fw-extrabold: 800;
+
+  /* Espaciado (grid de 8px) */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+
+  /* Radios y sombras */
+  --radius-sm:   0.25rem;
+  --radius-md:   0.5rem;
+  --radius-lg:   1rem;
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24);
+  --shadow-md: 0 4px 6px rgba(0,0,0,.10), 0 2px 4px rgba(0,0,0,.06);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,.10), 0 4px 6px rgba(0,0,0,.08);
+}
+
+/* --------------------------------------------------------------------------
+   2. BASE
+   -------------------------------------------------------------------------- */
+html { font-size: 100%; box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: 1.6;
+  color: var(--ink-body);
+  background: var(--surface-alt);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 { color: var(--ink-title); margin: 0 0 var(--space-3); line-height: 1.25; }
+h1 { font-size: var(--fs-3xl); font-weight: var(--fw-extrabold); }
+h2 { font-size: var(--fs-xl);  font-weight: var(--fw-bold); }
+h3 { font-size: var(--fs-base); font-weight: var(--fw-bold); }
+p  { margin: 0 0 var(--space-4); }
+code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: var(--fs-sm);
+       background: var(--brand-soft); padding: 1px 5px; border-radius: var(--radius-sm); }
+ul, ol { margin: 0 0 var(--space-4); padding-left: var(--space-6); }
+li { margin-bottom: var(--space-2); }
+
+/* --------------------------------------------------------------------------
+   3. HEADER / FOOTER COMPARTIDOS
+   -------------------------------------------------------------------------- */
+.brand-header {
+  background: var(--brand-default);
+  color: var(--surface-default);
+}
+.brand-header-inner {
+  max-width: 210mm;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-6);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.brand-logo { width: 34px; height: 34px; display: block; flex: none; }
+.brand-logo svg { width: 100%; height: 100%; display: block; }
+.brand-info { display: flex; flex-direction: column; line-height: 1.2; }
+.brand-title { font-weight: var(--fw-bold); font-size: var(--fs-sm); }
+.brand-role  { font-size: var(--fs-sm); opacity: .75; }
+.brand-doc {
+  margin-left: auto;
+  font-size: var(--fs-sm);
+  opacity: .85;
+  text-align: right;
+}
+
+.brand-footer { background: var(--surface-default); border-top: 1px solid var(--line-default); }
+.brand-footer-inner {
+  max-width: 210mm;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-6);
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  font-size: var(--fs-sm);
+  color: var(--ink-muted);
+}
+
+/* --------------------------------------------------------------------------
+   4. LAYOUT DEL DOCUMENTO
+   -------------------------------------------------------------------------- */
+.content { max-width: 210mm; margin: 0 auto; padding: var(--space-8) var(--space-6); }
+.section { margin-bottom: var(--space-10); }
+.cover { text-align: center; padding: var(--space-12) 0; }
+.cover h1 { font-size: var(--fs-3xl); }
+.cover h2 { color: var(--brand-default); font-size: var(--fs-2xl); }
+.eyebrow {
+  display: inline-block;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--brand-default);
+  background: var(--brand-soft);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+}
+.lead { font-size: var(--fs-lg); color: var(--ink-body); }
+
+/* --------------------------------------------------------------------------
+   5. HALLAZGOS Y EVIDENCIA
+   -------------------------------------------------------------------------- */
+.finding {
+  background: var(--surface-default);
+  border: 1px solid var(--line-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-bottom: var(--space-3);
+}
+.finding-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+.finding-title { font-weight: var(--fw-bold); color: var(--ink-title); font-size: var(--fs-sm); }
+.finding p { margin: 0 0 var(--space-3); font-size: var(--fs-sm); }
+.finding-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  border-top: 1px solid var(--line-default);
+  padding-top: var(--space-3);
+  font-size: var(--fs-sm);
+  color: var(--ink-muted);
+}
+.finding-meta strong { color: var(--ink-title); }
+.finding-meta .tag { margin-left: auto; }
+
+.tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+  background: var(--brand-soft);
+  color: var(--brand-default);
+}
+.tag-medido    { background: rgba(40,167,69,.12);   color: #1E7E34; }
+.tag-inferible { background: rgba(23,162,184,.12);  color: #11707F; }
+.tag-noverif   { background: rgba(220,53,69,.10);   color: #A71D2A; }
+
+.evidence { font-size: var(--fs-sm); }
+
+/* Callout oscuro (costo de no hacer nada) */
+.callout {
+  background: var(--ink-title);
+  color: var(--surface-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+}
+.callout .callout-label {
+  font-size: 0.7rem; font-weight: var(--fw-bold); text-transform: uppercase;
+  letter-spacing: .08em; opacity: .6; margin-bottom: var(--space-3);
+}
+.callout .callout-strong { font-size: var(--fs-2xl); font-weight: var(--fw-bold); margin-bottom: var(--space-3); }
+.callout .callout-note { font-size: var(--fs-sm); opacity: .7; margin: 0; }
+
+/* --------------------------------------------------------------------------
+   6. TABLAS Y PRECIOS
+   -------------------------------------------------------------------------- */
+.price-table { width: 100%; border-collapse: collapse; margin: var(--space-4) 0; font-size: var(--fs-sm); }
+.price-table th, .price-table td {
+  border: 1px solid var(--line-default);
+  padding: var(--space-3);
+  text-align: left;
+}
+.price-table th { background: var(--surface-alt); font-weight: var(--fw-bold); color: var(--ink-title); }
+.price-table td:nth-child(2) { white-space: nowrap; font-weight: var(--fw-bold); color: var(--ink-title); }
+
+.base-card {
+  background: var(--surface-default);
+  border: 2px solid var(--brand-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-bottom: var(--space-3);
+  position: relative;
+}
+.base-flag {
+  position: absolute; top: 0; right: 0;
+  background: var(--brand-default); color: var(--surface-default);
+  font-size: 0.65rem; font-weight: var(--fw-bold); text-transform: uppercase;
+  letter-spacing: .08em; padding: 4px 10px; border-radius: 0 var(--radius-lg) 0 var(--radius-lg);
+}
+.base-head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-4); margin-bottom: var(--space-3); }
+.base-label { font-size: 0.7rem; font-weight: var(--fw-bold); text-transform: uppercase; letter-spacing: .08em; color: var(--brand-default); }
+.base-price { font-weight: var(--fw-bold); color: var(--ink-title); white-space: nowrap; }
+
+/* --------------------------------------------------------------------------
+   7. SELECTOR INTERACTIVO
+   -------------------------------------------------------------------------- */
+.module-card {
+  background: var(--surface-default);
+  border: 1px solid var(--line-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-bottom: var(--space-3);
+  cursor: pointer;
+  transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease;
+}
+.module-card:hover { box-shadow: var(--shadow-sm); }
+.module-card.on { border: 2px solid var(--brand-default); background: var(--brand-soft); }
+.module-head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-4); margin-bottom: var(--space-2); }
+.module-code { font-size: 0.7rem; font-weight: var(--fw-bold); text-transform: uppercase; letter-spacing: .08em; color: var(--brand-default); }
+.module-title { font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--ink-title); margin: 0; }
+.module-price { font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--ink-title); white-space: nowrap; }
+.module-short { font-size: var(--fs-sm); margin-bottom: var(--space-2); }
+.module-bullets { list-style: none; padding: 0; margin: 0; font-size: var(--fs-sm); color: var(--ink-muted); }
+.module-bullets li { margin-bottom: 2px; }
+.module-bullets li::before { content: '· '; }
+
+.total-bar {
+  position: sticky;
+  bottom: var(--space-4);
+  background: var(--ink-title);
+  color: var(--surface-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+}
+.total-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: .08em; opacity: .6; }
+.total-value { font-size: var(--fs-2xl); font-weight: var(--fw-bold); }
+.total-list  { font-size: var(--fs-sm); opacity: .75; margin-top: 2px; }
+.total-value.pulse { animation: pulse .35s ease; }
+@keyframes pulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.07); color: var(--brand-soft); }
+  100% { transform: scale(1); }
+}
+
+/* --------------------------------------------------------------------------
+   8. BOTONES
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-block;
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease;
+}
+.btn-light { background: var(--surface-default); color: var(--ink-title); }
+.btn-light:hover { background: var(--brand-soft); }
+.btn-ghost { background: transparent; color: var(--brand-default); text-transform: none; letter-spacing: 0; padding: var(--space-1); }
+
+/* --------------------------------------------------------------------------
+   9. ALCANCE
+   -------------------------------------------------------------------------- */
+.scope {
+  background: var(--surface-alt);
+  border: 1px solid var(--line-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+.scope-label { font-size: 0.7rem; font-weight: var(--fw-bold); text-transform: uppercase; letter-spacing: .08em; color: var(--ink-muted); margin-bottom: var(--space-3); }
+.scope ul { list-style: none; padding: 0; margin: 0; font-size: var(--fs-sm); }
+.scope li { display: flex; gap: var(--space-2); margin-bottom: var(--space-2); }
+.scope .yes { color: var(--brand-default); }
+.scope .no  { color: var(--ink-muted); }
+
+/* --------------------------------------------------------------------------
+   10. PRIORIDAD DE HALLAZGOS
+   -------------------------------------------------------------------------- */
+.tag-prio-alta  { background: rgba(220,53,69,.12);  color: #A71D2A; }
+.tag-prio-media { background: rgba(255,193,7,.20);  color: #8A6100; }
+.tag-prio-baja  { background: rgba(122,135,148,.16); color: #5A6672; }
+
+/* --------------------------------------------------------------------------
+   11. COMPARATIVO VERIFICADO
+   -------------------------------------------------------------------------- */
+.compare-table { width: 100%; border-collapse: collapse; margin: var(--space-4) 0; font-size: 0.76rem; }
+.compare-table th, .compare-table td {
+  border: 1px solid var(--line-default);
+  padding: 5px 7px;
+  text-align: left;
+  vertical-align: top;
+}
+.compare-table th { background: var(--surface-alt); font-weight: var(--fw-bold); color: var(--ink-title); }
+.compare-table .row-client { background: var(--brand-soft); font-weight: var(--fw-bold); }
+.compare-table .ok   { color: #1E7E34; font-weight: var(--fw-bold); }
+.compare-table .bad  { color: #A71D2A; font-weight: var(--fw-bold); }
+.compare-table .meh  { color: var(--ink-muted); }
+.evsrc { font-size: 0.72rem; color: var(--ink-muted); margin: var(--space-2) 0 0; }
+
+/* --------------------------------------------------------------------------
+   12. INDICADORES
+   -------------------------------------------------------------------------- */
+.kpi-row { display: flex; gap: var(--space-3); margin: var(--space-4) 0; }
+.kpi {
+  flex: 1;
+  background: var(--surface-default);
+  border: 1px solid var(--line-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  text-align: center;
+}
+.kpi__value { display: block; font-size: var(--fs-2xl); font-weight: var(--fw-extrabold); color: var(--ink-title); }
+.kpi__label { display: block; font-size: 0.68rem; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-muted); margin-top: 2px; }
+
+/* --------------------------------------------------------------------------
+   13. CITA Y VOZ DEL CLIENTE
+   -------------------------------------------------------------------------- */
+.quote {
+  background: var(--surface-default);
+  border-left: 3px solid var(--brand-default);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: var(--space-4) var(--space-5);
+  margin: 0 0 var(--space-3);
+  font-style: italic;
+  color: var(--ink-title);
+}
+.quote__who { display: block; font-style: normal; font-size: 0.78rem; color: var(--ink-muted); margin-top: var(--space-2); }
+
+/* Bloque de datos por confirmar (lo que no puedo verificar) */
+.todo {
+  background: var(--surface-alt);
+  border: 1px dashed var(--line-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+.todo ul { margin: 0; font-size: var(--fs-sm); }
+
+/* --------------------------------------------------------------------------
+   14. LAYOUT DE LA PROPUESTA COMERCIAL
+   La propuesta es una página web que se lee en pantalla y también se imprime.
+   Sólo se declaran acá la disposición y los ritmos; los colores son los tokens.
+   -------------------------------------------------------------------------- */
+.band { background: var(--surface-default); border-top: 1px solid var(--line-default); border-bottom: 1px solid var(--line-default); }
+.band--ink { background: var(--ink-title); color: var(--surface-default); border: none; }
+.band--ink h1, .band--ink h2, .band--ink h3 { color: var(--surface-default); }
+.band--soft { background: var(--brand-soft); }
+.wrap { max-width: 210mm; margin: 0 auto; padding: var(--space-8) var(--space-6); }
+.wrap--tight { padding: var(--space-6) var(--space-6); }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); }
+.hero-h1 { font-size: 2.25rem; line-height: 1.15; font-weight: var(--fw-extrabold); letter-spacing: -0.01em; }
+.cta-row { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-5); }
+.btn-ink { background: var(--ink-title); color: var(--surface-default); }
+.btn-ink:hover { background: var(--brand-default); }
+.btn-brand { background: var(--brand-default); color: var(--surface-default); }
+.btn-brand:hover { background: var(--brand-hover); }
+.btn-wa { background: #128C7E; color: #FFFFFF; }
+.btn-wa:hover { background: #0E6E63; }
+.step-list { counter-reset: paso; list-style: none; padding: 0; }
+.step-list li { counter-increment: paso; position: relative; padding-left: var(--space-8); margin-bottom: var(--space-4); }
+.step-list li::before {
+  content: counter(paso);
+  position: absolute; left: 0; top: 0;
+  width: 22px; height: 22px; border-radius: var(--radius-full);
+  background: var(--brand-default); color: var(--surface-default);
+  font-size: 0.72rem; font-weight: var(--fw-bold);
+  display: flex; align-items: center; justify-content: center;
+}
+.shot {
+  border: 1px solid var(--line-default);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--surface-alt);
+}
+.shot img { display: block; width: 100%; height: auto; }
+.shot__cap { font-size: 0.72rem; color: var(--ink-muted); padding: var(--space-2) var(--space-3); border-top: 1px solid var(--line-default); background: var(--surface-default); }
+
+/* La propuesta también se imprime: sin barra fija, sin saltos raros. */
+@media print {
+  .no-print { display: none !important; }
+  .total-bar { position: static; }
+  .band, .band--ink, .band--soft { break-inside: avoid; }
+  .wrap { padding: 0 0 var(--space-6); max-width: none; }
+  body { background: #FFFFFF; }
+  a[href^="http"]::after { content: ""; }
+}
+
+/* Las reglas de impresión viven en templates/print.css.
+   brand.css define la marca; el layout de hoja es responsabilidad del template. */
+
+/* Identidad del cliente: el color lo pone su config, no el sistema */
+:root {
+  --brand-default: #2f6b4f;
+  --brand-hover:   #275A42;
+  --brand-soft:    #EEF3F1;
+}
+
+</style>
+</head>
+<body>
+<header class="brand-header">
+  <div class="brand-header-inner">
+    <span class="brand-logo"><?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" fill="#4A6770"/>
+  <circle cx="32" cy="32" r="28" fill="white"/>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#4A6770" font-size="24" font-family="Montserrat,Arial,sans-serif">LC</text>
+</svg></span>
+    <span class="brand-info">
+      <span class="brand-title">Lisandro Cacciatore</span>
+      <span class="brand-role">Consultor de IA</span>
+    </span>
+    <span class="brand-doc">Lic. Yamila Titonel</span>
+  </div>
+</header>
+
+<!-- ══════════════ A · EL GANCHO ══════════════ -->
+<section class="band band--ink">
+  <div class="wrap">
+    <span class="eyebrow" style="background:rgba(255,255,255,.14);color:#fff">Propuesta · 5 de octubre de 2026 · válida hasta el 4 de noviembre de 2026</span>
+    <h1 class="hero-h1" style="margin-top:1.25rem">Tu bio trabaja para otros.<br>Una web propia trabaja para vos.</h1>
+    <p class="lead" style="color:rgba(255,255,255,.78);max-width:44rem">Yamila: revisé los veinte links de tu bio y los medí uno por uno. Dieciocho van a marcas ajenas; tres llevan a tus turnos, y están abajo de todos. Ninguno va a un sitio tuyo, y ninguna de esas visitas te deja un contacto.</p>
+    <div class="kpi-row"><div class="kpi"><span class="kpi__value">18</span><span class="kpi__label">links de marcas ajenas en tu bio</span></div><div class="kpi"><span class="kpi__value">3</span><span class="kpi__label">links a tus propios turnos</span></div><div class="kpi"><span class="kpi__value">0</span><span class="kpi__label">links a un sitio tuyo</span></div><div class="kpi"><span class="kpi__value">0</span><span class="kpi__label">formas de capturar un contacto</span></div><div class="kpi"><span class="kpi__value">420.000</span><span class="kpi__label">seguidores que dependen del algoritmo</span></div></div>
+    <div class="cta-row">
+      <a class="btn btn-brand" href="#propuesta">Ver qué propongo</a>
+      <a class="btn btn-light" href="#evidencia">Ver la evidencia</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ B · QUÉ ENCONTRÉ (diagnóstico en su idioma) ══════════════ -->
+<section class="band" id="evidencia">
+  <div class="wrap">
+    <span class="eyebrow">Lo que encontré</span>
+    <h2 style="font-size:1.5rem;margin-top:.75rem">4 hallazgos medidos</h2>
+    <p>
+      Cada tarjeta trae el número crudo y de dónde sale. Lo que no pude medir, lo digo:
+      no hay una sola afirmación de este documento que no se pueda reproducir.
+    </p>
+    
+    <div class="finding">
+      <div class="finding-head">
+        <span class="tag tag-medido">[MEDIDO]</span>
+        <span class="tag tag-prio-alta">Prioridad alta</span>
+        <span class="finding-title">Dieciocho de los veinte links de tu bio trabajan para otras marcas</span>
+      </div>
+      <p>Fabletics, Babbel, Headspace, Talkspace, HelloFresh, Factor75, Gobble, Maev, Daily Harvest, Purple Carrot, Clearstem, ARMR A, Omnilux, The Zero Proof, Equip Foods, JLab y Upside: dieciocho de los veinte links de tu bio llevan a marcas ajenas. Tu bio monetiza para terceros antes que para vos.</p>
+      <div class="finding-meta">
+        <span>Impacto estimado: <strong>Cada visita que llega buscando tu trabajo se va a una marca que no te deja el contacto.</strong></span>
+        <span class="tag">[INFERIBLE]</span>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-head">
+        <span class="tag tag-medido">[MEDIDO]</span>
+        <span class="tag tag-prio-alta">Prioridad alta</span>
+        <span class="finding-title">Los únicos tres links a tus turnos están abajo de los dieciocho primeros</span>
+      </div>
+      <p>Los tres links que llevan a Docturno —donde se reserva tu consulta— compiten por el mismo dedo contra los dieciocho anteriores, y quedan abajo de todos. El que entra decidido a agendar tiene que atravesar el catálogo de marcas antes de encontrarte.</p>
+      <div class="finding-meta">
+        <span>Impacto estimado: <strong>La acción que te trae pacientes es la menos visible de tu bio.</strong></span>
+        <span class="tag">[INFERIBLE]</span>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-head">
+        <span class="tag tag-medido">[MEDIDO]</span>
+        <span class="tag tag-prio-alta">Prioridad alta</span>
+        <span class="finding-title">Ningún link de tu bio va a un sitio tuyo</span>
+      </div>
+      <p>Cero. Todo lo que publicás vive en plataformas que no controlás: si mañana cambian las reglas, no queda nada tuyo. No hay un dominio propio donde recibir a nadie.</p>
+      <div class="finding-meta">
+        <span>Impacto estimado: <strong>Sin dominio propio no hay activo: no podés mudar tu contenido, ni llevarte tus métricas, ni aparecer en Google como marca.</strong></span>
+        <span class="tag">[INFERIBLE]</span>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-head">
+        <span class="tag tag-medido">[MEDIDO]</span>
+        <span class="tag tag-prio-media">Prioridad media</span>
+        <span class="finding-title">Ninguna de esas visitas te deja un contacto</span>
+      </div>
+      <p>No hay forma de capturar un email ni un teléfono en ningún punto del recorrido. A las 420.000 personas que te siguen las alcanzás sólo si el algoritmo quiere ese día.</p>
+      <div class="finding-meta">
+        <span>Impacto estimado: <strong>Sin lista propia, cada cambio de alcance te borra el canal entero: no tenés a quién avisarle.</strong></span>
+        <span class="tag">[INFERIBLE]</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ C · DÓNDE ESTÁS PARADO ══════════════ -->
+<section class="band band--soft">
+  <div class="wrap">
+    <span class="eyebrow">Dónde estás parado</span>
+    <h2 style="font-size:1.5rem;margin-top:.75rem">Comparado con lo que hoy te ofrecen las agencias del rubro</h2>
+    <p>Comparado con una agencia que hace webs para profesionales de la salud. La columna «Esta propuesta» está verificada sobre el sitio ya publicado; los rangos y extras de la columna «Agencia» son orientativos de mercado y no provienen de una fuente publicada: van como orden de magnitud, no como cotización.</p>
+    <table class="compare-table"><thead><tr><th>Qué incluye</th><th>Agencia</th><th>Esta propuesta</th></tr></thead><tbody><tr class=""><td class="">Diseño a medida, celular y escritorio</td><td class="">sí</td><td class="">Incluido</td></tr><tr class=""><td class="">Siete páginas más la de error 404</td><td class="">sí</td><td class="">Incluido</td></tr><tr class=""><td class="">SEO básico: títulos y descripciones</td><td class="">sí</td><td class="">Incluido</td></tr><tr class=""><td class="">WhatsApp con mensaje según la sección</td><td class="">costo aparte (≈ USD 150)</td><td class="">Incluido</td></tr><tr class=""><td class="">Contraste y accesibilidad verificados</td><td class="">no</td><td class="">Incluido</td></tr><tr class=""><td class="">Navegación de celular con el agendar siempre visible</td><td class="">costo aparte (≈ USD 120)</td><td class="">Incluido</td></tr><tr class=""><td class="">Comprobación automática antes de publicar</td><td class="">no</td><td class="">Incluido</td></tr><tr class=""><td class="">Capacitación para editar sin romper nada</td><td class="">costo aparte (≈ USD 100)</td><td class="">Incluido</td></tr><tr class=""><td class="">Apuntado de dominio y verificación en vivo</td><td class="">a veces</td><td class="">Incluido</td></tr><tr class=""><td class="">Sin costo mensual de plataforma</td><td class="">no</td><td class="">Incluido</td></tr></tbody></table>
+    <p class="evsrc">La base de una agencia arranca en el orden de USD 350 a 900 según el alcance, y cada extra se cobra aparte. Para nutricionistas existen además opciones freelance más baratas, del orden de USD 100 a 500, que no están en esta tabla: si te las ofrecen, compará ítem por ítem con esta columna.</p>
+    <p class="evsrc">Medición propia del 5 de octubre de 2026 · reproducible con: python scripts/medir.py --pares 00-auditoria/pares.txt</p>
+    <div class="todo" style="margin-top:1.25rem">
+      <strong>Lo que dice esta tabla, en una línea:</strong>
+      <p style="margin:.5rem 0 0">Tu bio hoy cobra por otros: de veinte links, dieciocho van a marcas que te pagan por recomendarlas, y el botón que sí te trae pacientes es uno de tres y está abajo de todos. Una web propia no tiene competencia adentro: el botón de agendar es el único que hay.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ EL NÚMERO QUE SOSTIENE LA PROPUESTA ══════════════ -->
+<section class="band">
+  <div class="wrap wrap--tight">
+    <div class="callout">
+      <div class="callout-label">Lo que hoy ya se mide</div>
+      <div class="callout-strong">18 de los 20 links de tu bio trabajan para otras marcas.</div>
+      <p class="callout-note">Medido sobre tu bio publicada el 3 de octubre de 2026. Tus turnos compiten por el mismo dedo que esos dieciocho links, y quedan abajo de todos. · [MEDIDO]</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ ANTES / DESPUÉS ══════════════ -->
+
+
+<!-- ══════════════ D · LA PROPUESTA ══════════════ -->
+<section class="band" id="propuesta">
+  <div class="wrap">
+    <span class="eyebrow">Qué propongo</span>
+    <h2 style="font-size:1.5rem;margin-top:.75rem">Un sitio tuyo, con tu agenda a un toque</h2>
+    <p>La base es dejar de vivir en plataformas ajenas: tus secciones con tu nombre, tus servicios y tus turnos, y el botón de agendar siempre a la vista. El blog con SEO, GEO y AEO es el escalón siguiente, y se cotiza aparte.</p>
+    <p><strong>Tildá lo que te interese: el total se recalcula solo.</strong></p>
+
+    <div class="base-card">
+      <span class="base-flag">Siempre incluida</span>
+      <div class="base-head">
+        <span class="base-label">Base — Sitio propio en tu dominio</span>
+        <span class="base-price">USD 350</span>
+      </div>
+      <ul>
+        <li>Sitio publicado en tu dominio, con tu nombre y tu matrícula</li><li>Siete páginas más la de error 404: inicio, sobre mí, servicios, recetas, testimonios, contacto y sistema de diseño</li><li>Botón de WhatsApp con el mensaje ya escrito según la sección</li><li>Navegación de celular propia, con el botón de agendar siempre a la vista</li><li>Contraste medido y corregido: 17 pares verificados, 16 dentro del mínimo de accesibilidad</li><li>Títulos y descripciones para buscadores, más mapa del sitio</li><li>Tus datos reales cargados y tu dominio apuntado</li><li>Comprobación automática de todas las rutas antes de cada publicación</li><li>Verificación final en vivo, con vos mirando</li>
+      </ul>
+    </div>
+
+    <div id="modules"></div>
+
+    <div class="total-bar">
+      <div>
+        <div class="total-label">Total</div>
+        <div class="total-value" id="total">USD 350</div>
+        <div class="total-list" id="list">Sitio base</div>
+      </div>
+      <a class="btn btn-light no-print" href="mailto:lisandrocacciatore@gmail.com?subject=Propuesta%20-%20Lic.%20Yamila%20Titonel&body=Hola%20Yamila%2C%20me%20interesa%20avanzar%20con%3A%20">
+        Responder esta propuesta
+      </a>
+    </div>
+
+    <h3 style="margin-top:2rem">Escenarios, para no decidir todo de una</h3>
+    <ul><li><strong>Entrada:</strong> Base sola — <strong>USD 350</strong></li><li><strong>Intermedio:</strong> Base + M1 + M2 — <strong>USD 680</strong></li><li><strong>Recomendado:</strong> Base + M1 + M2 + M3 — <strong>USD 800</strong></li><li><strong>Pack completo:</strong> Base + los 4 módulos — <strong>USD 900</strong></li><li><strong>Pack con descuento:</strong> Pack completo con 15% de descuento — <strong>USD 765</strong></li></ul>
+
+    <h3>Cómo se ubica el número</h3>
+    
+    <p>Traducido a lo que ya sabés contar, con dos referencias tuyas: el orden de magnitud de tu consulta, que usamos como referencia
+       (AR$ 40.000) y el tipo de cambio del 5 de octubre de 2026
+       (USD 1 = AR$ 1.539,60, fuente: dolarapi.com (dólar bolsa, venta)).</p>
+    <table class="price-table">
+      <thead><tr><th>Escenario</th><th>En dólares</th><th>En pesos</th><th>Equivale a</th></tr></thead>
+      <tbody><tr><td>Base sola</td><td>USD 350</td><td>AR$ 538.860</td><td>13,5 consultas</td></tr><tr><td>Base + M1 + M2</td><td>USD 680</td><td>AR$ 1.046.928</td><td>26,2 consultas</td></tr><tr><td>Base + M1 + M2 + M3</td><td>USD 800</td><td>AR$ 1.231.680</td><td>30,8 consultas</td></tr><tr><td>Base + los 4 módulos</td><td>USD 900</td><td>AR$ 1.385.640</td><td>34,6 consultas</td></tr><tr><td>Pack completo con 15% de descuento</td><td>USD 765</td><td>AR$ 1.177.794</td><td>29,4 consultas</td></tr>
+      </tbody>
+    </table>
+    <p class="evsrc">El pack completo (USD 900) se paga con 34,6 consultas.</p>
+    <p class="evsrc">[INFERIBLE] El valor de tu consulta no está publicado: lo tomamos como orden de magnitud y lo confirmamos en la llamada. La cantidad de consultas equivalentes, en cambio, es aritmética sobre ese valor.</p>
+  </div>
+</section>
+
+<!-- ══════════════ QUÉ NO INCLUYE ══════════════ -->
+<section class="band band--soft">
+  <div class="wrap">
+    <div class="grid-2">
+      <div>
+        <span class="eyebrow">Para que no haya sorpresas</span>
+        <h2 style="font-size:1.25rem;margin-top:.75rem">Qué no incluye</h2>
+        <ul style="font-size:var(--fs-sm)"><li>Las automatizaciones (agenda online, recordatorios por WhatsApp, formulario con backend real): se suman cuando estén probadas, y ahí se cotizan</li><li>Producción de contenido nuevo más allá de la migración acordada</li><li>Fotografía profesional: sirven las que ya tenés, en buena calidad</li><li>Campañas publicitarias pagas ni gestión de redes sociales</li><li>Costo mensual de plataforma: el sitio es estático y no tiene</li><li>Testimonios sin autorización de cada paciente</li></ul>
+      </div>
+      <div>
+        <span class="eyebrow">Lo que necesito de vos</span>
+        <h2 style="font-size:1.25rem;margin-top:.75rem">Datos que sólo tenés vos</h2>
+        <div class="todo">
+          <ul><li>¿Qué matrícula y qué sedes querés publicar?</li><li>¿A qué correo querés que lleguen las consultas?</li><li>¿Qué fotos tuyas en buena calidad usamos? Las de Instagram sirven si están en resolución original.</li><li>¿Tenés testimonios con autorización de cada paciente para publicar?</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ E · PRÓXIMO PASO ══════════════ -->
+<section class="band">
+  <div class="wrap">
+    <span class="eyebrow">Próximo paso</span>
+    <h2 style="font-size:1.5rem;margin-top:.75rem">Nos sentamos veinte minutos</h2>
+    <p>Mirá el sitio primero con calma, y también en el celular, que es donde va a entrar la mayoría de la gente. Después nos sentamos veinte minutos y cerramos tres cosas: los datos y las fotos reales, a qué correo querés que lleguen las consultas, y si arrancamos sólo con el sitio o con el blog también.</p>
+    <ol class="step-list"><li>Confirmar los datos y las fotos reales, que sólo tenés vos: matrícula, sedes, WhatsApp de contacto y testimonios con autorización de cada paciente.</li><li>Nos sentamos veinte minutos para cerrar el alcance: sólo el sitio, o sitio más blog.</li><li>Carga de tus datos reales y apuntado de tu dominio propio, con publicación de prueba para mirar desde el celular.</li><li>Verificación en vivo, capacitación de una hora grabada y entrega del manual para publicar sola.</li></ol>
+    <div class="cta-row">
+      <a class="btn btn-ink" href="mailto:lisandrocacciatore@gmail.com?subject=Propuesta%20-%20Lic.%20Yamila%20Titonel&body=Hola%20Yamila%2C%20quiero%20avanzar%20con%3A%20">Responder por correo</a>
+      
+    </div>
+    <p style="margin-top:1rem"><small>Si preferís que no te escriba más, respondé «no gracias» y no vuelvo a contactarte. Sin insistencia.</small></p>
+  </div>
+</section>
+
+<!-- ══════════════ ALCANCE ══════════════ -->
+<section class="band band--soft">
+  <div class="wrap wrap--tight">
+    <div class="scope">
+      <div class="scope-label">Alcance de esta revisión — qué miré y qué no</div>
+      <ul><li><span class="yes">✓</span> Revisé tu bio de Instagram el 3 de octubre de 2026 y conté, uno por uno, los links publicados: veinte en total, dieciocho a marcas ajenas, tres a tus turnos y cero a un sitio propio.</li><li><span class="yes">✓</span> Verifiqué el sitio ya construido: las rutas responden y el contraste está medido (17 pares, 16 dentro del mínimo de accesibilidad).</li><li><span class="no">✗</span> No tengo acceso a tus métricas de Instagram: no sé cuántas visitas recibe tu bio ni cuántas se convierten, y no lo estimo.</li><li><span class="no">✗</span> Los rangos de agencia de la comparación son orientativos de mercado: no provienen de una fuente publicada.</li><li><span class="no">✗</span> No revisé tu facturación ni tu agenda real.</li><li><span class="no">✗</span> No revisé tus otras redes ni tu perfil de Google.</li></ul>
+    </div>
+  </div>
+</section>
+
+<footer class="brand-footer">
+  <div class="brand-footer-inner">
+    <span><strong>Lisandro Cacciatore</strong> · Consultor de IA</span>
+    <span class="brand-footer-meta">lisandrocacciatore@gmail.com · 5 de octubre de 2026</span>
+  </div>
+</footer>
+
+<script>
+  window.TIPO_CAMBIO = 1539.6;
+  window.UNIDAD = "consultas";
+
+  var BASE = 350;
+  var MODULES = [{"id": "m1", "code": "M1", "icon": "edit_note", "title": "Blog con SEO", "price": 180, "short": "Que te encuentren cuando te buscan, con artículos propios.", "bullets": ["Cada artículo con su título, su descripción y su dirección propia", "Panel de edición visual: escribís y publicás sin tocar código", "Tus recetas de Instagram se vuelven artículos que siguen sumando visitas meses después", "Mapa del sitio y alta del blog en Google"]}, {"id": "m2", "code": "M2", "icon": "neurology", "title": "GEO y AEO: que las IA te nombren y Google te responda", "price": 150, "short": "Cada vez más gente le pregunta a una IA qué nutricionista recomendar.", "bullets": ["Cada artículo publicado en el formato que usan los asistentes de IA", "Archivo llms.txt para que las IA lean tu sitio ordenado", "Estructura de respuesta corta: el recuadro de arriba de todo se lo lleva quien la tiene", "Perfil de negocio alineado con lo que dicen tus artículos"]}, {"id": "m3", "code": "M3", "icon": "move_to_inbox", "title": "Migración de tus contenidos", "price": 120, "short": "Tus recetas y notas, adentro de tu sitio y con tu autoría.", "bullets": ["Traslado de tus publicaciones reales a artículos con autoría", "Sin inventar métricas ni testimonios", "Etiquetas y buscador por tema", "Un mínimo de arranque acordado (por ejemplo, diez artículos)"]}, {"id": "m4", "code": "M4", "icon": "monitoring", "title": "Medición y capacitación", "price": 100, "short": "Para que lo puedas manejar sola, sin depender de nadie.", "bullets": ["Alta y verificación en Google Search Console", "Analítica para ver qué artículo te trae consultas", "Capacitación de una hora, grabada", "Manual en PDF para publicar sola"]}];
+  var selected = {};
+
+  function money(n) { return 'USD ' + n; }
+
+  function render() {
+    var html = '';
+    MODULES.forEach(function (m) {
+      html += '<div class="module-card" data-id="' + m.id + '">' +
+                '<div class="module-head">' +
+                  '<div>' +
+                    '<div class="module-code">' + m.code + '</div>' +
+                    '<h3 class="module-title">' + m.title + '</h3>' +
+                  '</div>' +
+                  '<span class="module-price">+ USD ' + m.price + '</span>' +
+                '</div>' +
+                '<p class="module-short">' + m.short + '</p>' +
+                '<ul class="module-bullets">' +
+                  m.bullets.map(function (b) { return '<li>' + b + '</li>'; }).join('') +
+                '</ul>' +
+              '</div>';
+    });
+    document.getElementById('modules').innerHTML = html;
+
+    Array.prototype.forEach.call(document.querySelectorAll('.module-card'), function (el) {
+      el.addEventListener('click', function () {
+        var id = el.getAttribute('data-id');
+        if (selected[id]) { delete selected[id]; } else { selected[id] = true; }
+        sync();
+      });
+    });
+  }
+
+  function sync() {
+    Array.prototype.forEach.call(document.querySelectorAll('.module-card'), function (el) {
+      el.classList.toggle('on', !!selected[el.getAttribute('data-id')]);
+    });
+
+    var total = Number(BASE);
+    var codes = [];
+    MODULES.forEach(function (m) {
+      if (selected[m.id]) { total += Number(m.price); codes.push(m.code); }
+    });
+
+    var totalEl = document.getElementById('total');
+    totalEl.textContent = money(total);
+    totalEl.classList.remove('pulse');
+    void totalEl.offsetWidth;
+    totalEl.classList.add('pulse');
+
+    document.getElementById('list').textContent =
+      codes.length ? 'Base + ' + codes.join(' + ') : 'Sitio base';
+
+    var eq = document.getElementById('equiv');
+    if (eq) {
+      var tc = Number(window.TIPO_CAMBIO || 0);
+      if (tc) {
+        eq.textContent = '≈ AR$ ' + Math.round(total * tc).toLocaleString('es-AR');
+      }
+    }
+  }
+
+  render();
+</script>
+</body>
+</html>

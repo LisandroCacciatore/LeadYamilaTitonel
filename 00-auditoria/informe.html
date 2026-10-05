@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Informe de Valor — Lic. Yamila Titonel</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+/* ==========================================================================
+   brand/brand.css — FUENTE ÚNICA DE LA IDENTIDAD VISUAL
+   Ningún template declara colores, fuentes ni medidas propias.
+   Si algo visual falta, se agrega ACÁ.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. TOKENS
+   -------------------------------------------------------------------------- */
+:root {
+  /* Marca */
+  --brand-default: #4A6770;
+  --brand-hover:   #3D545C;
+  --brand-soft:    #F0F4F6;
+
+  /* Texto */
+  --ink-title: #2C343C;
+  --ink-body:  #5A6672;
+  --ink-muted: #7A8794;
+
+  /* Líneas y superficies */
+  --line-default:    #E3E6EA;
+  --surface-default: #FFFFFF;
+  --surface-alt:     #F7F8FA;
+
+  /* Estados */
+  --success: #28A745;
+  --warning: #FFC107;
+  --error:   #DC3545;
+  --info:    #17A2B8;
+
+  /* Tipografía */
+  --font-sans: 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fs-sm:   0.875rem;
+  --fs-base: 1rem;
+  --fs-lg:   1.125rem;
+  --fs-xl:   1.25rem;
+  --fs-2xl:  1.5rem;
+  --fs-3xl:  1.875rem;
+  --fw-regular:   400;
+  --fw-medium:    500;
+  --fw-bold:      600;
+  --fw-extrabold: 800;
+
+  /* Espaciado (grid de 8px) */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+
+  /* Radios y sombras */
+  --radius-sm:   0.25rem;
+  --radius-md:   0.5rem;
+  --radius-lg:   1rem;
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24);
+  --shadow-md: 0 4px 6px rgba(0,0,0,.10), 0 2px 4px rgba(0,0,0,.06);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,.10), 0 4px 6px rgba(0,0,0,.08);
+}
+
+/* --------------------------------------------------------------------------
+   2. BASE
+   -------------------------------------------------------------------------- */
+html { font-size: 100%; box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: 1.6;
+  color: var(--ink-body);
+  background: var(--surface-alt);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 { color: var(--ink-title); margin: 0 0 var(--space-3); line-height: 1.25; }
+h1 { font-size: var(--fs-3xl); font-weight: var(--fw-extrabold); }
+h2 { font-size: var(--fs-xl);  font-weight: var(--fw-bold); }
+h3 { font-size: var(--fs-base); font-weight: var(--fw-bold); }
+p  { margin: 0 0 var(--space-4); }
+code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: var(--fs-sm);
+       background: var(--brand-soft); padding: 1px 5px; border-radius: var(--radius-sm); }
+ul, ol { margin: 0 0 var(--space-4); padding-left: var(--space-6); }
+li { margin-bottom: var(--space-2); }
+
+/* --------------------------------------------------------------------------
+   3. HEADER / FOOTER COMPARTIDOS
+   -------------------------------------------------------------------------- */
+.brand-header {
+  background: var(--brand-default);
+  color: var(--surface-default);
+}
+.brand-header-inner {
+  max-width: 210mm;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-6);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.brand-logo { width: 34px; height: 34px; display: block; flex: none; }
+.brand-logo svg { width: 100%; height: 100%; display: block; }
+.brand-info { display: flex; flex-direction: column; line-height: 1.2; }
+.brand-title { font-weight: var(--fw-bold); font-size: var(--fs-sm); }
+.brand-role  { font-size: var(--fs-sm); opacity: .75; }
+.brand-doc {
+  margin-left: auto;
+  font-size: var(--fs-sm);
+  opacity: .85;
+  text-align: right;
+}
+
+.brand-footer { background: var(--surface-default); border-top: 1px solid var(--line-default); }
+.brand-footer-inner {
+  max-width: 210mm;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-6);
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  font-size: var(--fs-sm);
+  color: var(--ink-muted);
+}
+
+/* --------------------------------------------------------------------------
+   4. LAYOUT DEL DOCUMENTO
+   -------------------------------------------------------------------------- */
+.content { max-width: 210mm; margin: 0 auto; padding: var(--space-8) var(--space-6); }
+.section { margin-bottom: var(--space-10); }
+.cover { text-align: center; padding: var(--space-12) 0; }
+.cover h1 { font-size: var(--fs-3xl); }
+.cover h2 { color: var(--brand-default); font-size: var(--fs-2xl); }
+.eyebrow {
+  display: inline-block;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--brand-default);
+  background: var(--brand-soft);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+}
+.lead { font-size: var(--fs-lg); color: var(--ink-body); }
+
+/* --------------------------------------------------------------------------
+   5. HALLAZGOS Y EVIDENCIA
+   -------------------------------------------------------------------------- */
+.finding {
+  background: var(--surface-default);
+  border: 1px solid var(--line-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-bottom: var(--space-3);
+}
+.finding-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+.finding-title { font-weight: var(--fw-bold); color: var(--ink-title); font-size: var(--fs-sm); }
+.finding p { margin: 0 0 var(--space-3); font-size: var(--fs-sm); }
+.finding-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  border-top: 1px solid var(--line-default);
+  padding-top: var(--space-3);
+  font-size: var(--fs-sm);
+  color: var(--ink-muted);
+}
+.finding-meta strong { color: var(--ink-title); }
+.finding-meta .tag { margin-left: auto; }
+
+.tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+  background: var(--brand-soft);
+  color: var(--brand-default);
+}
+.tag-medido    { background: rgba(40,167,69,.12);   color: #1E7E34; }
+.tag-inferible { background: rgba(23,162,184,.12);  color: #11707F; }
+.tag-noverif   { background: rgba(220,53,69,.10);   color: #A71D2A; }
+
+.evidence { font-size: var(--fs-sm); }
+
+/* Callout oscuro (costo de no hacer nada) */
+.callout {
+  background: var(--ink-title);
+  color: var(--surface-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+}
+.callout .callout-label {
+  font-size: 0.7rem; font-weight: var(--fw-bold); text-transform: uppercase;
+  letter-spacing: .08em; opacity: .6; margin-bottom: var(--space-3);
+}
+.callout .callout-strong { font-size: var(--fs-2xl); font-weight: var(--fw-bold); margin-bottom: var(--space-3); }
+.callout .callout-note { font-size: var(--fs-sm); opacity: .7; margin: 0; }
+
+/* --------------------------------------------------------------------------
+   6. TABLAS Y PRECIOS
+   -------------------------------------------------------------------------- */
+.price-table { width: 100%; border-collapse: collapse; margin: var(--space-4) 0; font-size: var(--fs-sm); }
+.price-table th, .price-table td {
+  border: 1px solid var(--line-default);
+  padding: var(--space-3);
+  text-align: left;
+}
+.price-table th { background: var(--surface-alt); font-weight: var(--fw-bold); color: var(--ink-title); }
+.price-table td:nth-child(2) { white-space: nowrap; font-weight: var(--fw-bold); color: var(--ink-title); }
+
+.base-card {
+  background: var(--surface-default);
+  border: 2px solid var(--brand-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-bottom: var(--space-3);
+  position: relative;
+}
+.base-flag {
+  position: absolute; top: 0; right: 0;
+  background: var(--brand-default); color: var(--surface-default);
+  font-size: 0.65rem; font-weight: var(--fw-bold); text-transform: uppercase;
+  letter-spacing: .08em; padding: 4px 10px; border-radius: 0 var(--radius-lg) 0 var(--radius-lg);
+}
+.base-head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-4); margin-bottom: var(--space-3); }
+.base-label { font-size: 0.7rem; font-weight: var(--fw-bold); text-transform: uppercase; letter-spacing: .08em; color: var(--brand-default); }
+.base-price { font-weight: var(--fw-bold); color: var(--ink-title); white-space: nowrap; }
+
+/* --------------------------------------------------------------------------
+   7. SELECTOR INTERACTIVO
+   -------------------------------------------------------------------------- */
+.module-card {
+  background: var(--surface-default);
+  border: 1px solid var(--line-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-bottom: var(--space-3);
+  cursor: pointer;
+  transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease;
+}
+.module-card:hover { box-shadow: var(--shadow-sm); }
+.module-card.on { border: 2px solid var(--brand-default); background: var(--brand-soft); }
+.module-head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-4); margin-bottom: var(--space-2); }
+.module-code { font-size: 0.7rem; font-weight: var(--fw-bold); text-transform: uppercase; letter-spacing: .08em; color: var(--brand-default); }
+.module-title { font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--ink-title); margin: 0; }
+.module-price { font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--ink-title); white-space: nowrap; }
+.module-short { font-size: var(--fs-sm); margin-bottom: var(--space-2); }
+.module-bullets { list-style: none; padding: 0; margin: 0; font-size: var(--fs-sm); color: var(--ink-muted); }
+.module-bullets li { margin-bottom: 2px; }
+.module-bullets li::before { content: '· '; }
+
+.total-bar {
+  position: sticky;
+  bottom: var(--space-4);
+  background: var(--ink-title);
+  color: var(--surface-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+}
+.total-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: .08em; opacity: .6; }
+.total-value { font-size: var(--fs-2xl); font-weight: var(--fw-bold); }
+.total-list  { font-size: var(--fs-sm); opacity: .75; margin-top: 2px; }
+.total-value.pulse { animation: pulse .35s ease; }
+@keyframes pulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.07); color: var(--brand-soft); }
+  100% { transform: scale(1); }
+}
+
+/* --------------------------------------------------------------------------
+   8. BOTONES
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-block;
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease;
+}
+.btn-light { background: var(--surface-default); color: var(--ink-title); }
+.btn-light:hover { background: var(--brand-soft); }
+.btn-ghost { background: transparent; color: var(--brand-default); text-transform: none; letter-spacing: 0; padding: var(--space-1); }
+
+/* --------------------------------------------------------------------------
+   9. ALCANCE
+   -------------------------------------------------------------------------- */
+.scope {
+  background: var(--surface-alt);
+  border: 1px solid var(--line-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+.scope-label { font-size: 0.7rem; font-weight: var(--fw-bold); text-transform: uppercase; letter-spacing: .08em; color: var(--ink-muted); margin-bottom: var(--space-3); }
+.scope ul { list-style: none; padding: 0; margin: 0; font-size: var(--fs-sm); }
+.scope li { display: flex; gap: var(--space-2); margin-bottom: var(--space-2); }
+.scope .yes { color: var(--brand-default); }
+.scope .no  { color: var(--ink-muted); }
+
+/* --------------------------------------------------------------------------
+   10. PRIORIDAD DE HALLAZGOS
+   -------------------------------------------------------------------------- */
+.tag-prio-alta  { background: rgba(220,53,69,.12);  color: #A71D2A; }
+.tag-prio-media { background: rgba(255,193,7,.20);  color: #8A6100; }
+.tag-prio-baja  { background: rgba(122,135,148,.16); color: #5A6672; }
+
+/* --------------------------------------------------------------------------
+   11. COMPARATIVO VERIFICADO
+   -------------------------------------------------------------------------- */
+.compare-table { width: 100%; border-collapse: collapse; margin: var(--space-4) 0; font-size: 0.76rem; }
+.compare-table th, .compare-table td {
+  border: 1px solid var(--line-default);
+  padding: 5px 7px;
+  text-align: left;
+  vertical-align: top;
+}
+.compare-table th { background: var(--surface-alt); font-weight: var(--fw-bold); color: var(--ink-title); }
+.compare-table .row-client { background: var(--brand-soft); font-weight: var(--fw-bold); }
+.compare-table .ok   { color: #1E7E34; font-weight: var(--fw-bold); }
+.compare-table .bad  { color: #A71D2A; font-weight: var(--fw-bold); }
+.compare-table .meh  { color: var(--ink-muted); }
+.evsrc { font-size: 0.72rem; color: var(--ink-muted); margin: var(--space-2) 0 0; }
+
+/* --------------------------------------------------------------------------
+   12. INDICADORES
+   -------------------------------------------------------------------------- */
+.kpi-row { display: flex; gap: var(--space-3); margin: var(--space-4) 0; }
+.kpi {
+  flex: 1;
+  background: var(--surface-default);
+  border: 1px solid var(--line-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  text-align: center;
+}
+.kpi__value { display: block; font-size: var(--fs-2xl); font-weight: var(--fw-extrabold); color: var(--ink-title); }
+.kpi__label { display: block; font-size: 0.68rem; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-muted); margin-top: 2px; }
+
+/* --------------------------------------------------------------------------
+   13. CITA Y VOZ DEL CLIENTE
+   -------------------------------------------------------------------------- */
+.quote {
+  background: var(--surface-default);
+  border-left: 3px solid var(--brand-default);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: var(--space-4) var(--space-5);
+  margin: 0 0 var(--space-3);
+  font-style: italic;
+  color: var(--ink-title);
+}
+.quote__who { display: block; font-style: normal; font-size: 0.78rem; color: var(--ink-muted); margin-top: var(--space-2); }
+
+/* Bloque de datos por confirmar (lo que no puedo verificar) */
+.todo {
+  background: var(--surface-alt);
+  border: 1px dashed var(--line-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+.todo ul { margin: 0; font-size: var(--fs-sm); }
+
+/* --------------------------------------------------------------------------
+   14. LAYOUT DE LA PROPUESTA COMERCIAL
+   La propuesta es una página web que se lee en pantalla y también se imprime.
+   Sólo se declaran acá la disposición y los ritmos; los colores son los tokens.
+   -------------------------------------------------------------------------- */
+.band { background: var(--surface-default); border-top: 1px solid var(--line-default); border-bottom: 1px solid var(--line-default); }
+.band--ink { background: var(--ink-title); color: var(--surface-default); border: none; }
+.band--ink h1, .band--ink h2, .band--ink h3 { color: var(--surface-default); }
+.band--soft { background: var(--brand-soft); }
+.wrap { max-width: 210mm; margin: 0 auto; padding: var(--space-8) var(--space-6); }
+.wrap--tight { padding: var(--space-6) var(--space-6); }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); }
+.hero-h1 { font-size: 2.25rem; line-height: 1.15; font-weight: var(--fw-extrabold); letter-spacing: -0.01em; }
+.cta-row { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-5); }
+.btn-ink { background: var(--ink-title); color: var(--surface-default); }
+.btn-ink:hover { background: var(--brand-default); }
+.btn-brand { background: var(--brand-default); color: var(--surface-default); }
+.btn-brand:hover { background: var(--brand-hover); }
+.btn-wa { background: #128C7E; color: #FFFFFF; }
+.btn-wa:hover { background: #0E6E63; }
+.step-list { counter-reset: paso; list-style: none; padding: 0; }
+.step-list li { counter-increment: paso; position: relative; padding-left: var(--space-8); margin-bottom: var(--space-4); }
+.step-list li::before {
+  content: counter(paso);
+  position: absolute; left: 0; top: 0;
+  width: 22px; height: 22px; border-radius: var(--radius-full);
+  background: var(--brand-default); color: var(--surface-default);
+  font-size: 0.72rem; font-weight: var(--fw-bold);
+  display: flex; align-items: center; justify-content: center;
+}
+.shot {
+  border: 1px solid var(--line-default);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--surface-alt);
+}
+.shot img { display: block; width: 100%; height: auto; }
+.shot__cap { font-size: 0.72rem; color: var(--ink-muted); padding: var(--space-2) var(--space-3); border-top: 1px solid var(--line-default); background: var(--surface-default); }
+
+/* La propuesta también se imprime: sin barra fija, sin saltos raros. */
+@media print {
+  .no-print { display: none !important; }
+  .total-bar { position: static; }
+  .band, .band--ink, .band--soft { break-inside: avoid; }
+  .wrap { padding: 0 0 var(--space-6); max-width: none; }
+  body { background: #FFFFFF; }
+  a[href^="http"]::after { content: ""; }
+}
+
+/* Las reglas de impresión viven en templates/print.css.
+   brand.css define la marca; el layout de hoja es responsabilidad del template. */
+
+/* Identidad del cliente: el color lo pone su config, no el sistema */
+:root {
+  --brand-default: #2f6b4f;
+  --brand-hover:   #275A42;
+  --brand-soft:    #EEF3F1;
+}
+
+/* ==========================================================================
+   templates/print.css — LAYOUT DE HOJAS PARA EL INFORME
+   No define marca: usa los tokens de brand.css, que se inyecta antes.
+
+   MODELO DE PAGINADO (portado de ~/propuestas/print.js, que ya funciona)
+   Chrome no soporta las cajas de margen de @page (@top-left, @bottom-right) y
+   `position: fixed` en impresión se encima sobre el contenido. Así que acá NO
+   hay position:fixed ni cajas de margen:
+
+     - cada hoja es un <div class="page"> de 210x296mm
+     - el membrete y el pie van DENTRO de cada hoja, como bloques del flujo
+     - el paginador (print.js) llena cada cuerpo midiendo el desborde real
+
+   296mm y no 297: con 297 Chrome agrega una hoja en blanco al final.
+   ========================================================================== */
+
+@page { size: A4; margin: 0; }
+
+html, body { margin: 0; padding: 0; background: #fff; }
+
+/* ---------- La hoja ---------- */
+
+.page {
+  width: 210mm;
+  height: 296mm;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-default);
+  page-break-after: always;
+  break-after: page;
+  position: relative;
+}
+.page:last-child { page-break-after: auto; break-after: auto; }
+
+.page__body {
+  flex: 1 1 auto;
+  overflow: hidden;
+  padding: 6mm 14mm 4mm;
+}
+
+/* ---------- Portada (sin membrete ni pie) ---------- */
+
+.page--cover { justify-content: center; }
+
+.cover { padding: 0 20mm; }
+.cover__brand-name { font-weight: var(--fw-bold); color: var(--brand-default); }
+.cover__label {
+  font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: .08em;
+  color: var(--ink-muted); float: right;
+}
+.cover__eyebrow {
+  font-size: var(--fs-sm); font-weight: var(--fw-bold); text-transform: uppercase;
+  letter-spacing: .1em; color: var(--brand-default); margin-bottom: var(--space-3);
+}
+.cover__title { font-size: 34pt; line-height: 1.1; margin: 0 0 var(--space-4); }
+.cover__subtitle { font-size: var(--fs-lg); color: var(--ink-body); margin-bottom: var(--space-8); }
+.cover__client {
+  border-left: 3px solid var(--brand-default);
+  padding: var(--space-2) 0 var(--space-2) var(--space-4);
+  margin-bottom: var(--space-10);
+}
+.cover__client-label {
+  font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-muted);
+}
+.cover__client-name { font-size: var(--fs-2xl); font-weight: var(--fw-bold); color: var(--ink-title); }
+.cover__client-sub { color: var(--ink-body); }
+.cover__meta {
+  display: flex; gap: var(--space-8); flex-wrap: wrap;
+  border-top: 1px solid var(--line-default); padding-top: var(--space-4);
+  font-size: var(--fs-sm); color: var(--ink-muted);
+}
+.cover__meta strong { display: block; color: var(--ink-title); }
+
+/* ---------- Encabezado de sección ---------- */
+
+.sec-head {
+  display: flex; align-items: baseline; gap: var(--space-3);
+  border-bottom: 2px solid var(--brand-default);
+  padding-bottom: var(--space-2); margin-bottom: var(--space-5);
+}
+.sec-num {
+  font-size: var(--fs-sm); font-weight: var(--fw-extrabold);
+  color: var(--brand-default); letter-spacing: .08em;
+}
+.sec-title { margin: 0; font-size: var(--fs-2xl); }
+.sec-sub {
+  font-size: var(--fs-sm); font-weight: var(--fw-bold); text-transform: uppercase;
+  letter-spacing: .08em; color: var(--brand-default);
+  margin: var(--space-5) 0 var(--space-3);
+}
+.sec-lead { font-size: var(--fs-base); color: var(--ink-body); margin-bottom: var(--space-5); }
+.cont-label {
+  font-size: .7rem; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--ink-muted); margin-bottom: var(--space-3);
+}
+
+/* ---------- Índice ---------- */
+
+.toc { list-style: none; padding: 0; margin: 0; }
+.toc li {
+  border-bottom: 1px dotted var(--line-default);
+  padding: var(--space-2) 0;
+}
+.toc a { text-decoration: none; display: flex; gap: var(--space-3); }
+.toc__item-name { flex: 1; color: var(--ink-title); font-weight: var(--fw-medium); }
+.toc__item-page { color: var(--brand-default); font-weight: var(--fw-bold); white-space: nowrap; }
+
+/* ---------- Aceptación (firma) ---------- */
+
+.sig-intro { font-size: var(--fs-sm); margin-bottom: var(--space-5); }
+.sig-terms {
+  background: var(--surface-alt); border: 1px solid var(--line-default);
+  border-radius: var(--radius-md); padding: var(--space-4);
+  font-size: var(--fs-sm); color: var(--ink-body); margin-bottom: var(--space-8);
+}
+.sig-grid { display: flex; gap: var(--space-10); }
+.sig-col { flex: 1; }
+.sig-role {
+  font-size: .7rem; font-weight: var(--fw-bold); text-transform: uppercase;
+  letter-spacing: .08em; color: var(--ink-muted); margin-bottom: var(--space-8);
+}
+.sig-line { border-bottom: 1px solid var(--ink-title); height: 20mm; }
+.sig-image { height: 20mm; }
+.sig-name { font-weight: var(--fw-bold); color: var(--ink-title); margin-top: var(--space-2); }
+.sig-detail { font-size: var(--fs-sm); color: var(--ink-muted); }
+.footnote { font-size: var(--fs-sm); color: var(--ink-muted); margin-top: var(--space-8); }
+
+/* ---------- Error visible (el documento roto tiene que gritarlo) ---------- */
+
+.banner {
+  background: var(--error); color: #fff; padding: var(--space-4);
+  font-weight: var(--fw-bold); font-size: var(--fs-sm);
+}
+
+/* ---------- Pantalla: las hojas se ven apiladas ---------- */
+
+@media screen {
+  body { background: var(--surface-alt); padding: var(--space-6) 0; }
+  .page { box-shadow: var(--shadow-md); margin: 0 auto var(--space-6); }
+  .toolbar {
+    position: fixed; top: var(--space-3); right: var(--space-3); z-index: 50;
+  }
+}
+
+@media print {
+  .no-print { display: none !important; }
+}
+
+/* ---------- El margen del último bloque no cuenta como alto de hoja ----------
+   Un bloque con margin-bottom en el cierre de la hoja sumaba 11-15px de alto
+   scrolleable sin que nada se viera cortado, y el auto-chequeo del paginador lo
+   reportaba como desborde. El margen no aporta nada al final de una hoja:
+   vale para el último bloque y para el último hijo dentro de él (listas, párrafos). */
+
+.page__body > *:last-child,
+.page__body > *:last-child > *:last-child { margin-bottom: 0; }
+
+</style>
+</head>
+<!--
+  Este informe NO usa @page para el membrete ni position:fixed.
+
+  Chrome no soporta las cajas de margen de @page (@top-left, @bottom-right) y
+  con position:fixed el membrete y el pie se encimaban sobre el contenido.
+
+  Acá pagina print.js: cada hoja es un <div class="page"> de 210x296mm con el
+  membrete y el pie ADENTRO, y el contenido se reparte midiendo el desborde real
+  contra la altura útil (con un margen de seguridad calibrado de 14mm).
+-->
+<body>
+<div class="toolbar no-print">
+  <button class="btn btn-light" onclick="window.print()">Guardar PDF</button>
+</div>
+
+<div id="doc"></div>
+
+<script>
+  window.CLIENT_CONFIG = {"meta": {"nombre": "Lic. Yamila Titonel", "matricula": "Nutricionista · consulta online y presencial", "profesion": "Nutrición · @nutricionyat", "rubro": "Nutrición · consulta online y presencial", "fecha": "5 de octubre de 2026", "validez": "4 de noviembre de 2026", "url": "tu bio de Instagram (@nutricionyat)"}, "author": {"nombre": "Lisandro Cacciatore", "email": "lisandrocacciatore@gmail.com"}, "branding": {"colorPrimario": "#2f6b4f", "logo": "", "firma": ""}, "costoMensual": "", "baseCalculo": "", "comparativos": 0, "salida": {"slug": "yamila-titonel"}, "verificacionPDF": {"datos": ["@nutricionyat"], "hojas": [9, 14]}, "propuesta": {"saludo": "Yamila", "heroTitulo": "Tu bio trabaja para otros.<br>Una web propia trabaja para vos.", "heroLead": "Yamila: revisé los veinte links de tu bio y los medí uno por uno. Dieciocho van a marcas ajenas; tres llevan a tus turnos, y están abajo de todos. Ninguno va a un sitio tuyo, y ninguna de esas visitas te deja un contacto.", "comparativoTitulo": "Comparado con lo que hoy te ofrecen las agencias del rubro", "comparativoCierre": "Tu bio hoy cobra por otros: de veinte links, dieciocho van a marcas que te pagan por recomendarlas, y el botón que sí te trae pacientes es uno de tres y está abajo de todos. Una web propia no tiene competencia adentro: el botón de agendar es el único que hay.", "costoNota": "en la llamada lo validamos con tus números reales, que yo no veo.", "propuestaTitulo": "Un sitio tuyo, con tu agenda a un toque", "propuestaIntro": "La base es dejar de vivir en plataformas ajenas: tus secciones con tu nombre, tus servicios y tus turnos, y el botón de agendar siempre a la vista. El blog con SEO, GEO y AEO es el escalón siguiente, y se cotiza aparte.", "baseLabel": "Base — Sitio propio en tu dominio", "preguntasTitulo": "Datos que sólo tenés vos", "cierreTitulo": "Nos sentamos veinte minutos", "cierreBody": "Mirá el sitio primero con calma, y también en el celular, que es donde va a entrar la mayoría de la gente. Después nos sentamos veinte minutos y cerramos tres cosas: los datos y las fotos reales, a qué correo querés que lleguen las consultas, y si arrancamos sólo con el sitio o con el blog también.", "conversionTitulo": "Cómo se ubica el número", "informeLead": "Un sitio propio con tu agenda a la vista, y el blog con SEO, GEO y AEO como escalón siguiente."}, "callout": {"label": "Lo que hoy ya se mide", "strong": "18 de los 20 links de tu bio trabajan para otras marcas.", "note": "Medido sobre tu bio publicada el 3 de octubre de 2026. Tus turnos compiten por el mismo dedo que esos dieciocho links, y quedan abajo de todos. · [MEDIDO]"}, "conversion": {"tipoCambio": 1539.6, "tipoCambioFecha": "5 de octubre de 2026", "tipoCambioFuente": "dolarapi.com (dólar bolsa, venta)", "tipoCambioDetalle": "USD 1 = AR$ 1.539,60", "tarifaSesion": 40000, "unidad": "consultas", "referenciaEtiqueta": "el orden de magnitud de tu consulta, que usamos como referencia", "cierre": "<p class=\"evsrc\">El pack completo ({total}) se paga con {unidades} {unidad}.<\/p>\n    <p class=\"evsrc\">[INFERIBLE] El valor de tu consulta no está publicado: lo tomamos como orden de magnitud y lo confirmamos en la llamada. La cantidad de {unidad} equivalentes, en cambio, es aritmética sobre ese valor.<\/p>"}, "hallazgos": [{"prioridad": "alta", "tipo": "[MEDIDO]", "titulo": "Dieciocho de los veinte links de tu bio trabajan para otras marcas", "descripcion": "Fabletics, Babbel, Headspace, Talkspace, HelloFresh, Factor75, Gobble, Maev, Daily Harvest, Purple Carrot, Clearstem, ARMR A, Omnilux, The Zero Proof, Equip Foods, JLab y Upside: dieciocho de los veinte links de tu bio llevan a marcas ajenas. Tu bio monetiza para terceros antes que para vos.", "impacto": "Cada visita que llega buscando tu trabajo se va a una marca que no te deja el contacto."}, {"prioridad": "alta", "tipo": "[MEDIDO]", "titulo": "Los únicos tres links a tus turnos están abajo de los dieciocho primeros", "descripcion": "Los tres links que llevan a Docturno —donde se reserva tu consulta— compiten por el mismo dedo contra los dieciocho anteriores, y quedan abajo de todos. El que entra decidido a agendar tiene que atravesar el catálogo de marcas antes de encontrarte.", "impacto": "La acción que te trae pacientes es la menos visible de tu bio."}, {"prioridad": "alta", "tipo": "[MEDIDO]", "titulo": "Ningún link de tu bio va a un sitio tuyo", "descripcion": "Cero. Todo lo que publicás vive en plataformas que no controlás: si mañana cambian las reglas, no queda nada tuyo. No hay un dominio propio donde recibir a nadie.", "impacto": "Sin dominio propio no hay activo: no podés mudar tu contenido, ni llevarte tus métricas, ni aparecer en Google como marca."}, {"prioridad": "media", "tipo": "[MEDIDO]", "titulo": "Ninguna de esas visitas te deja un contacto", "descripcion": "No hay forma de capturar un email ni un teléfono en ningún punto del recorrido. A las 420.000 personas que te siguen las alcanzás sólo si el algoritmo quiere ese día.", "impacto": "Sin lista propia, cada cambio de alcance te borra el canal entero: no tenés a quién avisarle."}], "comparativo": {"intro": "Comparado con una agencia que hace webs para profesionales de la salud. La columna «Esta propuesta» está verificada sobre el sitio ya publicado; los rangos y extras de la columna «Agencia» son orientativos de mercado y no provienen de una fuente publicada: van como orden de magnitud, no como cotización.", "medidoEl": "5 de octubre de 2026", "mostrarEnInforme": false, "columnas": ["Qué incluye", "Agencia", "Esta propuesta"], "filas": [{"celdas": ["Diseño a medida, celular y escritorio", "sí", "Incluido"]}, {"celdas": ["Siete páginas más la de error 404", "sí", "Incluido"]}, {"celdas": ["SEO básico: títulos y descripciones", "sí", "Incluido"]}, {"celdas": ["WhatsApp con mensaje según la sección", "costo aparte (≈ USD 150)", "Incluido"]}, {"celdas": ["Contraste y accesibilidad verificados", "no", "Incluido"]}, {"celdas": ["Navegación de celular con el agendar siempre visible", "costo aparte (≈ USD 120)", "Incluido"]}, {"celdas": ["Comprobación automática antes de publicar", "no", "Incluido"]}, {"celdas": ["Capacitación para editar sin romper nada", "costo aparte (≈ USD 100)", "Incluido"]}, {"celdas": ["Apuntado de dominio y verificación en vivo", "a veces", "Incluido"]}, {"celdas": ["Sin costo mensual de plataforma", "no", "Incluido"]}], "nota": "La base de una agencia arranca en el orden de USD 350 a 900 según el alcance, y cada extra se cobra aparte. Para nutricionistas existen además opciones freelance más baratas, del orden de USD 100 a 500, que no están en esta tabla: si te las ofrecen, compará ítem por ítem con esta columna.", "kpis": [{"valor": "18", "label": "links de marcas ajenas en tu bio"}, {"valor": "3", "label": "links a tus propios turnos"}, {"valor": "0", "label": "links a un sitio tuyo"}, {"valor": "0", "label": "formas de capturar un contacto"}, {"valor": "420.000", "label": "seguidores que dependen del algoritmo"}]}, "modulos": [{"id": "m1", "code": "M1", "icon": "edit_note", "title": "Blog con SEO", "price": 180, "short": "Que te encuentren cuando te buscan, con artículos propios.", "bullets": ["Cada artículo con su título, su descripción y su dirección propia", "Panel de edición visual: escribís y publicás sin tocar código", "Tus recetas de Instagram se vuelven artículos que siguen sumando visitas meses después", "Mapa del sitio y alta del blog en Google"]}, {"id": "m2", "code": "M2", "icon": "neurology", "title": "GEO y AEO: que las IA te nombren y Google te responda", "price": 150, "short": "Cada vez más gente le pregunta a una IA qué nutricionista recomendar.", "bullets": ["Cada artículo publicado en el formato que usan los asistentes de IA", "Archivo llms.txt para que las IA lean tu sitio ordenado", "Estructura de respuesta corta: el recuadro de arriba de todo se lo lleva quien la tiene", "Perfil de negocio alineado con lo que dicen tus artículos"]}, {"id": "m3", "code": "M3", "icon": "move_to_inbox", "title": "Migración de tus contenidos", "price": 120, "short": "Tus recetas y notas, adentro de tu sitio y con tu autoría.", "bullets": ["Traslado de tus publicaciones reales a artículos con autoría", "Sin inventar métricas ni testimonios", "Etiquetas y buscador por tema", "Un mínimo de arranque acordado (por ejemplo, diez artículos)"]}, {"id": "m4", "code": "M4", "icon": "monitoring", "title": "Medición y capacitación", "price": 100, "short": "Para que lo puedas manejar sola, sin depender de nadie.", "bullets": ["Alta y verificación en Google Search Console", "Analítica para ver qué artículo te trae consultas", "Capacitación de una hora, grabada", "Manual en PDF para publicar sola"]}], "nextSteps": ["Confirmar los datos y las fotos reales, que sólo tenés vos: matrícula, sedes, WhatsApp de contacto y testimonios con autorización de cada paciente.", "Nos sentamos veinte minutos para cerrar el alcance: sólo el sitio, o sitio más blog.", "Carga de tus datos reales y apuntado de tu dominio propio, con publicación de prueba para mirar desde el celular.", "Verificación en vivo, capacitación de una hora grabada y entrega del manual para publicar sola."], "preguntasAbiertas": ["¿Qué matrícula y qué sedes querés publicar?", "¿A qué correo querés que lleguen las consultas?", "¿Qué fotos tuyas en buena calidad usamos? Las de Instagram sirven si están en resolución original.", "¿Tenés testimonios con autorización de cada paciente para publicar?"], "base": {"precio": 350, "items": ["Sitio publicado en tu dominio, con tu nombre y tu matrícula", "Siete páginas más la de error 404: inicio, sobre mí, servicios, recetas, testimonios, contacto y sistema de diseño", "Botón de WhatsApp con el mensaje ya escrito según la sección", "Navegación de celular propia, con el botón de agendar siempre a la vista", "Contraste medido y corregido: 17 pares verificados, 16 dentro del mínimo de accesibilidad", "Títulos y descripciones para buscadores, más mapa del sitio", "Tus datos reales cargados y tu dominio apuntado", "Comprobación automática de todas las rutas antes de cada publicación", "Verificación final en vivo, con vos mirando"]}, "sinIncluir": ["Las automatizaciones (agenda online, recordatorios por WhatsApp, formulario con backend real): se suman cuando estén probadas, y ahí se cotizan", "Producción de contenido nuevo más allá de la migración acordada", "Fotografía profesional: sirven las que ya tenés, en buena calidad", "Campañas publicitarias pagas ni gestión de redes sociales", "Costo mensual de plataforma: el sitio es estático y no tiene", "Testimonios sin autorización de cada paciente"], "alcance": ["✓ Revisé tu bio de Instagram el 3 de octubre de 2026 y conté, uno por uno, los links publicados: veinte en total, dieciocho a marcas ajenas, tres a tus turnos y cero a un sitio propio.", "✓ Verifiqué el sitio ya construido: las rutas responden y el contraste está medido (17 pares, 16 dentro del mínimo de accesibilidad).", "✗ No tengo acceso a tus métricas de Instagram: no sé cuántas visitas recibe tu bio ni cuántas se convierten, y no lo estimo.", "✗ Los rangos de agencia de la comparación son orientativos de mercado: no provienen de una fuente publicada.", "✗ No revisé tu facturación ni tu agenda real.", "✗ No revisé tus otras redes ni tu perfil de Google."]};
+  window.BRAND_PARTS = { header: "<header class=\"brand-header\">\n  <div class=\"brand-header-inner\">\n    <span class=\"brand-logo\"><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#4A6770\"/>\n  <circle cx=\"32\" cy=\"32\" r=\"28\" fill=\"white\"/>\n  <text x=\"50%\" y=\"50%\" dominant-baseline=\"middle\" text-anchor=\"middle\" fill=\"#4A6770\" font-size=\"24\" font-family=\"Montserrat,Arial,sans-serif\">LC<\/text>\n<\/svg><\/span>\n    <span class=\"brand-info\">\n      <span class=\"brand-title\">Lisandro Cacciatore<\/span>\n      <span class=\"brand-role\">Consultor de IA<\/span>\n    <\/span>\n    <span class=\"brand-doc\">Lic. Yamila Titonel<\/span>\n  <\/div>\n<\/header>", footer: "<footer class=\"brand-footer\">\n  <div class=\"brand-footer-inner\">\n    <span><strong>Lisandro Cacciatore<\/strong> · Consultor de IA<\/span>\n    <span class=\"brand-footer-meta\">lisandrocacciatore@gmail.com · 5 de octubre de 2026<\/span>\n  <\/div>\n<\/footer>" };
+</script>
+<script>
+/* ==========================================================================
+   templates/print.js · Paginador del informe
+
+   PORTADO de ~/propuestas/print.js, que ya funciona. Lo que cambia:
+   - lee el esquema de config unificado (meta / hallazgos / modulos / nextSteps)
+     en vez del esquema viejo (hero / modules / pricingContext)
+   - el config y los fragmentos de marca llegan ya inyectados por generate.py
+     (window.CLIENT_CONFIG y window.BRAND_PARTS), así funciona desde file://
+     sin fetch y el informe queda en un solo archivo
+   - usa las clases de brand.css (.finding, .price-table, .callout, .base-card,
+     .scope, .brand-header, .brand-footer). No inventa estilos de marca.
+
+   NO cambiar el paginador: cada hoja es un <div class="page"> de 210x296mm con
+   membrete y pie ADENTRO, y el contenido se reparte midiendo el desborde real.
+   ========================================================================== */
+
+(function () {
+  'use strict';
+
+  var params = new URLSearchParams(location.search);
+  var cfg = window.CLIENT_CONFIG || null;
+  var BRAND = window.BRAND_PARTS || { header: '', footer: '' };
+
+  var docEl = function () { return document.getElementById('doc'); };
+  var money = function (n) { return 'USD ' + Number(n || 0).toLocaleString('es-AR'); };
+  var esc = function (s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  };
+  function el(tag, cls, html) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (html != null) n.innerHTML = html;
+    return n;
+  }
+
+  // Sin no-print: si el documento falla, el PDF tiene que decirlo.
+  function banner(msg) {
+    var d = el('div', 'banner', 'Error al armar el documento: ' + esc(msg));
+    document.body.appendChild(d);
+  }
+
+  // ---------------- Importes (calculados, nunca escritos a mano) ----------------
+
+  function priceOf(m) { return Number(m.price || 0); }
+
+  function totals() {
+    var base = Number((cfg.base || {}).precio || 0);
+    var mods = cfg.modulos || [];
+    var sum = mods.reduce(function (a, m) { return a + priceOf(m); }, 0);
+    var pack = Math.round((base + sum) * 0.85 / 5) * 5;
+    var p = mods.map(priceOf);
+    var combo2 = base + (p[0] || 0) + (p[1] || 0);
+    var combo3 = combo2 + (p[2] || 0);
+    return { base: base, sum: sum, total: base + sum, pack: pack, combo2: combo2, combo3: combo3 };
+  }
+
+  // ---------------- Paginador ----------------
+
+  var sheets = [];
+  var body = null;
+  var contLabel = '';
+
+  function emptySheet() {
+    var p = el('div', 'page');
+    p.innerHTML = (BRAND.header || '') +
+      '<div class="page__body"></div>' +
+      (BRAND.footer || '');
+    docEl().appendChild(p);
+    sheets.push(p);
+    p.id = 'hoja-' + sheets.length;
+    return p;
+  }
+
+  function openSheet(label) {
+    contLabel = label || '';
+    var p = emptySheet();
+    body = p.querySelector('.page__body');
+    if (contLabel) body.appendChild(el('div', 'cont-label', esc(contLabel)));
+    return body;
+  }
+
+  /**
+   * ¿El cuerpo de la hoja se desborda?
+   * scrollHeight > clientHeight no alcanza: no incluye el margen inferior del
+   * último hijo y subestima con grillas. Se mide además la caja real de cada
+   * hijo, y se exige el margen de seguridad (la media de impresión no coincide
+   * con la de pantalla, así que algo que "entra raspando" sale cortado).
+   */
+  function overflows(clear) {
+    if (!body) return false;
+    if (body.scrollHeight > body.clientHeight + 1) return true;
+    var limit = body.getBoundingClientRect().bottom - (clear || 0);
+    for (var i = 0; i < body.children.length; i++) {
+      if (body.children[i].getBoundingClientRect().bottom > limit + 1) return true;
+    }
+    return false;
+  }
+
+  // 14mm: umbral medido entre 8 y 12. Ajustable con ?clear=<mm> para calibrar.
+  var CLEARANCE_PX = Number(params.get('clear') || 14) * 3.7795;
+
+  function tryFit(node) {
+    if (!body) openSheet();
+    body.appendChild(node);
+    if (overflows(CLEARANCE_PX)) { body.removeChild(node); return false; }
+    return true;
+  }
+
+  function place(node, label) {
+    if (!tryFit(node)) { openSheet(label || contLabel); tryFit(node); }
+  }
+
+  function flow(nodes, label) {
+    nodes.forEach(function (n) { place(n, label); contLabel = label; });
+  }
+
+  // ---------------- Bloques ----------------
+
+  function secHead(num, title) {
+    return el('div', 'sec-head',
+      '<span class="sec-num">' + esc(num) + '</span><h2 class="sec-title">' + esc(title) + '</h2>');
+  }
+
+  function findingCard(h) {
+    var tipo = String(h.tipo || '[MEDIDO]');
+    var cls = tipo.indexOf('INFERIBLE') >= 0 ? 'tag-inferible' : 'tag-medido';
+    var prio = String(h.prioridad || '').toLowerCase();
+    var prioTag = prio
+      ? '<span class="tag tag-prio-' + esc(prio) + '">Prioridad ' + esc(prio) + '</span>'
+      : '';
+    return el('div', 'finding',
+      '<div class="finding-head">' +
+        '<span class="tag ' + cls + '">' + esc(tipo) + '</span>' +
+        prioTag +
+        '<span class="finding-title">' + esc(h.titulo) + '</span>' +
+      '</div>' +
+      '<p>' + esc(h.descripcion) + '</p>' +
+      '<div class="finding-meta">' +
+        '<span>Impacto estimado: <strong>' + esc(h.impacto) + '</strong></span>' +
+        '<span class="tag">[INFERIBLE]</span>' +
+      '</div>');
+  }
+
+  function callout(label, paragraphs) {
+    return el('div', 'callout',
+      '<div class="callout-label">' + esc(label) + '</div>' +
+      paragraphs.map(function (p) { return '<p class="callout-note">' + esc(p) + '</p>'; }).join(''));
+  }
+
+  // ---------------- Portada ----------------
+
+  function buildCover() {
+    var m = cfg.meta || {};
+    var author = (cfg.author || {}).nombre || 'Lisandro Cacciatore';
+    var email = (cfg.author || {}).email || '';
+    var t = totals();
+    var sheet = el('div', 'page page--cover',
+      '<div class="cover">' +
+        '<div class="cover__eyebrow">Informe de Valor</div>' +
+        '<h1 class="cover__title">' + esc(m.nombre) + '</h1>' +
+        '<p class="cover__subtitle">' + esc(m.profesion || '') + '</p>' +
+        '<div class="cover__client">' +
+          '<div class="cover__client-label">Preparado para</div>' +
+          '<div class="cover__client-name">' + esc(m.nombre) + '</div>' +
+          '<div class="cover__client-sub">' + esc(m.matricula || '') +
+            (m.rubro ? ' · ' + esc(m.rubro) : '') + '</div>' +
+          (m.url ? '<div class="cover__client-sub">' + esc(m.url) + '</div>' : '') +
+        '</div>' +
+        '<div class="cover__meta">' +
+          '<div><strong>Fecha</strong>' + esc(m.fecha || '') + '</div>' +
+          '<div><strong>Válido hasta</strong>' + esc(m.validez || '') + '</div>' +
+          '<div><strong>Preparado por</strong>' + esc(author) +
+            (email ? '<br>' + esc(email) : '') + '</div>' +
+          '<div><strong>Inversión total</strong>' + money(t.total) + '</div>' +
+        '</div>' +
+      '</div>');
+    docEl().appendChild(sheet);
+    sheets.push(sheet);
+    sheet.id = 'hoja-' + sheets.length;
+    return sheet;
+  }
+
+  // ---------------- Documento ----------------
+
+  /* Secciones del informe.
+     Las marcadas como `optional` sólo entran si la config trae su dato: así el
+     mismo paginador sirve para un informe corto y para uno con comparativo
+     verificado, sin numerar huecos. La numeración se asigna después de filtrar. */
+  var ALL_SECTIONS = [
+    { id: 'resumen',     title: 'Resumen Ejecutivo' },
+    { id: 'diagnostico', title: 'Diagnóstico' },
+    { id: 'comparativo', title: 'Comparativo verificado', optional: true },
+    { id: 'propuesta',   title: 'Propuesta de Valor' },
+    { id: 'inversion',   title: 'Inversión y Próximos Pasos' },
+    { id: 'alcance',     title: 'Alcance de esta revisión' },
+    { id: 'firma',       title: 'Aceptación de la propuesta' }
+  ];
+
+  function resolveSections() {
+    var comp = cfg.comparativo || {};
+    // La tabla puede ser de pares medidos (va al informe) o un comparativo de mercado
+    // orientativo (sólo tiene sentido en la propuesta, no bajo el título "verificado").
+    var tieneComparativo = (comp.filas || []).length > 0 && comp.mostrarEnInforme !== false;
+    return ALL_SECTIONS.filter(function (s) {
+      return !s.optional || tieneComparativo;
+    }).map(function (s, i) {
+      return { id: s.id, num: ('0' + (i + 1)).slice(-2), title: s.title };
+    });
+  }
+
+  function compareTable(comp) {
+    var cols = comp.columnas || [];
+    var head = '<thead><tr>' + cols.map(function (c) { return '<th>' + esc(c) + '</th>'; }).join('') + '</tr></thead>';
+    var rows = (comp.filas || []).map(function (f) {
+      var celdas = (f.celdas || []).map(function (c, i) {
+        var txt = String(c);
+        var cls = '';
+        if (i > 0) {
+          if (/^(200|✓)/.test(txt)) cls = 'ok';
+          else if (/✗|404|0$|no resuelve|bloqueó/.test(txt)) cls = 'bad';
+          else if (txt === '—') cls = 'meh';
+        }
+        return '<td class="' + cls + '">' + esc(txt) + '</td>';
+      }).join('');
+      return '<tr class="' + (f.cliente ? 'row-client' : '') + '">' + celdas + '</tr>';
+    }).join('');
+    return '<table class="compare-table">' + head + '<tbody>' + rows + '</tbody></table>';
+  }
+
+  function kpiRow(kpis) {
+    if (!(kpis || []).length) return null;
+    return el('div', 'kpi-row', kpis.map(function (k) {
+      return '<div class="kpi"><span class="kpi__value">' + esc(k.valor) +
+             '</span><span class="kpi__label">' + esc(k.label) + '</span></div>';
+    }).join(''));
+  }
+
+  function buildDocument() {
+    try {
+      var m = cfg.meta || {};
+      var hallazgos = cfg.hallazgos || [];
+      var modulos = cfg.modulos || [];
+      var pasos = cfg.nextSteps || [];
+      var t = totals();
+
+      var SECTIONS = resolveSections();
+      var NUM = {};
+      SECTIONS.forEach(function (s) { NUM[s.id] = s.num; });
+
+      docEl().innerHTML = '';
+      sheets.length = 0;
+
+      buildCover();
+
+      // Índice: se crea ahora para fijar su lugar, se llena al final.
+      var tocSheet = emptySheet();
+      var tocBody = tocSheet.querySelector('.page__body');
+      tocBody.appendChild(secHead('', 'Índice del informe'));
+
+      var startOf = {};
+
+      // --- 01 Resumen Ejecutivo
+      openSheet();
+      startOf.resumen = sheets.length;
+      body.appendChild(secHead(NUM.resumen, 'Resumen Ejecutivo'));
+      var resumenLead = 'Sobre ' + esc(m.url || 'su presencia online') + ' se midieron <strong>' +
+        hallazgos.length + ' hallazgos</strong> que están costando oportunidades. ';
+      if (cfg.costoMensual) {
+        resumenLead += 'El impacto estimado acumulado es de <strong>' + esc(cfg.costoMensual) + '</strong> por mes.';
+      } else {
+        resumenLead += 'No declaro un impacto en pesos porque no tengo acceso a tus números: ' +
+          'lo que sigue es lo medido, con la cuenta a la vista.';
+      }
+      body.appendChild(el('p', 'sec-lead', resumenLead));
+      place(el('ul', '', hallazgos.map(function (h) {
+        return '<li><strong>' + esc(h.titulo) + '</strong> — ' + esc(h.impacto) + '</li>';
+      }).join('')));
+
+      // Los indicadores van acá, en el resumen: es lo que se lee si sólo se lee una hoja.
+      var kpisResumen = kpiRow((cfg.comparativo || {}).kpis || []);
+      if (kpisResumen) place(kpisResumen);
+      place(el('div', 'scope',
+        '<div class="scope-label">Cómo leer este informe</div>' +
+        '<ul>' +
+          '<li><span class="yes">✓</span> <strong>[MEDIDO]</strong>: sale de una medición sobre el HTML servido ' +
+            'del sitio, verificable con los comandos que figuran en «Alcance de esta revisión».</li>' +
+          '<li><span class="no">✗</span> <strong>[INFERIBLE]</strong>: es una estimación. El impacto real ' +
+            'depende de tu operación, que este informe no ve.</li>' +
+          '<li><span class="no">✗</span> <strong>[NO VERIFICADO]</strong>: no se pudo comprobar y por lo tanto ' +
+            'no se afirma. Es el caso de LinkedIn, que responde con muro de registro.</li>' +
+        '</ul>'));
+
+      // --- 02 Diagnóstico
+      openSheet();
+      startOf.diagnostico = sheets.length;
+      body.appendChild(secHead(NUM.diagnostico, 'Diagnóstico'));
+      var nComp = Number(cfg.comparativos || 0);
+      var diagLead = 'Se analizó el HTML servido de ' + esc(m.url || '') + ' el ' + esc(m.fecha || '') + '. ';
+      if (nComp >= 2) {
+        diagLead += 'Se comparó contra ' + nComp + ' referencias del mismo rubro, medidas el mismo día ' +
+          'con la misma herramienta. ';
+      } else if (nComp === 1) {
+        diagLead += 'Se comparó contra una referencia del rubro, con la misma herramienta y el mismo día. ';
+      }
+      diagLead += 'Cada número de este informe es reproducible.';
+      body.appendChild(el('p', 'sec-lead', diagLead));
+      body.appendChild(el('div', 'sec-sub', 'Hallazgos'));
+      flow(hallazgos.map(findingCard), 'Diagnóstico · continúa');
+      var co = cfg.callout || {};
+      place(callout(co.label || 'Costo de no hacer nada', [
+        co.strong || ('Seguir así cuesta ' + (cfg.costoMensual || '') + ' por mes.'),
+        co.note || ('Cálculo basado en ' + (cfg.baseCalculo || '') + ' · [INFERIBLE]')
+      ]), 'Diagnóstico · continúa');
+
+      // --- 03 Comparativo verificado (opcional: sólo si la config lo trae)
+      var comp = cfg.comparativo || {};
+      if (NUM.comparativo && (comp.filas || []).length) {
+        openSheet();
+        startOf.comparativo = sheets.length;
+        body.appendChild(secHead(NUM.comparativo, 'Comparativo verificado'));
+        if (comp.intro) body.appendChild(el('p', 'sec-lead', esc(comp.intro)));
+        place(el('div', '', compareTable(comp)), 'Comparativo verificado · continúa');
+        if (comp.nota) place(el('p', 'evsrc', esc(comp.nota)), 'Comparativo verificado · continúa');
+        if (comp.medidoEl) {
+          place(el('p', 'evsrc', 'Medición propia del ' + esc(comp.medidoEl) +
+            ' · reproducible con: python scripts/medir.py --pares 00-auditoria/pares.txt'),
+            'Comparativo verificado · continúa');
+        }
+      }
+
+      // --- Propuesta de Valor
+      openSheet();
+      startOf.propuesta = sheets.length;
+      body.appendChild(secHead(NUM.propuesta, 'Propuesta de Valor'));
+      body.appendChild(el('p', 'sec-lead', esc(
+        ((cfg.propuesta || {}).informeLead) ||
+        'Un sitio profesional propio y módulos que se suman según prioridad y presupuesto.')));
+      body.appendChild(el('div', 'base-card',
+        '<span class="base-flag">Siempre incluida</span>' +
+        '<div class="base-head">' +
+          '<span class="base-label">' + esc(((cfg.propuesta || {}).baseLabel) ||
+            'Base — Sitio profesional completo') + '</span>' +
+          '<span class="base-price">' + money(t.base) + '</span>' +
+        '</div>' +
+        '<ul>' + ((cfg.base || {}).items || []).map(function (i) {
+          return '<li>' + esc(i) + '</li>';
+        }).join('') + '</ul>'));
+      body.appendChild(el('div', 'sec-sub', 'Módulos'));
+      place(el('table', 'price-table',
+        '<thead><tr><th>Módulo</th><th>Precio</th><th>Qué resuelve</th></tr></thead>' +
+        '<tbody>' + modulos.map(function (mod) {
+          return '<tr class="mod-row"><td>' + esc(mod.title) + '</td>' +
+            '<td>+ ' + money(priceOf(mod)) + '</td>' +
+            '<td>' + esc(mod.short) + '</td></tr>';
+        }).join('') + '</tbody>'), 'Propuesta de Valor · continúa');
+
+      body.appendChild(el('div', 'sec-sub', 'Escenarios de inversión'));
+      place(el('ul', '', [
+        '<li><strong>Entrada:</strong> Base sola — ' + money(t.base) + '.</li>',
+        '<li><strong>Intermedio:</strong> Base + 2 módulos — ' + money(t.combo2) + '.</li>',
+        '<li><strong>Recomendado:</strong> Base + 3 módulos — ' + money(t.combo3) + '.</li>',
+        '<li><strong>Pack completo:</strong> Base + los ' + modulos.length + ' módulos — ' +
+          money(t.total) + ' (con 15% off: ' + money(t.pack) + ').</li>'
+      ].join('')), 'Propuesta de Valor · continúa');
+
+      // --- Inversión y Próximos Pasos
+      openSheet();
+      startOf.inversion = sheets.length;
+      body.appendChild(secHead(NUM.inversion, 'Inversión y Próximos Pasos'));
+      body.appendChild(el('p', 'sec-lead',
+        'Detalle del cálculo. Sin costos mensuales de plataforma ni licencias recurrentes.'));
+      place(el('table', 'price-table',
+        '<thead><tr><th>Concepto</th><th>Monto</th></tr></thead><tbody>' +
+        '<tr class="base-row"><td>Sitio base · publicado en tu dominio</td><td>' + money(t.base) + '</td></tr>' +
+        modulos.map(function (mod) {
+          return '<tr><td>' + esc(mod.code) + ' — ' + esc(mod.title) + '</td><td>' + money(priceOf(mod)) + '</td></tr>';
+        }).join('') +
+        '<tr class="total-row"><td>Total</td><td>' + money(t.total) + '</td></tr>' +
+        '</tbody>'), 'Inversión · continúa');
+      body.appendChild(el('div', 'sec-sub', 'Próximos pasos'));
+      place(el('ol', '', pasos.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('')),
+        'Inversión · continúa');
+
+      // --- Alcance de esta revisión
+      openSheet();
+      startOf.alcance = sheets.length;
+      body.appendChild(secHead(NUM.alcance, 'Alcance de esta revisión'));
+      // El alcance sale de la config: qué se midió (✓) y qué no se pudo (✗).
+      var alcance = cfg.alcance || [];
+      var alcanceHTML = alcance.length
+        ? alcance.map(function (a) {
+            var t = String(a).trim();
+            var marca = t.charAt(0);
+            var yes = marca === '✓';
+            var resto = (marca === '✓' || marca === '✗') ? t.slice(1).trim() : t;
+            return '<li><span class="' + (yes ? 'yes' : 'no') + '">' + (yes ? '✓' : '✗') +
+                   '</span> ' + esc(resto) + '</li>';
+          }).join('')
+        : '<li><span class="yes">✓</span> Se midió el HTML servido de ' + esc(m.url || '') +
+          ' el ' + esc(m.fecha || '') + '.</li>';
+      body.appendChild(el('div', 'scope', '<ul>' + alcanceHTML + '</ul>'));
+
+      // --- Aceptación
+      openSheet();
+      startOf.firma = sheets.length;
+      body.appendChild(secHead(NUM.firma, 'Aceptación de la propuesta'));
+      body.appendChild(el('p', 'sig-intro',
+        'Si estás de acuerdo con el alcance y la inversión detallados, firmá este documento y ' +
+        'devolvelo por correo a <strong>' + esc((cfg.author || {}).email || '') + '</strong>. ' +
+        'Con eso arrancamos con la carga de tus datos reales y la publicación en tu dominio.'));
+      body.appendChild(el('div', 'sig-terms',
+        '<strong>Condiciones generales.</strong> La propuesta es válida hasta el <strong>' +
+        esc(m.validez || '') + '</strong>. Los plazos de entrega se confirman al inicio del trabajo ' +
+        'según el alcance elegido. Cualquier alcance no detallado en este documento se cotiza aparte.'));
+      body.appendChild(el('div', 'sig-grid',
+        '<div class="sig-col">' +
+          '<div class="sig-role">Por el consultor</div>' +
+          '<div class="sig-line"></div>' +
+          '<div class="sig-name">' + esc((cfg.author || {}).nombre || '') + '</div>' +
+          '<div class="sig-detail">' + esc((cfg.author || {}).email || '') + '</div>' +
+        '</div>' +
+        '<div class="sig-col">' +
+          '<div class="sig-role">Por el cliente</div>' +
+          '<div class="sig-line"></div>' +
+          '<div class="sig-name">' + esc(m.nombre) + '</div>' +
+          '<div class="sig-detail">Aclaración y firma</div>' +
+          '<div class="sig-detail">Fecha: ____ / ____ / ________</div>' +
+        '</div>'));
+
+      // 4. Membrete y numeración en todas las hojas menos la portada.
+      var total = sheets.length;
+      sheets.forEach(function (sheet, i) {
+        if (sheet.classList.contains('page--cover')) return;
+        var meta = sheet.querySelector('.brand-footer-meta');
+        if (meta) meta.textContent = meta.textContent + ' · Página ' + (i + 1) + ' de ' + total;
+      });
+
+      // 5. Índice, ya con las hojas resueltas.
+      var tocList = el('ol', 'toc');
+      SECTIONS.forEach(function (sec) {
+        var n = startOf[sec.id];
+        if (!n) return;
+        tocList.appendChild(el('li', '',
+          '<a href="#hoja-' + n + '"><span class="toc__item-name">' + esc(sec.title) +
+          '</span><span class="toc__item-page">Página ' + n + '</span></a>'));
+      });
+      tocBody.appendChild(tocList);
+      tocBody.appendChild(el('p', '',
+        '<span style="font-size:9pt;color:var(--ink-muted)">El total de este informe es de ' +
+        total + ' páginas.</span>'));
+
+      // 6. Auto-verificación: ninguna hoja puede quedar con contenido cortado.
+      //
+      // Dos medidas, porque solas mienten:
+      //   · scrollHeight cuenta los margenes de cierre, que no son contenido y no se
+      //     recortan: una diferencia de pocos pixeles ahi es un falso positivo. Por eso
+      //     se tolera un resto chico.
+      //   · La prueba que manda es geometrica: ningún hijo puede cruzar el borde
+      //     inferior real de la hoja. Eso es lo que efectivamente se cortaria al imprimir.
+      var restoMarginal = 4;
+      var desbordes = sheets.reduce(function (acc, sheet) {
+        var b = sheet.querySelector('.page__body');
+        if (!b) return acc;
+        var bad = b.scrollHeight > b.clientHeight + restoMarginal;
+        var limit = b.getBoundingClientRect().bottom;
+        for (var i = 0; i < b.children.length && !bad; i++) {
+          if (b.children[i].getBoundingClientRect().bottom > limit + 1) bad = true;
+        }
+        return acc + (bad ? 1 : 0);
+      }, 0);
+
+      document.body.dataset.hojas = String(total);
+      document.body.dataset.desbordes = String(desbordes);
+
+      // ?debug=1 escribe la geometría real en el título, para leerla con --dump-dom.
+      if (params.get('debug') === '1') {
+        document.title = 'DBG ' + sheets.map(function (s, i) {
+          var b = s.querySelector('.page__body');
+          if (!b) return (i + 1) + '=portada';
+          var maxChild = 0;
+          for (var k = 0; k < b.children.length; k++) {
+            maxChild = Math.max(maxChild, b.children[k].getBoundingClientRect().bottom);
+          }
+          return (i + 1) + ': scrollH=' + b.scrollHeight + ' cliH=' + b.clientHeight +
+            ' maxChildBot=' + Math.round(maxChild) +
+            ' bodyBot=' + Math.round(b.getBoundingClientRect().bottom) +
+            ' sheetBot=' + Math.round(s.getBoundingClientRect().bottom);
+        }).join(' || ');
+      }
+
+      console.log('[print] ' + JSON.stringify({
+        cliente: m.nombre, hojas: total, secciones: startOf,
+        total: t.total, desbordes: desbordes
+      }));
+    } catch (err) {
+      banner(String((err && err.message) || err));
+      console.error('[print] FALLO', err);
+    }
+  }
+
+  // ---------------- Arranque ----------------
+
+  function run() {
+    if (!cfg) {
+      banner('No llegó la configuración del cliente (window.CLIENT_CONFIG).');
+      return;
+    }
+    cfg.author = cfg.author || { nombre: 'Lisandro Cacciatore', email: 'lisandro@ejemplo.com' };
+    // Sin las fuentes cargadas las alturas medidas no son las definitivas y las
+    // tarjetas se reparten mal entre hojas.
+    var go = function () { buildDocument(); };
+    if (document.fonts && document.fonts.ready && document.fonts.ready.then) {
+      document.fonts.ready.then(go).catch(go);
+    } else {
+      go();
+    }
+    // El diálogo de impresión NO se abre solo: lo dispara el botón de la barra.
+    // Con ?auto=1 se abre automáticamente (como hacía el original).
+    if (params.get('auto') === '1') {
+      setTimeout(function () {
+        requestAnimationFrame(function () { requestAnimationFrame(function () { window.print(); }); });
+      }, 400);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', run);
+  } else {
+    run();
+  }
+})();
+
+</script>
+</body>
+</html>

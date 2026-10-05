@@ -1,0 +1,13 @@
+# Artefactos de trabajo, no entregables
+__pycache__/
+*.pyc
+.chrome-tmp/
+*.txt.tmp
+
+# dist/ se arma en cada deploy (scripts/armar-dist.py). No se versiona.
+dist/
+
+# Guion de contacto: es material de trabajo, no forma parte de lo que se publica.
+00-auditoria/mensajes-para-enviar.md
+
+# El informe en PDF SÍ es entregable: no se ignora.
