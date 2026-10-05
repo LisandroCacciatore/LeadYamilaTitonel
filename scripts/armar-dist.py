@@ -124,7 +124,11 @@ def portada(css: str, cfg: dict, lista: list) -> str:
     )
     # La página modelo suele vivir en otro dominio (el sitio ya construido): se
     # enlaza directo y marcada como externa, para que no se confunda con el preview.
-    if (modelo.get("url") or "").strip():
+    # Si el link apunta a una pieza local (p. ej. /sitio/ del propio preview), no se
+    # repite: ya está la tarjeta de esa pieza.
+    url_modelo = (modelo.get("url") or "").strip().rstrip("/")
+    slugs = [p["slug"] for p in lista]
+    if url_modelo and not any(url_modelo.endswith("/" + s) for s in slugs):
         n = len(lista) + 1
         tarjetas += f"""
         <a class="tarjeta tarjeta--modelo" href="{html.escape(modelo['url'])}" target="_blank" rel="noopener">
