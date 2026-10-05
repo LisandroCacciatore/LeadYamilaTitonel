@@ -17,7 +17,10 @@ Uso:
 import html
 import json
 import re
+import subprocess
 import sys
+import tempfile
+from html.parser import HTMLParser
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -25,6 +28,13 @@ CONFIG = ROOT / "config.json"
 PROPUESTA = ROOT / "01-propuesta" / "propuesta.html"
 INFORME = ROOT / "00-auditoria" / "informe.html"
 SPEC = ROOT / "SPEC-editorial.md"
+
+CHROME_CANDIDATOS = [
+    r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+    r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+    "/usr/bin/google-chrome", "/usr/bin/chromium", "/usr/bin/chromium-browser",
+    r"C:\Program Files\Microsoft\Edge\Application\msedge.exe",
+]
 
 # §1.2 — frases gastadas, prohibidas en cualquier zona del documento.
 MULETILLAS = [
@@ -67,6 +77,100 @@ def palabras(texto: str) -> int:
     12 palabras no puede estar contando los números."""
     return len([w for w in re.findall(r"[\wáéíóúñüÁÉÍÓÚÑÜ]+", texto or "")
                 if not re.fullmatch(r"[\d.,:/-]+", w)])
+
+
+def render_dom(path: Path) -> str:
+    """DOM ya ejecutado por el navegador. El informe y la propuesta arman su contenido
+    en runtime: leer el HTML crudo sería leer el molde, no el documento."""
+    chrome = next((c for c in CHROME_CANDIDATOS if Path(c).exists()), None)
+    if not chrome or not path.exists():
+        return ""
+    with tempfile.TemporaryDirectory() as td:
+        cmd = [chrome, "--headless=new", "--disable-gpu", "--no-first-run",
+               f"--user-data-dir={td}", "--virtual-time-budget=12000",
+               "--dump-dom", path.as_uri()]
+        try:
+            out = subprocess.run(cmd, capture_output=True, text=True,
+                                 errors="replace", timeout=120)
+            return out.stdout or ""
+        except Exception:
+            return ""
+
+
+def _bloques_con_clase(markup: str, clase: str) -> list:
+    """Devuelve la LISTA de bloques con esa clase, contando profundidad de <div>: los
+    cards se anidan y un non-greedy cortaría antes de tiempo. Devuelve una lista y no un
+    texto unido: los bloques no son contiguos en el documento, así que unirlos no
+    permitiría borrarlos después."""
+    salida, i = [], 0
+    marca = f'class="{clase}"'
+    while True:
+        i = markup.find(marca, i)
+        if i < 0:
+            return salida
+        ini = markup.rfind("<div", 0, i)
+        profundidad, j = 1, markup.find(">", i) + 1
+        while profundidad and j > 0:
+            abre, cierra = markup.find("<div", j), markup.find("</div", j)
+            if cierra < 0:
+                break
+            if 0 <= abre < cierra:
+                profundidad += 1
+                j = abre + 4
+            else:
+                profundidad -= 1
+                j = cierra + 5
+        salida.append(markup[ini:j])
+        i = j
+
+
+class _Prosa(HTMLParser):
+    """Extrae el texto de una sección salteando los bloques que tienen su propio tope
+    (§7.4: 5 líneas por hallazgo, 4 bullets por módulo, tablas y listas aparte). Con
+    expresiones regulares los cards anidados se cortan mal; el parser mantiene la pila
+    de anidamiento y no se equivoca."""
+
+    SALTAR_TAGS = {"table", "ul", "ol", "script", "style"}
+    SALTAR_CLASES = {"finding", "module-card", "kpi-row", "compare-table", "callout"}
+    VACIAS = {"br", "hr", "img", "input", "meta", "link", "source", "wbr", "area", "col"}
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.pila = []
+        self.trozos = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag in self.VACIAS:
+            return
+        clases = set((dict(attrs).get("class") or "").split())
+        self.pila.append(tag in self.SALTAR_TAGS or bool(clases & self.SALTAR_CLASES))
+
+    def handle_startendtag(self, tag, attrs):
+        pass
+
+    def handle_endtag(self, tag):
+        if self.pila and tag not in self.VACIAS:
+            self.pila.pop()
+
+    def handle_data(self, data):
+        if not any(self.pila):
+            self.trozos.append(data)
+
+    def texto(self) -> str:
+        return " ".join(self.trozos)
+
+
+def prosa_de(seccion: str) -> int:
+    """Palabras de la PROSA de una sección (sin cards, tablas ni listas)."""
+    p = _Prosa()
+    p.feed(seccion)
+    return palabras(p.texto())
+
+
+def _paginas(dom: str) -> list:
+    """Parte el informe en hojas: cada .page es una hoja del paginador."""
+    partes = re.split(r'<div class="page[" ]', dom)
+    return partes[1:]
 
 
 def main() -> int:
@@ -206,13 +310,80 @@ def main() -> int:
     if imgs and caps < len(imgs):
         manual.append("§9.4 hay capturas sin epígrafe (Hoy — … / Nuevo — …)")
 
-    # §3 y §7.1 del spec para el informe: nada de esto se puede ver sin renderizar.
-    manual += [
-        "§2 «Medido» debe arrancar con el número, no con contexto (revisar el render)",
-        "§7.1 ningún H3 sin H2 padre en la misma página (revisar el render)",
-        "§7.4 ningún cuerpo de sección supera 200 palabras (revisar el render)",
-        "§8.1 la tabla de colegas cumple las 4 condiciones, incluida la de mobile",
-    ]
+    # ---- §2 / §7.1 / §7.4 sobre el DOM renderizado, no sobre el molde -------------
+    dom_prop = render_dom(PROPUESTA)
+    dom_inf = render_dom(INFORME)
+    if not (dom_prop or dom_inf):
+        manual.append("no pude renderizar (¿falta el navegador?): §2, §7.1 y §7.4 quedan a ojo")
+
+    if dom_prop:
+        # §2 — «Medido» arranca con el número, no con contexto.
+        malos = [m.group(1).strip()[:38]
+                 for m in re.finditer(r"Medido:</strong>\s*([^<]{0,40})", dom_prop)
+                 if m.group(1).strip() and not m.group(1).strip()[0].isdigit()]
+        if malos:
+            fallas.append("§2 «Medido» no arranca con el número: " + " | ".join(malos[:3]))
+        else:
+            print("  ✓ §2 cada «Medido» arranca con el número")
+
+        # §7.4 — ningún cuerpo de sección pasa las 200 palabras (prosa, no cards).
+        largas = []
+        for m in re.finditer(r"<h2[^>]*>(.*?)</h2>(.*?)(?=<h2|\Z)", dom_prop, re.S | re.I):
+            titulo = re.sub(r"<[^>]+>", " ", m.group(1)).strip()[:38]
+            n = prosa_de(m.group(2))
+            if n > 200:
+                largas.append(f"«{titulo}» ~{n}")
+        if largas:
+            fallas.append("§7.4 secciones de más de 200 palabras de prosa: " + "; ".join(largas[:3]))
+        else:
+            print("  ✓ §7.4 ninguna sección de la propuesta pasa 200 palabras de prosa")
+
+        # §7.4 — y cada hallazgo, dentro de sus 5 líneas (≈80 palabras).
+        anchos = []
+        for bloque in _bloques_con_clase(dom_prop, "finding"):
+            n = prosa_de(bloque)
+            if n > 80:
+                anchos.append(f"~{n} palabras")
+        if anchos:
+            fallas.append(f"§7.4 {len(anchos)} hallazgo(s) de la propuesta pasan 5 líneas: "
+                          + ", ".join(anchos))
+        else:
+            print("  ✓ §7.4 cada hallazgo de la propuesta entra en 5 líneas")
+
+    if dom_inf:
+        # §7.1 — ningún H3 sin H2 padre, hoja por hoja.
+        huerfanos = [i for i, pag in enumerate(_paginas(dom_inf), 1)
+                     if re.search(r"<h3", pag, re.I) and not re.search(r"<h[12]", pag, re.I)]
+        if huerfanos:
+            fallas.append(f"§7.1 H3 sin H2 padre en la hoja {huerfanos}")
+        else:
+            print("  ✓ §7.1 ninguna hoja del informe tiene H3 sin H2 padre")
+
+    # §8.1-4 — la tabla se convierte en bullets en mobile: se mide el layout real
+    # (getComputedStyle a 375 px), no se inspecciona el CSS.
+    sonda = ROOT / "scripts" / "verificar-tabla-mobile.py"
+    if sonda.exists():
+        try:
+            import importlib.util
+            sp = importlib.util.spec_from_file_location("vtabla", sonda)
+            mod = importlib.util.module_from_spec(sp)
+            sp.loader.exec_module(mod)
+            r = mod.medir(PROPUESTA)
+        except Exception as exc:  # noqa: BLE001
+            r = {"err": str(exc)}
+        if r.get("err"):
+            avisos.append(f"§8.1 no pude medir la tabla en mobile: {r['err']}")
+        elif not r.get("hayTabla") and r.get("hayBullets"):
+            print("  ✓ §8.1 sin tabla: el comparativo va en 3 bullets (§6.2)")
+        elif (r.get("displayTabla") == "block" and r.get("displayThead") == "none"
+              and r.get("displayFila") == "block" and (r.get("desbordePx") or 0) <= 1
+              and r.get("dataCol")):
+            print(f"  ✓ §8.1 la tabla pasa a bullets en mobile ({r.get('vista')} px), "
+                  "sin desborde lateral")
+        else:
+            fallas.append(f"§8.1 la tabla no cumple la condición mobile: {r}")
+    else:
+        manual.append("§8.1 la tabla en mobile (falta scripts/verificar-tabla-mobile.py)")
 
     # §11 ------------------------------ trabajo pendiente declarado en el propio spec
     apellido = (cfg.get("meta", {}).get("nombre", "").split()[-1] or "").lower()
