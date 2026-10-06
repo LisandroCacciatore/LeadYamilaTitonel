@@ -681,11 +681,10 @@ html, body { margin: 0; padding: 0; background: #fff; }
     var base = Number((cfg.base || {}).precio || 0);
     var mods = cfg.modulos || [];
     var sum = mods.reduce(function (a, m) { return a + priceOf(m); }, 0);
-    var pack = Math.round((base + sum) * 0.85 / 5) * 5;
     var p = mods.map(priceOf);
     var combo2 = base + (p[0] || 0) + (p[1] || 0);
     var combo3 = combo2 + (p[2] || 0);
-    return { base: base, sum: sum, total: base + sum, pack: pack, combo2: combo2, combo3: combo3 };
+    return { base: base, sum: sum, total: base + sum, combo2: combo2, combo3: combo3 };
   }
 
   // ---------------- Paginador ----------------
@@ -984,14 +983,6 @@ html, body { margin: 0; padding: 0; background: #fff; }
         : '<li><span class="yes">✓</span> Se midió el HTML servido de ' + esc(m.url || '') +
           ' el ' + esc(m.fecha || '') + '.</li>';
       body.appendChild(el('div', 'scope', '<ul>' + alcanceHTML + '</ul>'));
-
-      // La fuente medida, enlazada: para Yamila la presencia es su bio de Instagram y no
-      // un sitio, así que el número se puede ir a verificar.
-      if (m.presenciaUrl) {
-        body.appendChild(el('p', 'evsrc',
-          'Fuente medida: <a href="' + esc(m.presenciaUrl) + '" rel="noopener">' +
-          esc(m.presenciaEtiqueta || m.presenciaUrl) + '</a>'));
-      }
 
       // --- Cierre (§4.6): el informe es diagnóstico, no vende. Manda a la propuesta.
       openSheet();

@@ -108,7 +108,6 @@ def main() -> int:
             "base": base,
             "modulos": [{"code": m.get("code"), "title": m.get("title"), "price": m.get("price")} for m in modulos],
             "total_pack": total,
-            "pack_con_descuento": round(total * 0.85 / 5) * 5,
             "referencia_cambio": cfg.get("conversion", {}),
         },
 

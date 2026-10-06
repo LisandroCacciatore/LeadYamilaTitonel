@@ -34,10 +34,15 @@ echo "== Verificando el render (Chrome headless) =="
 "$PY" scripts/verify.py
 
 echo
+echo "== Exportando la propuesta a PDF =="
+"$PY" scripts/exportar-pdf.py
+
+echo
 echo "Listo:"
 echo "  00-auditoria/informe.html"
 echo "  01-propuesta/propuesta.html"
+echo "  01-propuesta/propuesta-*.pdf"
 echo
-echo "Para el PDF y la evidencia:"
+echo "Para el PDF del informe y la evidencia:"
 echo "  python scripts/verify-pdf.py"
 echo "  python scripts/consolidar-evidencia.py"

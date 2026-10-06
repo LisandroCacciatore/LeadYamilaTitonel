@@ -114,27 +114,15 @@ def main() -> int:
                 f"(aparecen: {usd_declarados})"
             )
 
-    # 4) El pack con descuento: 15% off, redondeado a multiplo de 5.
-    #    El redondeo es deliberado (numero redondo), pero la etiqueta dice "15 %"
-    #    y el valor redondeado no da exactamente 15 %. Aceptamos el redondeo y
-    #    dejamos constancia de la diferencia.
+    # 4) El pack con descuento se retiro del generador (no hay descuento por
+    #    volumen). Este chequeo queda como guarda de regresion: si alguien lo
+    #    reintroduce escrito a mano en la plantilla, salta.
     exacto = round(pack_esperado * 0.85)
     redondeado = round(pack_esperado * 0.85 / 5) * 5
-    if redondeado in usd_declarados:
-        pct_real = 100 * (1 - redondeado / pack_esperado)
-        print(f"  ✓ pack con descuento USD {redondeado} (= {pack_esperado} x 0,85 redondeado a 5)")
-        if redondeado != exacto:
-            avisos.append(
-                f"La etiqueta dice «15 %» pero USD {redondeado} sobre USD {pack_esperado} "
-                f"es {pct_real:.2f} % (el 15 % exacto seria USD {exacto}). "
-                f"Corregir el texto o el redondeo."
-            )
-    elif exacto in usd_declarados:
-        print(f"  ✓ pack con descuento USD {exacto} (= 15 % exacto)")
-    elif pack_esperado in usd_declarados:
+    if redondeado in usd_declarados or exacto in usd_declarados:
         avisos.append(
-            f"El pack completo esta declarado pero no aparece el pack con descuento "
-            f"(esperado USD {redondeado})"
+            f"La pagina declara un pack con descuento (USD {redondeado}) que el "
+            f"generador ya no emite. Sacar el escenario o volver a derivarlo."
         )
 
     # 5) La trampa: precios distintos con totales iguales.
