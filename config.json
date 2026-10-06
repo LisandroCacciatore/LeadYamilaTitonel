@@ -25,9 +25,9 @@
   "modelo": {
     "url": "https://lisandrocacciatore.github.io/nutricionyat-web-/",
     "titulo": "Página modelo",
-    "bajada": "El sitio ya construido y navegable: sus secciones, sus servicios y la agenda a un toque.",
-    "cta": "Ver la página modelo",
-    "caption": "Nuevo — sitio propio, con tus turnos a un toque, WhatsApp visible y captura de contacto en cada sección."
+    "bajada": "El sitio ya está construido y navegable. No es un boceto.",
+    "cta": "Abrir el sitio nuevo",
+    "invitacion": "Abrilo y recorrélo: sus secciones, sus servicios y la agenda a un toque."
   },
   "salida": {
     "slug": "yamila-titonel"

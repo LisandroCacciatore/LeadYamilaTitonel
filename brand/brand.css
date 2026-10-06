@@ -617,6 +617,35 @@ li { margin-bottom: var(--space-2); }
   background: var(--surface-default);
 }
 
+/* ---------- Portal al sitio nuevo ----------
+   Reemplaza a la captura. Un solo bloque con el botón grande al centro, y la
+   dirección visible: el PDF también se lee en papel, y ahí el botón no se toca.
+   El link viaja como anotación clickeable en el PDF, así que desde el archivo
+   se llega al sitio con un clic. */
+.portal {
+  border: 1.5px solid var(--navy);
+  background: var(--surface-cream);
+  padding: var(--space-8);
+  margin: var(--space-5) 0;
+  text-align: center;
+  break-inside: avoid;
+}
+.portal-lead {
+  font-size: var(--fs-lg);
+  color: var(--ink-title);
+  max-width: 46ch;
+  margin: var(--space-3) auto var(--space-6);
+}
+.portal-url {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: .04em;
+  color: var(--ink-muted);
+  margin: var(--space-4) 0 0;
+  word-break: break-all;
+}
+.btn-lg { font-size: 0.85rem; padding: var(--space-4) var(--space-8); }
+
 /* La propuesta también se imprime: sin barra fija, sin saltos raros. */
 @media print {
   .no-print { display: none !important; }

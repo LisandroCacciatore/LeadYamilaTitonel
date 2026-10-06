@@ -476,27 +476,30 @@ def shots_band(cfg: dict) -> str:
 
 
 def sitio_nuevo_html(cfg: dict) -> str:
-    """§3.4 y §4: el resultado antes que el problema. Captura si existe (más liviana),
-    iframe si no, y siempre el botón explícito al sitio nuevo."""
+    """§3.4 y §4: el resultado antes que el problema. Botón directo, SIN captura.
+
+    La captura era un proxy del sitio y jugaba en contra: se ve chica, se corta
+    cuando la hoja pagina, y muestra una foto fija de algo que es navegable. El
+    que la mira tiene que scrollear hasta el boton igual — o sea que la foto no
+    reemplaza al clic, lo posterga.
+
+    Va un solo bloque: el boton grande, y la direccion visible porque el PDF se
+    lee tambien en papel. El link queda como anotacion clickeable en el PDF, asi
+    que desde el archivo se llega al sitio con un clic.
+    """
     m = cfg.get("modelo") or {}
     url = (m.get("url") or "").strip()
-    nombre = esc((cfg.get("meta") or {}).get("nombre", ""))
     if not url:
         return "<p>[falta configurar el sitio nuevo: config.json → modelo.url]</p>"
-    captura = m.get("captura")
-    p = (ROOT / captura) if captura else None
-    if p and p.exists():
-        media = (f'<img class="shot-img" src="{imagen_uri(p, ancho=1100, calidad=74)}" '
-                 f'alt="Vista del sitio nuevo de {nombre}">')
-    else:
-        media = (f'<iframe class="shot-frame" src="{esc(url)}" loading="lazy" '
-                 f'title="Sitio nuevo de {nombre}"></iframe>')
+
+    visible = re.sub(r"^https?://", "", url).rstrip("/")
     return f"""
-    <p>{esc(m.get("bajada") or "Así se vería tu sitio, con tus datos reales.")}</p>
-    <div class="shot">{media}</div>
-    <p class="shot-cap">{esc(m.get("caption") or "Nuevo — sitio propio, con tus datos reales y verificado.")}</p>
-    <div class="cta-row">
-      <a class="btn btn-brand" href="{esc(url)}">Abrir el sitio nuevo &rarr;</a>
+    <p>{esc(m.get("bajada") or "El rediseño ya está construido. No es un boceto.")}</p>
+    <div class="portal">
+      <span class="label-mono">El sitio nuevo, online</span>
+      <p class="portal-lead">{esc(m.get("invitacion") or "Abrilo y recorrélo: es tu sitio, con los cambios ya aplicados.")}</p>
+      <a class="btn btn-brand btn-lg" href="{esc(url)}">{esc(m.get("cta") or "Abrir el sitio nuevo")} &rarr;</a>
+      <p class="portal-url">{esc(visible)}</p>
     </div>"""
 
 
