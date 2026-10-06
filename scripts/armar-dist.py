@@ -134,7 +134,7 @@ def con_noindex(texto: str) -> str:
 
 def portada(css: str, cfg: dict, lista: list) -> str:
     """Home del lead, spec §2: el resultado primero.
-    Orden exacto: H1 · subtítulo · preview del sitio nuevo + botón · números del
+    Orden exacto: H1 · subtítulo · botón al sitio nuevo · números del
     diagnóstico · CTAs · nota técnica colapsable · pie con el «no gracias»."""
     meta = cfg.get("meta") or {}
     modelo = cfg.get("modelo") or {}
@@ -142,16 +142,24 @@ def portada(css: str, cfg: dict, lista: list) -> str:
     nombre = meta.get("nombre", "Lead")
     url = (modelo.get("url") or "").strip()
 
-    # 3 · preview del sitio nuevo: captura si existe, iframe si no.
-    captura = modelo.get("captura")
-    p = (ROOT / captura) if captura else None
-    rel = preparar_captura(p) if (p and p.exists()) else ""
-    if rel:
-        media = (f'<img class="shot-img" src="{rel}" '
-                 f'alt="Vista del sitio nuevo de {html.escape(nombre)}">')
-    elif url:
-        media = (f'<iframe class="shot-frame" src="{html.escape(url)}" loading="lazy" '
-                 f'title="Sitio nuevo de {html.escape(nombre)}"></iframe>')
+    # 3 · botón directo al sitio nuevo. Misma decisión que en la propuesta:
+    # NADA de captura ni iframe. El iframe además no lo controla el documento
+    # (trae su propio layout y su propio CSS) y la captura es una foto fija de
+    # algo que es navegable: el que entra quiere ver el sitio, no una imagen.
+    if url:
+        visible = re.sub(r"^https?://", "", url).rstrip("/")
+        invitacion = html.escape(
+            modelo.get("invitacion") or "Abrilo y recorrélo: es tu sitio, con los cambios ya aplicados."
+        )
+        media = (
+            '<div class="portal">'
+            '<span class="label-mono">El sitio nuevo, online</span>'
+            f'<p class="portal-lead">{invitacion}</p>'
+            f'<a class="btn btn-brand btn-lg" href="{html.escape(url)}">'
+            'Abrir el sitio nuevo &rarr;</a>'
+            f'<p class="portal-url">{html.escape(visible)}</p>'
+            '</div>'
+        )
     else:
         media = '<p class="nota">[falta configurar modelo.url en config.json]</p>'
 
@@ -165,8 +173,6 @@ def portada(css: str, cfg: dict, lista: list) -> str:
 
     # 2 · subtítulo: el gancho del caso, si la config lo trae
     gancho = preview_cfg.get("gancho") or modelo.get("bajada") or ""
-    boton_sitio = (f'<a class="btn btn-brand" href="{html.escape(url)}">Abrir el sitio nuevo &rarr;</a>'
-                   if url else "")
 
     return f"""<!DOCTYPE html>
 <html lang="es-AR">
@@ -181,10 +187,8 @@ body {{ background: var(--surface-alt); }}
 .portada {{ max-width: 62rem; margin: 0 auto; padding: var(--space-10) var(--space-6); }}
 .portada h1 {{ font-size: var(--fs-3xl); margin-bottom: var(--space-3); }}
 .portada .lead {{ font-size: var(--fs-lg); color: var(--ink-body); max-width: 46rem; }}
-.shot {{ border:1px solid var(--line-default); border-radius:var(--radius-lg); overflow:hidden;
-  margin: var(--space-6) 0 var(--space-4); background: var(--surface-default); box-shadow: var(--shadow-md); }}
-.shot-img {{ display:block; width:100%; height:auto; }}
-.shot-frame {{ display:block; width:100%; height:70vh; min-height:420px; border:0; background:#fff; }}
+/* El bloque del sitio nuevo (.portal) lo define brand.css: el mismo que usa la
+   propuesta, para que la home y la propuesta no se separen con el tiempo. */
 .nota {{ font-size: var(--fs-sm); color: var(--ink-muted); }}
 footer.pie {{ margin-top: var(--space-12); padding-top: var(--space-4);
   border-top: 1px solid var(--line-default); font-size: var(--fs-sm); color: var(--ink-muted); }}
@@ -197,8 +201,7 @@ details.tecnica summary {{ cursor: pointer; }}
   <h1>{html.escape(nombre)} — Cómo se vería tu sitio</h1>
   <p class="lead">{html.escape(gancho)}</p>
 
-  <div class="shot">{media}</div>
-  <div class="cta-row">{boton_sitio}</div>
+  {media}
 
   <div class="kpi-row">{kpi_html}</div>
 

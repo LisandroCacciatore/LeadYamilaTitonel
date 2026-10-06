@@ -66,12 +66,13 @@ sintetice el peso y salga todo igual de grueso.
 
 **Cero border-radius, sin sombras.** El lenguaje es editorial, no de app.
 
-**El sitio nuevo va con botón, no con captura.** La captura se ve chica, se
-corta al paginar y no reemplaza al clic: el que la mira igual tiene que
-scrollear hasta el botón. Va el bloque `.portal` con el botón grande y la
-dirección visible (el PDF también se lee en papel). El link viaja como anotación
+**El sitio nuevo va con botón, no con captura.** Vale para las **dos** piezas:
+la propuesta y la home del preview. La captura se ve chica, se corta al paginar
+y no reemplaza al clic: el que la mira igual tiene que scrollear hasta el botón.
+Va el bloque `.portal` (definido en `brand.css`, así las dos piezas no se
+separan) con el botón grande y la dirección visible. El link viaja como anotación
 clickeable en el PDF. **Nunca un `<iframe>`**: Chrome no los imprime y queda un
-recuadro vacío.
+recuadro vacío; y en la home además trae su propio layout y su propio CSS.
 
 **El membrete se repite en cada hoja.** Cualquier palabra del folio que también
 sea nombre de sección rompe el chequeo de orden de secciones del PDF.
