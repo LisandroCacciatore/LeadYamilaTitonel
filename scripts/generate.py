@@ -289,6 +289,20 @@ def brand_override(cfg: dict) -> str:
     )
 
 
+# Tratamientos que no cuentan como nombre propio: «Lic. Yamila Titonel» da las
+# iniciales YT, no LYT. Mismo criterio que el slug del archivo PDF, para que la
+# referencia del folio y el nombre del archivo no se contradigan.
+HONORIFICOS = ("lic", "dr", "dra", "sr", "sra")
+
+
+def palabras_nombre(nombre: str) -> list:
+    """Las palabras del nombre del cliente, sin el tratamiento."""
+    return [
+        p for p in re.findall(r"[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+", nombre or "")
+        if p.lower() not in HONORIFICOS
+    ]
+
+
 def folio_data(cfg: dict, titulo: str) -> dict:
     """Datos del folio (la línea de expediente del membrete).
 
@@ -306,9 +320,8 @@ def folio_data(cfg: dict, titulo: str) -> dict:
     meta = cfg.get("meta") or {}
     folio = cfg.get("folio") or {}
 
-    nombre = (meta.get("nombre") or "").strip()
-    palabras = [p for p in re.findall(r"[A-Za-zÁÉÍÓÚÑáéíóúñ]+", nombre) if p]
-    iniciales = "".join(p[0] for p in palabras)[:3].upper() or "XX"
+    # Sin el tratamiento: «Lic. Lisandro Lagos» tiene que dar LL, no LLL.
+    iniciales = "".join(p[0] for p in palabras_nombre(meta.get("nombre")))[:3].upper() or "XX"
 
     fecha = (meta.get("fecha") or "").strip()
     m = re.search(r"\b(\d{4})\b", fecha)
