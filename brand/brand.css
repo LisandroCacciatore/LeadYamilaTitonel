@@ -2,35 +2,52 @@
    brand/brand.css — FUENTE ÚNICA DE LA IDENTIDAD VISUAL
    Ningún template declara colores, fuentes ni medidas propias.
    Si algo visual falta, se agrega ACÁ.
+
+   LENGUAJE: dossier editorial. Dos roles de color, no uno:
+     · ESTRUCTURA = navy. Títulos, reglas, botones, membrete.
+     · ACENTO     = naranja. Eyebrows, métricas, badges, destacados.
+   El acento lo puede pisar el cliente desde su config (brand_override en
+   generate.py); la estructura NO, porque es la identidad del documento.
+
+   CERO RADIO: el documento es editorial, no una app. Bordes finos, sin sombra.
+   MONO: todo lo que es etiqueta o número técnico va en monoespaciada.
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
    1. TOKENS
    -------------------------------------------------------------------------- */
 :root {
-  /* Marca */
-  --brand-default: #4A6770;
-  --brand-hover:   #3D545C;
-  --brand-soft:    #F0F4F6;
+  /* Estructura (tinta del sistema). No se pisa por cliente. */
+  --navy:       #0F1A2E;
+  --navy-hover: #1A2740;
+  --navy-soft:  rgba(15, 26, 46, .06);
+
+  /* Acento. Default = identidad del sistema; brand_override lo pisa. */
+  --brand-default: #FF6B1A;
+  --brand-hover:   #E85D0F;
+  --brand-soft:    #FFF1E8;
 
   /* Texto */
-  --ink-title: #2C343C;
-  --ink-body:  #5A6672;
-  --ink-muted: #7A8794;
+  --ink-title: #0F1A2E;
+  --ink-body:  #334155;
+  --ink-muted: #64748B;
 
   /* Líneas y superficies */
-  --line-default:    #E3E6EA;
+  --line-default:    #E2E8F0;
+  --line-strong:     #0F1A2E;
   --surface-default: #FFFFFF;
-  --surface-alt:     #F7F8FA;
+  --surface-alt:     #FBF9F5;
+  --surface-cream:   #F8F6F2;
 
   /* Estados */
-  --success: #28A745;
-  --warning: #FFC107;
-  --error:   #DC3545;
-  --info:    #17A2B8;
+  --success: #059669;
+  --warning: #D97706;
+  --error:   #DC2626;
+  --info:    #0E7490;
 
   /* Tipografía */
-  --font-sans: 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: 'Inter', 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
   --fs-sm:   0.875rem;
   --fs-base: 1rem;
   --fs-lg:   1.125rem;
@@ -53,14 +70,18 @@
   --space-10: 2.5rem;
   --space-12: 3rem;
 
-  /* Radios y sombras */
-  --radius-sm:   0.25rem;
-  --radius-md:   0.5rem;
-  --radius-lg:   1rem;
-  --radius-full: 9999px;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24);
-  --shadow-md: 0 4px 6px rgba(0,0,0,.10), 0 2px 4px rgba(0,0,0,.06);
-  --shadow-lg: 0 10px 15px rgba(0,0,0,.10), 0 4px 6px rgba(0,0,0,.08);
+  /* Sin radio: el lenguaje es editorial, no de app.
+     Toda tarjeta, badge y botón queda a 90°. */
+  --radius-sm:   0;
+  --radius-md:   0;
+  --radius-lg:   0;
+  --radius-full: 0;
+
+  /* Sin sombra: la jerarquía la hacen el borde y el color de fondo.
+     La única excepción es la pila de hojas en pantalla (--shadow-md). */
+  --shadow-sm: none;
+  --shadow-md: 0 1px 3px rgba(15, 26, 46, .08);
+  --shadow-lg: none;
 }
 
 /* --------------------------------------------------------------------------
@@ -76,23 +97,63 @@ body {
   color: var(--ink-body);
   background: var(--surface-alt);
   -webkit-font-smoothing: antialiased;
+  font-feature-settings: "ss01", "cv11";
 }
-h1, h2, h3 { color: var(--ink-title); margin: 0 0 var(--space-3); line-height: 1.25; }
-h1 { font-size: var(--fs-3xl); font-weight: var(--fw-extrabold); }
-h2 { font-size: var(--fs-xl);  font-weight: var(--fw-bold); }
+h1, h2, h3 { color: var(--ink-title); margin: 0 0 var(--space-3); line-height: 1.2; letter-spacing: -0.01em; }
+h1 { font-size: var(--fs-3xl); font-weight: var(--fw-extrabold); letter-spacing: -0.02em; }
+h2 { font-size: var(--fs-xl);  font-weight: var(--fw-extrabold); }
 h3 { font-size: var(--fs-base); font-weight: var(--fw-bold); }
 p  { margin: 0 0 var(--space-4); }
-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: var(--fs-sm);
-       background: var(--brand-soft); padding: 1px 5px; border-radius: var(--radius-sm); }
+code { font-family: var(--font-mono); font-size: var(--fs-sm);
+       background: var(--navy-soft); padding: 1px 5px; }
 ul, ol { margin: 0 0 var(--space-4); padding-left: var(--space-6); }
 li { margin-bottom: var(--space-2); }
 
+/* Números técnicos: mono y de ancho fijo, para que las columnas no bailen. */
+.stat-number, .kpi__value, .total-value, .base-price, .module-price, .scenario-price {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
 /* --------------------------------------------------------------------------
-   3. HEADER / FOOTER COMPARTIDOS
+   3. ETIQUETAS TIPOGRÁFICAS COMPARTIDAS
+   La mono es el rasgo más fuerte del lenguaje: marca todo lo que no es prosa.
+   -------------------------------------------------------------------------- */
+.eyebrow,
+.label-mono,
+.micro,
+.eyebrow-muted {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+.eyebrow {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  color: var(--brand-default);
+  background: none;
+  padding: 0;
+}
+.eyebrow-muted {
+  font-size: 0.78rem; font-weight: 500; letter-spacing: .12em; color: var(--ink-muted);
+}
+.label-mono {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: .12em; color: var(--ink-muted);
+}
+.micro { font-size: 0.68rem; font-weight: 400; letter-spacing: .04em; color: var(--ink-muted); }
+
+/* Eyebrow sobre fondo oscuro: el acento no se lee, va blanco. */
+.band--ink .eyebrow { color: rgba(255, 255, 255, .72); }
+
+/* --------------------------------------------------------------------------
+   4. HEADER / FOOTER COMPARTIDOS  ·  folio de dossier
    -------------------------------------------------------------------------- */
 .brand-header {
-  background: var(--brand-default);
-  color: var(--surface-default);
+  background: var(--surface-default);
+  color: var(--ink-title);
+  border-bottom: 1px solid var(--line-default);
 }
 .brand-header-inner {
   max-width: 210mm;
@@ -100,21 +161,42 @@ li { margin-bottom: var(--space-2); }
   padding: var(--space-3) var(--space-6);
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
 }
-.brand-logo { width: 34px; height: 34px; display: block; flex: none; }
+.brand-logo { width: 30px; height: 30px; display: block; flex: none; }
 .brand-logo svg { width: 100%; height: 100%; display: block; }
-.brand-info { display: flex; flex-direction: column; line-height: 1.2; }
-.brand-title { font-weight: var(--fw-bold); font-size: var(--fs-sm); }
-.brand-role  { font-size: var(--fs-sm); opacity: .75; }
+.brand-info { display: flex; flex-direction: column; line-height: 1.25; }
+.brand-title { font-weight: 700; font-size: 0.72rem; color: var(--ink-title); }
+.brand-role  { font-size: 0.66rem; color: var(--ink-muted); letter-spacing: .1em; }
 .brand-doc {
   margin-left: auto;
-  font-size: var(--fs-sm);
-  opacity: .85;
+  font-size: 0.66rem;
+  color: var(--ink-muted);
   text-align: right;
 }
 
-.brand-footer { background: var(--surface-default); border-top: 1px solid var(--line-default); }
+/* Folio: la referencia del expediente. El acento marca lo que identifica
+   al documento; el resto va en gris para que no compita con el contenido. */
+.folio-ref   { font-weight: 700; color: var(--brand-default); white-space: nowrap; }
+.folio-sep   { color: var(--line-default); font-weight: 400; }
+.folio-muted { color: var(--ink-muted); font-weight: 500; }
+
+/* En pantalla angosta el folio completo no entra en una línea. Se recortan los
+   campos del medio y quedan la referencia y la fecha, que son los que
+   identifican el ejemplar. Sin esto el membrete desborda a lo ancho. */
+@media (max-width: 700px) {
+  .folio-muted, .folio-sep { display: none; }
+}
+
+.brand-footer {
+  background: var(--surface-default);
+  border-top: 1px solid var(--line-default);
+}
 .brand-footer-inner {
   max-width: 210mm;
   margin: 0 auto;
@@ -122,48 +204,101 @@ li { margin-bottom: var(--space-2); }
   display: flex;
   justify-content: space-between;
   gap: var(--space-4);
-  font-size: var(--fs-sm);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
   color: var(--ink-muted);
 }
+.brand-footer-meta { color: var(--ink-muted); }
 
 /* --------------------------------------------------------------------------
-   4. LAYOUT DEL DOCUMENTO
+   5. LAYOUT DEL DOCUMENTO
    -------------------------------------------------------------------------- */
 .content { max-width: 210mm; margin: 0 auto; padding: var(--space-8) var(--space-6); }
 .section { margin-bottom: var(--space-10); }
 .cover { text-align: center; padding: var(--space-12) 0; }
 .cover h1 { font-size: var(--fs-3xl); }
-.cover h2 { color: var(--brand-default); font-size: var(--fs-2xl); }
-.eyebrow {
-  display: inline-block;
-  font-size: var(--fs-sm);
-  font-weight: var(--fw-bold);
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  color: var(--brand-default);
-  background: var(--brand-soft);
-  padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-sm);
-}
+.cover h2 { color: var(--ink-title); font-size: var(--fs-2xl); }
 .lead { font-size: var(--fs-lg); color: var(--ink-body); }
 
 /* --------------------------------------------------------------------------
-   5. HALLAZGOS Y EVIDENCIA
+   6. FOLIO DE SECCIÓN  ·  «01 / DIAGNÓSTICO EJECUTIVO ......... PÁG. 01»
+   Nombre propio (sec-row) para no chocar con .sec-head del informe.
    -------------------------------------------------------------------------- */
+.sec-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;          /* el campo de la derecha puede bajar de línea */
+  gap: var(--space-1) var(--space-4);
+  border-bottom: 1px solid var(--line-default);
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+.sec-row .right {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+/* --------------------------------------------------------------------------
+   7. HERO ESTADÍSTICO  ·  métrica gigante + narrativa
+   -------------------------------------------------------------------------- */
+.hero-grid {
+  display: grid;
+  /* La columna de la métrica necesita ancho real: «5 de 6» en mono a 4rem no
+     entra en un tercio de la caja y se parte en dos líneas. */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr);
+  gap: var(--space-8);
+  align-items: start;
+  margin-bottom: var(--space-6);
+}
+.stat-number {
+  font-size: 4rem;
+  font-weight: var(--fw-extrabold);
+  line-height: .9;
+  letter-spacing: -.05em;
+  color: var(--navy);
+  margin: var(--space-2) 0 var(--space-3);
+  white-space: nowrap;      /* la métrica es un número: nunca se parte */
+}
+.stat-rule { height: 5px; width: 80px; background: var(--brand-default); margin-bottom: var(--space-3); }
+.stat-caption { font-size: var(--fs-sm); color: var(--ink-muted); margin: 0; max-width: 30ch; }
+.hero-divider { height: 3px; background: var(--navy); margin-top: var(--space-6); }
+
+/* --------------------------------------------------------------------------
+   8. HALLAZGOS Y EVIDENCIA
+   -------------------------------------------------------------------------- */
+.findings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
 .finding {
   background: var(--surface-default);
   border: 1px solid var(--line-default);
-  border-radius: var(--radius-lg);
   padding: var(--space-5);
   margin-bottom: var(--space-3);
+  break-inside: avoid;
+  page-break-inside: avoid;
 }
+.finding:hover { border-color: var(--navy); }
 .finding-head {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  margin-bottom: var(--space-2);
+  margin-bottom: var(--space-3);
+  flex-wrap: wrap;
 }
-.finding-title { font-weight: var(--fw-bold); color: var(--ink-title); font-size: var(--fs-sm); }
+.finding-title { font-weight: var(--fw-bold); color: var(--ink-title); font-size: var(--fs-base); margin-bottom: var(--space-2); }
+.finding-metric {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--brand-default);
+  line-height: 1.2;
+  margin-bottom: var(--space-4);
+}
 .finding p { margin: 0 0 var(--space-3); font-size: var(--fs-sm); }
 .finding-meta {
   display: flex;
@@ -177,39 +312,63 @@ li { margin-bottom: var(--space-2); }
 .finding-meta strong { color: var(--ink-title); }
 .finding-meta .tag { margin-left: auto; }
 
-.tag {
-  display: inline-block;
-  font-size: 0.7rem;
-  font-weight: var(--fw-bold);
+/* Filas «qué significa / qué propongo» dentro de un hallazgo. */
+.finding-rows { border-top: 1px solid var(--line-default); padding-top: var(--space-3); margin: 0; }
+.finding-row { display: grid; grid-template-columns: 92pt 1fr; gap: var(--space-3); padding: var(--space-2) 0; }
+.finding-row + .finding-row { border-top: 1px solid var(--line-default); }
+.finding-row dt {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: .1em;
   text-transform: uppercase;
-  letter-spacing: .06em;
-  padding: 2px 7px;
-  border-radius: var(--radius-sm);
-  background: var(--brand-soft);
-  color: var(--brand-default);
+  color: var(--ink-muted);
 }
-.tag-medido    { background: rgba(40,167,69,.12);   color: #1E7E34; }
-.tag-inferible { background: rgba(23,162,184,.12);  color: #11707F; }
-.tag-noverif   { background: rgba(220,53,69,.10);   color: #A71D2A; }
+.finding-row dt.accent { color: var(--brand-default); }
+.finding-row dd { margin: 0; font-size: var(--fs-sm); }
+
+/* --------------------------------------------------------------------------
+   9. BADGES Y TAGS
+   -------------------------------------------------------------------------- */
+.tag,
+.badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  padding: 3px 7px;
+  border: 1px solid var(--line-default);
+  background: var(--surface-cream);
+  color: var(--ink-muted);
+}
+.tag-medido    { background: rgba(5,150,105,.10);   color: #05674A; border-color: rgba(5,150,105,.30); }
+.tag-inferible { background: rgba(14,116,144,.10);  color: #0B5A70; border-color: rgba(14,116,144,.30); }
+.tag-noverif   { background: rgba(220,38,38,.08);   color: #A32020; border-color: rgba(220,38,38,.28); }
+
+.tag-prio-alta  { background: rgba(255,107,26,.10); color: var(--brand-default); border-color: rgba(255,107,26,.35); }
+.tag-prio-media { background: var(--surface-cream); color: var(--ink-muted);      border-color: var(--line-default); }
+.tag-prio-baja  { background: var(--surface-cream); color: var(--ink-muted);      border-color: var(--line-default); }
 
 .evidence { font-size: var(--fs-sm); }
 
-/* Callout oscuro (costo de no hacer nada) */
+/* Callout oscuro (el costo de no hacer nada) */
 .callout {
-  background: var(--ink-title);
+  background: var(--navy);
   color: var(--surface-default);
-  border-radius: var(--radius-lg);
   padding: var(--space-8);
 }
 .callout .callout-label {
-  font-size: 0.7rem; font-weight: var(--fw-bold); text-transform: uppercase;
-  letter-spacing: .08em; opacity: .6; margin-bottom: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .12em; color: var(--brand-default); margin-bottom: var(--space-3);
 }
-.callout .callout-strong { font-size: var(--fs-2xl); font-weight: var(--fw-bold); margin-bottom: var(--space-3); }
-.callout .callout-note { font-size: var(--fs-sm); opacity: .7; margin: 0; }
+.callout .callout-strong { font-size: var(--fs-2xl); font-weight: var(--fw-extrabold); margin-bottom: var(--space-3); }
+.callout .callout-note { font-size: var(--fs-sm); opacity: .72; margin: 0; }
 
 /* --------------------------------------------------------------------------
-   6. TABLAS Y PRECIOS
+   10. TABLAS Y PRECIOS
    -------------------------------------------------------------------------- */
 .price-table { width: 100%; border-collapse: collapse; margin: var(--space-4) 0; font-size: var(--fs-sm); }
 .price-table th, .price-table td {
@@ -217,43 +376,59 @@ li { margin-bottom: var(--space-2); }
   padding: var(--space-3);
   text-align: left;
 }
-.price-table th { background: var(--surface-alt); font-weight: var(--fw-bold); color: var(--ink-title); }
+.price-table th {
+  background: var(--surface-cream);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--ink-muted);
+}
 .price-table td:nth-child(2) { white-space: nowrap; font-weight: var(--fw-bold); color: var(--ink-title); }
 
 .base-card {
-  background: var(--surface-default);
-  border: 2px solid var(--brand-default);
-  border-radius: var(--radius-lg);
+  background: var(--surface-cream);
+  border: 1.5px solid var(--brand-default);
   padding: var(--space-5);
   margin-bottom: var(--space-3);
-  position: relative;
 }
+/* La bandera va EN EL FLUJO, no como listón de esquina: posicionada arriba a la
+   derecha se montaba sobre el precio, que vive en ese mismo rincón. */
 .base-flag {
-  position: absolute; top: 0; right: 0;
+  display: inline-block;
   background: var(--brand-default); color: var(--surface-default);
-  font-size: 0.65rem; font-weight: var(--fw-bold); text-transform: uppercase;
-  letter-spacing: .08em; padding: 4px 10px; border-radius: 0 var(--radius-lg) 0 var(--radius-lg);
+  font-family: var(--font-mono);
+  font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; padding: 3px 7px;
+  margin-bottom: var(--space-3);
 }
 .base-head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-4); margin-bottom: var(--space-3); }
-.base-label { font-size: 0.7rem; font-weight: var(--fw-bold); text-transform: uppercase; letter-spacing: .08em; color: var(--brand-default); }
+.base-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--brand-default);
+}
 .base-price { font-weight: var(--fw-bold); color: var(--ink-title); white-space: nowrap; }
 
 /* --------------------------------------------------------------------------
-   7. SELECTOR INTERACTIVO
+   11. SELECTOR INTERACTIVO DE MÓDULOS
    -------------------------------------------------------------------------- */
 .module-card {
   background: var(--surface-default);
   border: 1px solid var(--line-default);
-  border-radius: var(--radius-lg);
   padding: var(--space-5);
   margin-bottom: var(--space-3);
   cursor: pointer;
-  transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease;
+  transition: border-color .15s ease, background-color .15s ease;
 }
-.module-card:hover { box-shadow: var(--shadow-sm); }
-.module-card.on { border: 2px solid var(--brand-default); background: var(--brand-soft); }
+.module-card:hover { border-color: var(--navy); }
+.module-card.on { border: 1.5px solid var(--brand-default); background: var(--brand-soft); }
 .module-head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-4); margin-bottom: var(--space-2); }
-.module-code { font-size: 0.7rem; font-weight: var(--fw-bold); text-transform: uppercase; letter-spacing: .08em; color: var(--brand-default); }
+.module-code {
+  font-family: var(--font-mono);
+  font-size: 0.66rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--brand-default);
+}
 .module-title { font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--ink-title); margin: 0; }
 .module-price { font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--ink-title); white-space: nowrap; }
 .module-short { font-size: var(--fs-sm); margin-bottom: var(--space-2); }
@@ -264,107 +439,120 @@ li { margin-bottom: var(--space-2); }
 .total-bar {
   position: sticky;
   bottom: var(--space-4);
-  background: var(--ink-title);
+  background: var(--navy);
   color: var(--surface-default);
-  border-radius: var(--radius-lg);
   padding: var(--space-5);
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: var(--space-4);
 }
-.total-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: .08em; opacity: .6; }
-.total-value { font-size: var(--fs-2xl); font-weight: var(--fw-bold); }
-.total-list  { font-size: var(--fs-sm); opacity: .75; margin-top: 2px; }
+.total-label {
+  font-family: var(--font-mono);
+  font-size: 0.66rem; text-transform: uppercase; letter-spacing: .12em;
+  color: var(--brand-default);
+}
+.total-value { font-size: var(--fs-2xl); font-weight: var(--fw-extrabold); }
+.total-list  { font-size: var(--fs-sm); opacity: .72; margin-top: 2px; }
 .total-value.pulse { animation: pulse .35s ease; }
 @keyframes pulse {
   0%   { transform: scale(1); }
-  50%  { transform: scale(1.07); color: var(--brand-soft); }
+  50%  { transform: scale(1.06); color: var(--brand-default); }
   100% { transform: scale(1); }
 }
 
 /* --------------------------------------------------------------------------
-   8. BOTONES
+   12. BOTONES  ·  rectangulares, en mono, en mayúsculas
    -------------------------------------------------------------------------- */
 .btn {
   display: inline-block;
-  font-family: inherit;
-  font-size: var(--fs-sm);
-  font-weight: var(--fw-bold);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: .06em;
-  padding: var(--space-3) var(--space-5);
-  border-radius: var(--radius-md);
-  border: 1px solid transparent;
+  letter-spacing: .12em;
+  padding: var(--space-3) var(--space-6);
+  border: 1.5px solid var(--navy);
+  background: var(--navy);
+  color: var(--surface-default);
   text-decoration: none;
   cursor: pointer;
-  transition: background-color .2s ease, color .2s ease;
+  transition: background-color .15s ease, color .15s ease;
 }
-.btn-light { background: var(--surface-default); color: var(--ink-title); }
-.btn-light:hover { background: var(--brand-soft); }
-.btn-ghost { background: transparent; color: var(--brand-default); text-transform: none; letter-spacing: 0; padding: var(--space-1); }
+.btn-light { background: transparent; color: var(--navy); }
+.btn-light:hover { background: var(--surface-cream); }
+.btn-ghost { background: transparent; border-color: transparent; color: var(--ink-title); text-transform: none; letter-spacing: 0; padding: var(--space-1); }
+.btn-ghost:hover { color: var(--brand-default); }
 
 /* --------------------------------------------------------------------------
-   9. ALCANCE
+   13. ALCANCE
    -------------------------------------------------------------------------- */
 .scope {
   background: var(--surface-alt);
   border: 1px solid var(--line-default);
-  border-radius: var(--radius-lg);
   padding: var(--space-5);
 }
-.scope-label { font-size: 0.7rem; font-weight: var(--fw-bold); text-transform: uppercase; letter-spacing: .08em; color: var(--ink-muted); margin-bottom: var(--space-3); }
+.scope-label {
+  font-family: var(--font-mono);
+  font-size: 0.66rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--ink-muted); margin-bottom: var(--space-3);
+}
 .scope ul { list-style: none; padding: 0; margin: 0; font-size: var(--fs-sm); }
 .scope li { display: flex; gap: var(--space-2); margin-bottom: var(--space-2); }
-.scope .yes { color: var(--brand-default); }
+.scope .yes { color: var(--success); }
 .scope .no  { color: var(--ink-muted); }
 
 /* --------------------------------------------------------------------------
-   10. PRIORIDAD DE HALLAZGOS
-   -------------------------------------------------------------------------- */
-.tag-prio-alta  { background: rgba(220,53,69,.12);  color: #A71D2A; }
-.tag-prio-media { background: rgba(255,193,7,.20);  color: #8A6100; }
-.tag-prio-baja  { background: rgba(122,135,148,.16); color: #5A6672; }
-
-/* --------------------------------------------------------------------------
-   11. COMPARATIVO VERIFICADO
+   14. COMPARATIVO VERIFICADO
    -------------------------------------------------------------------------- */
 .compare-table { width: 100%; border-collapse: collapse; margin: var(--space-4) 0; font-size: 0.76rem; }
 .compare-table th, .compare-table td {
   border: 1px solid var(--line-default);
-  padding: 5px 7px;
+  padding: 6px 8px;
   text-align: left;
   vertical-align: top;
 }
-.compare-table th { background: var(--surface-alt); font-weight: var(--fw-bold); color: var(--ink-title); }
-.compare-table .row-client { background: var(--brand-soft); font-weight: var(--fw-bold); }
-.compare-table .ok   { color: #1E7E34; font-weight: var(--fw-bold); }
-.compare-table .bad  { color: #A71D2A; font-weight: var(--fw-bold); }
+.compare-table th {
+  background: var(--surface-cream);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--ink-muted);
+  font-weight: 700;
+}
+.compare-table thead tr { border-bottom: 2px solid var(--navy); }
+.compare-table .row-client { background: var(--surface-cream); font-weight: var(--fw-bold); }
+.compare-table .ok   { color: var(--brand-default); font-weight: var(--fw-bold); font-family: var(--font-mono); }
+.compare-table .bad  { color: var(--ink-muted); font-family: var(--font-mono); }
 .compare-table .meh  { color: var(--ink-muted); }
-.evsrc { font-size: 0.72rem; color: var(--ink-muted); margin: var(--space-2) 0 0; }
+.evsrc { font-family: var(--font-mono); font-size: 0.68rem; color: var(--ink-muted); margin: var(--space-2) 0 0; }
 
 /* --------------------------------------------------------------------------
-   12. INDICADORES
+   15. INDICADORES
    -------------------------------------------------------------------------- */
 .kpi-row { display: flex; gap: var(--space-3); margin: var(--space-4) 0; }
 .kpi {
   flex: 1;
   background: var(--surface-default);
   border: 1px solid var(--line-default);
-  border-radius: var(--radius-lg);
   padding: var(--space-4);
   text-align: center;
 }
-.kpi__value { display: block; font-size: var(--fs-2xl); font-weight: var(--fw-extrabold); color: var(--ink-title); }
-.kpi__label { display: block; font-size: 0.68rem; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-muted); margin-top: 2px; }
+.kpi__value { display: block; font-size: var(--fs-2xl); font-weight: 700; color: var(--navy); }
+.kpi__label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.6rem; text-transform: uppercase; letter-spacing: .12em;
+  color: var(--ink-muted); margin-top: 4px; line-height: 1.4;
+}
 
 /* --------------------------------------------------------------------------
-   13. CITA Y VOZ DEL CLIENTE
+   16. CITA Y VOZ DEL CLIENTE
    -------------------------------------------------------------------------- */
 .quote {
   background: var(--surface-default);
   border-left: 3px solid var(--brand-default);
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
   padding: var(--space-4) var(--space-5);
   margin: 0 0 var(--space-3);
   font-style: italic;
@@ -374,57 +562,78 @@ li { margin-bottom: var(--space-2); }
 
 /* Bloque de datos por confirmar (lo que no puedo verificar) */
 .todo {
-  background: var(--surface-alt);
+  background: var(--surface-cream);
   border: 1px dashed var(--line-default);
-  border-radius: var(--radius-lg);
   padding: var(--space-5);
 }
 .todo ul { margin: 0; font-size: var(--fs-sm); }
 
 /* --------------------------------------------------------------------------
-   14. LAYOUT DE LA PROPUESTA COMERCIAL
+   17. LAYOUT DE LA PROPUESTA COMERCIAL
    La propuesta es una página web que se lee en pantalla y también se imprime.
    Sólo se declaran acá la disposición y los ritmos; los colores son los tokens.
    -------------------------------------------------------------------------- */
-.band { background: var(--surface-default); border-top: 1px solid var(--line-default); border-bottom: 1px solid var(--line-default); }
-.band--ink { background: var(--ink-title); color: var(--surface-default); border: none; }
+.band {
+  background: var(--surface-default);
+  border-top: 1px solid var(--line-default);
+}
+.band + .band { border-top: none; }
+.band--ink { background: var(--navy); color: var(--surface-default); border: none; }
 .band--ink h1, .band--ink h2, .band--ink h3 { color: var(--surface-default); }
-.band--soft { background: var(--brand-soft); }
+.band--ink .lead { color: rgba(255, 255, 255, .78); }
+.band--soft { background: var(--surface-cream); }
 .wrap { max-width: 210mm; margin: 0 auto; padding: var(--space-8) var(--space-6); }
 .wrap--tight { padding: var(--space-6) var(--space-6); }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); }
-.hero-h1 { font-size: 2.25rem; line-height: 1.15; font-weight: var(--fw-extrabold); letter-spacing: -0.01em; }
+.hero-h1 { font-size: 2.35rem; line-height: 1.1; font-weight: var(--fw-extrabold); letter-spacing: -0.025em; }
 .cta-row { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-5); }
-.btn-ink { background: var(--ink-title); color: var(--surface-default); }
-.btn-ink:hover { background: var(--brand-default); }
-.btn-brand { background: var(--brand-default); color: var(--surface-default); }
-.btn-brand:hover { background: var(--brand-hover); }
-.btn-wa { background: #128C7E; color: #FFFFFF; }
-.btn-wa:hover { background: #0E6E63; }
+.btn-ink { background: var(--navy); color: var(--surface-default); border-color: var(--navy); }
+.btn-ink:hover { background: var(--navy-hover); }
+.btn-brand { background: var(--brand-default); color: var(--surface-default); border-color: var(--brand-default); }
+.btn-brand:hover { background: var(--brand-hover); border-color: var(--brand-hover); }
+.btn-wa { background: #128C7E; color: #FFFFFF; border-color: #128C7E; }
+.btn-wa:hover { background: #0E6E63; border-color: #0E6E63; }
 .step-list { counter-reset: paso; list-style: none; padding: 0; }
 .step-list li { counter-increment: paso; position: relative; padding-left: var(--space-8); margin-bottom: var(--space-4); }
 .step-list li::before {
-  content: counter(paso);
-  position: absolute; left: 0; top: 0;
-  width: 22px; height: 22px; border-radius: var(--radius-full);
+  content: counter(paso, decimal-leading-zero);
+  position: absolute; left: 0; top: 2px;
+  width: 22px; height: 20px;
   background: var(--brand-default); color: var(--surface-default);
-  font-size: 0.72rem; font-weight: var(--fw-bold);
-  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.66rem; font-weight: 700; line-height: 20px; text-align: center;
 }
 .shot {
   border: 1px solid var(--line-default);
-  border-radius: var(--radius-md);
   overflow: hidden;
   background: var(--surface-alt);
 }
 .shot img { display: block; width: 100%; height: auto; }
-.shot__cap { font-size: 0.72rem; color: var(--ink-muted); padding: var(--space-2) var(--space-3); border-top: 1px solid var(--line-default); background: var(--surface-default); }
+.shot__cap {
+  font-family: var(--font-mono);
+  font-size: 0.68rem; color: var(--ink-muted);
+  padding: var(--space-2) var(--space-3);
+  border-top: 1px solid var(--line-default);
+  background: var(--surface-default);
+}
 
 /* La propuesta también se imprime: sin barra fija, sin saltos raros. */
 @media print {
   .no-print { display: none !important; }
   .total-bar { position: static; }
-  .band, .band--ink, .band--soft { break-inside: avoid; }
+
+  /* Las bandas FLUYEN. Con `break-inside: avoid` una banda que no entra en el
+     resto de la hoja se va entera a la siguiente y deja media hoja en blanco
+     — pasaba con el hero y con el índice, que quedaban solos en su página. */
+  .band, .band--soft { break-inside: auto; }
+
+  /* Lo que sí es atómico: una tarjeta partida al medio no se lee. */
+  .finding, .module-card, .base-card, .shot, .callout, .todo,
+  .kpi, .glos-card, .etapa, .finding-row, .sec-row { break-inside: avoid; }
+
+  /* Un título no queda solo al pie de una hoja. */
+  h2, h3, h4, .eyebrow, .sec-row { break-after: avoid; }
+
   .wrap { padding: 0 0 var(--space-6); max-width: none; }
   body { background: #FFFFFF; }
   a[href^="http"]::after { content: ""; }

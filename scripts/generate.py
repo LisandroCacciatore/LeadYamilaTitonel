@@ -143,9 +143,16 @@ def alcance_item(texto: str) -> str:
     return f'<li><span class="{cls}">{marca}</span> {esc(resto)}</li>'
 
 
-def kpi_row(kpis: list) -> str:
-    """§4.1 del spec editorial: máximo 4 números en el cuadro."""
-    kpis = list(kpis)[:4]
+def kpi_row(kpis: list, excluir: str = "") -> str:
+    """§4.1 del spec editorial: máximo 4 números en el cuadro.
+
+    `excluir` saca el número que ya va gigante en el hero: repetir el mismo
+    dato dos veces en la misma pantalla le baja el peso a los dos.
+    """
+    kpis = [
+        k for k in list(kpis)
+        if str(k.get("valor", "")).strip() != str(excluir).strip()
+    ][:4]
     if not kpis:
         return ""
     items = "".join(
@@ -282,6 +289,103 @@ def brand_override(cfg: dict) -> str:
     )
 
 
+def folio_data(cfg: dict, titulo: str) -> dict:
+    """Datos del folio (la línea de expediente del membrete).
+
+    `titulo` es el nombre del DOCUMENTO, no del cliente: el folio del informe
+    dice «INFORME DE AUDITORÍA» y el de la propuesta «PROPUESTA COMERCIAL».
+    Importa que sean distintos y que no repitan el nombre de una sección: el
+    membrete se repite en cada hoja, así que un título que contenga «Diagnóstico»
+    aparece ANTES del «Resumen Ejecutivo» y el chequeo de orden de secciones
+    del PDF lo lee como una sección adelantada.
+
+    El resto se DERIVA de la config y se puede pisar desde `cfg.folio`: la
+    referencia sale de las iniciales del cliente + el año, y el mes del texto
+    de la fecha. Así el folio existe sin pedirle un dato más al cliente.
+    """
+    meta = cfg.get("meta") or {}
+    folio = cfg.get("folio") or {}
+
+    nombre = (meta.get("nombre") or "").strip()
+    palabras = [p for p in re.findall(r"[A-Za-zÁÉÍÓÚÑáéíóúñ]+", nombre) if p]
+    iniciales = "".join(p[0] for p in palabras)[:3].upper() or "XX"
+
+    fecha = (meta.get("fecha") or "").strip()
+    m = re.search(r"\b(\d{4})\b", fecha)
+    anio = m.group(1) if m else ""
+
+    mes = ""
+    for nombre_mes in ("enero", "febrero", "marzo", "abril", "mayo", "junio", "julio",
+                       "agosto", "septiembre", "octubre", "noviembre", "diciembre"):
+        if nombre_mes in fecha.lower():
+            mes = nombre_mes.upper()
+            break
+
+    return {
+        "FOLIO_REF": esc((folio.get("ref") or f"{iniciales}-{anio}").strip()),
+        "FOLIO_VERSION": esc(str(folio.get("version") or "V1.0").strip()),
+        "FOLIO_TITULO": esc(str(folio.get("titulo") or titulo).strip()),
+        "FOLIO_FECHA": esc((f"{mes} {anio}".strip() or fecha.upper())),
+        "FOLIO_EJEMPLAR": esc(str(folio.get("ejemplar") or "01").strip()),
+    }
+
+
+# Anclas de sección que la plantilla de propuesta numera. El número sale del
+# índice (secciones.json); acá viven sólo los nombres de las anclas, para poder
+# emitir el slot aunque una sección no esté listada en el índice.
+ANCLAS_PROPUESTA = [
+    "evidencia", "sitio-nuevo", "comparativo", "propuesta", "pago", "valor",
+    "glosario", "wordpress", "etapas", "cierre", "aceptacion",
+]
+
+
+def eyebrows(cfg: dict) -> dict:
+    """Numeración de los eyebrows: «01 · Tu situación hoy».
+
+    El número NO se escribe en la plantilla: sale del índice, que ya es la
+    fuente única del orden de las secciones. Importa porque el orden del DOM
+    NO es el del índice (la propuesta muestra el resultado antes que el
+    problema, §3.4), así que un contador por orden daría números cruzados.
+    """
+    numeros = {}
+    for i, par in enumerate(seccion(cfg, "indice") or [], 1):
+        try:
+            ancla = str(par[1])
+        except (TypeError, IndexError):
+            continue
+        numeros[ancla.lstrip("#")] = f"{i:02d} / "
+
+    return {f"EB_{a}": esc(numeros.get(a, "")) for a in ANCLAS_PROPUESTA}
+
+
+def hero_stat_valor(cfg: dict) -> str:
+    """El número que va gigante en el hero, crudo (sin escapar)."""
+    prop = cfg.get("propuesta") or {}
+    kpis = (cfg.get("comparativo") or {}).get("kpis") or []
+    return str(
+        (prop.get("heroStat") or {}).get("valor")
+        or (kpis[0].get("valor") if kpis else "")
+        or ""
+    )
+
+
+def hero_stat(cfg: dict) -> dict:
+    """Slots de la métrica gigante: valor, leyenda y pie.
+
+    Sale de `cfg.propuesta.heroStat`; si no está declarado, cae al primer KPI
+    del comparativo. El pie es opcional (queda vacío si no se declara).
+    """
+    prop = cfg.get("propuesta") or {}
+    hs = prop.get("heroStat") or {}
+    kpis = (cfg.get("comparativo") or {}).get("kpis") or []
+    base = kpis[0] if kpis else {}
+    return {
+        "HERO_STAT": esc(hero_stat_valor(cfg)),
+        "HERO_STAT_LABEL": esc(str(hs.get("label") or base.get("label") or "")),
+        "HERO_STAT_CAPTION": esc(str(hs.get("caption") or "")),
+    }
+
+
 def imagen_uri(path: Path, ancho: int = 900, calidad: int = 72) -> str:
     """Embebe una imagen como data URI JPEG, redimensionada. Sin red, sin archivos sueltos."""
     from PIL import Image
@@ -293,6 +397,37 @@ def imagen_uri(path: Path, ancho: int = 900, calidad: int = 72) -> str:
     im.save(buf, "JPEG", quality=calidad, optimize=True, progressive=True)
     data = base64.b64encode(buf.getvalue()).decode("ascii")
     return f"data:image/jpeg;base64,{data}"
+
+
+def fuentes_css() -> str:
+    """@font-face con las tipografias embebidas como data URI.
+
+    Misma logica que las imagenes: sin red y sin archivos sueltos, para que el
+    PDF salga igual en cualquier maquina. Las dos familias son variables, asi que
+    se declaran con un RANGO de peso (`font-weight: 100 900`) apuntando a un solo
+    archivo; declararlas por peso con el mismo archivo haria que el navegador
+    sintetice el peso y todo salga igual de grueso.
+
+    Si los .woff2 no estan, no rompe: devuelve "" y el CSS cae a la pila del
+    sistema (`--font-sans` / `--font-mono` ya la traen).
+    """
+    familias = [("Inter", "Inter"), ("JetBrains Mono", "JetBrainsMono")]
+    bloques = []
+    for nombre_css, archivo in familias:
+        ruta = BRAND / "assets" / "fonts" / f"{archivo}.woff2"
+        if not ruta.exists():
+            continue
+        b64 = base64.b64encode(ruta.read_bytes()).decode("ascii")
+        bloques.append(
+            f"@font-face {{\n"
+            f"  font-family: '{nombre_css}';\n"
+            f"  src: url(data:font/woff2;base64,{b64}) format('woff2-variations');\n"
+            f"  font-weight: 100 900;\n"
+            f"  font-style: normal;\n"
+            f"  font-display: swap;\n"
+            f"}}\n"
+        )
+    return "\n".join(bloques)
 
 
 def shots_band(cfg: dict) -> str:
@@ -382,21 +517,32 @@ def main() -> int:
     total_all = base + sum(int(m.get("price", 0)) for m in modulos)
 
     # ---- marca y fragmentos compartidos
-    brand_css = read(BRAND / "brand.css") + brand_override(cfg)
+    # Las fuentes van primero: los tokens de brand.css las referencian por nombre.
+    brand_css = fuentes_css() + read(BRAND / "brand.css") + brand_override(cfg)
     print_css = read(TEMPLATES / "print.css")
     logo_svg = read(BRAND / "assets" / "logo.svg")
 
-    header = render(read(BRAND / "header.html"), {
-        "LOGO_SVG": logo_svg,
-        "DOC_TITLE": esc(meta.get("nombre", "")),
-    })
+    def armar_header(titulo_doc: str) -> str:
+        """El membrete es el mismo para las dos piezas, salvo el título del
+        documento: el folio del informe y el de la propuesta no dicen lo mismo."""
+        return render(read(BRAND / "header.html"), {
+            "LOGO_SVG": logo_svg,
+            "DOC_TITLE": esc(meta.get("nombre", "")),
+            **folio_data(cfg, titulo_doc),
+        })
+
+    header_informe = armar_header("INFORME DE AUDITORÍA")
+    header_propuesta = armar_header("PROPUESTA COMERCIAL")
     footer = render(read(BRAND / "footer.html"), {
-        "FOOTER_META": esc(f"{author.get('email', '')} · {meta.get('fecha', '')}"),
+        "FOOTER_META": esc(
+            f"{author.get('nombre', 'Lisandro Cacciatore')} · Consultor de IA"
+            f" · {meta.get('fecha', '')}"
+        ),
     })
 
     common = {
         "BRAND_CSS": brand_css,
-        "HEADER": header,
+        "HEADER": header_informe,
         "FOOTER": footer,
         "NOMBRE_CLIENTE": esc(meta.get("nombre")),
         "NOMBRE_CLIENTE_ENCODED": esc(meta.get("nombre", "")).replace(" ", "%20"),
@@ -446,6 +592,12 @@ def main() -> int:
         return str(prop.get(clave) or default)
 
     propuesta_data = dict(common)
+    propuesta_data["HEADER"] = header_propuesta
+    propuesta_data.update(eyebrows(cfg))
+    propuesta_data.update(hero_stat(cfg))
+    # El KPI que va gigante en el hero se saca de la fila de indicadores:
+    # es el mismo número y no se muestra dos veces en la misma pantalla.
+    propuesta_data["KPI_HTML"] = kpi_row(comp.get("kpis", []), excluir=hero_stat_valor(cfg))
     propuesta_data.update({
         "HERO_TITULO": narrativa(
             "heroTitulo",
@@ -556,7 +708,7 @@ def main() -> int:
     informe_data.update({
         "PRINT_CSS": print_css,
         "CONFIG_JSON": js_json(cfg),
-        "HEADER_JSON": js_json(header),
+        "HEADER_JSON": js_json(header_informe),
         "FOOTER_JSON": js_json(footer),
         "PAGINATOR_JS": read(TEMPLATES / "print.js"),
     })

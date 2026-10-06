@@ -70,16 +70,34 @@
 {{HEADER}}
 
 <!-- ══════════════ 1-3 · GANCHO, CONTEXTO Y NÚMEROS ══════════════ -->
-<section class="band band--ink">
+<section class="band">
   <div class="wrap">
-    <span class="eyebrow" style="background:rgba(255,255,255,.14);color:#fff">Propuesta · {{FECHA}} · válida hasta el {{VALIDEZ}}</span>
-    <h1 class="hero-h1" style="margin-top:1.25rem">{{HERO_TITULO}}</h1>
-    <p class="lead" style="color:rgba(255,255,255,.78);max-width:44rem">{{HERO_LEAD}}</p>
+    <div class="sec-row">
+      <span class="eyebrow">Propuesta comercial</span>
+      <span class="right">{{FECHA}} · válida hasta el {{VALIDEZ}}</span>
+    </div>
+
+    <div class="hero-grid">
+      <div class="stat-block">
+        <span class="label-mono">{{HERO_STAT_LABEL}}</span>
+        <div class="stat-number">{{HERO_STAT}}</div>
+        <div class="stat-rule"></div>
+        <p class="stat-caption">{{HERO_STAT_CAPTION}}</p>
+      </div>
+      <div class="hero-copy">
+        <h1 class="hero-h1">{{HERO_TITULO}}</h1>
+        <p class="lead">{{HERO_LEAD}}</p>
+      </div>
+    </div>
+
     {{KPI_HTML}}
+
     <div class="cta-row">
       <a class="btn btn-brand" href="#sitio-nuevo">Mirá cómo se vería tu sitio &rarr;</a>
       <a class="btn btn-light" href="#propuesta">Ver qué propongo</a>
     </div>
+
+    <div class="hero-divider"></div>
   </div>
 </section>
 
@@ -97,7 +115,7 @@
 <!-- ══════════════ 4 · TU SITIO NUEVO (el resultado, primero) ══════════════ -->
 <section class="band band--soft" id="sitio-nuevo">
   <div class="wrap">
-    <span class="eyebrow">El resultado, antes que el problema</span>
+    <span class="eyebrow">{{EB_sitio-nuevo}}El resultado, antes que el problema</span>
     <h2 style="font-size:1.5rem;margin-top:.75rem">Tu sitio nuevo</h2>
     {{SITIO_NUEVO_HTML}}
   </div>
@@ -106,7 +124,7 @@
 <!-- ══════════════ 5 · LO QUE ENCONTRÉ (§5) ══════════════ -->
 <section class="band" id="evidencia">
   <div class="wrap">
-    <span class="eyebrow">Lo que encontré</span>
+    <span class="eyebrow">{{EB_evidencia}}Lo que encontré</span>
     <h2 style="font-size:1.5rem;margin-top:.75rem">{{NUM_HALLAZGOS}} hallazgos medidos</h2>
     <p>
       Cada hallazgo va con el número crudo, qué significa para tu trabajo y qué propongo.
@@ -119,7 +137,7 @@
 <!-- ══════════════ 6-7 · CONTRA COLEGAS ══════════════ -->
 <section class="band band--soft" id="comparativo">
   <div class="wrap">
-    <span class="eyebrow">Dónde estás parado</span>
+    <span class="eyebrow">{{EB_comparativo}}Dónde estás parado</span>
     <h2 style="font-size:1.5rem;margin-top:.75rem">{{COMPARATIVO_TITULO}}</h2>
     <p>{{COMPARATIVO_INTRO}}</p>
     {{COMPARATIVO_HTML}}
@@ -161,7 +179,7 @@
      El precio de cada uno vive en templates/catalogo.json, no en la config del cliente. -->
 <section class="band" id="propuesta">
   <div class="wrap">
-    <span class="eyebrow">Qué propongo</span>
+    <span class="eyebrow">{{EB_propuesta}}Qué propongo</span>
     <h2 style="font-size:1.5rem;margin-top:.75rem">{{PROPUESTA_TITULO}}</h2>
     <p>{{PROPUESTA_INTRO}}</p>
     <p><strong>Tildá lo que te interese: el total se recalcula solo.</strong></p>
@@ -202,7 +220,7 @@
 <!-- ══════════════ FORMA DE PAGO ══════════════ -->
 <section class="band band--soft" id="pago">
   <div class="wrap">
-    <span class="eyebrow">Cómo se paga</span>
+    <span class="eyebrow">{{EB_pago}}Cómo se paga</span>
     <div style="margin-top:.75rem">{{PAGO_HTML}}</div>
   </div>
 </section>
@@ -210,7 +228,7 @@
 <!-- ══════════════ POR QUÉ VALE LO QUE VALE ══════════════ -->
 <section class="band" id="valor">
   <div class="wrap">
-    <span class="eyebrow">Por qué esta propuesta vale lo que vale</span>
+    <span class="eyebrow">{{EB_valor}}Por qué esta propuesta vale lo que vale</span>
     <div style="margin-top:.75rem">{{VALOR_HTML}}</div>
   </div>
 </section>
@@ -218,7 +236,7 @@
 <!-- ══════════════ EN CASTELLANO: SEO, GEO Y AEO ══════════════ -->
 <section class="band band--soft" id="glosario">
   <div class="wrap">
-    <span class="eyebrow">En castellano</span>
+    <span class="eyebrow">{{EB_glosario}}En castellano</span>
     <h2 style="font-size:1.5rem;margin:.75rem 0 1rem">Qué son SEO, GEO y AEO</h2>
     {{GLOSARIO_HTML}}
   </div>
@@ -229,7 +247,7 @@
      stack que no se midió. -->
 <section class="band" id="wordpress">
   <div class="wrap" id="wordpress-wrap">
-    <span class="eyebrow">Decisión técnica</span>
+    <span class="eyebrow">{{EB_wordpress}}Decisión técnica</span>
     <h2 style="font-size:1.5rem;margin:.75rem 0 1rem">Por qué no WordPress</h2>
     {{NO_WORDPRESS_HTML}}
   </div>
@@ -238,7 +256,7 @@
 <!-- ══════════════ POR ETAPAS ══════════════ -->
 <section class="band band--soft" id="etapas">
   <div class="wrap">
-    <span class="eyebrow">Por etapas</span>
+    <span class="eyebrow">{{EB_etapas}}Por etapas</span>
     <h2 style="font-size:1.5rem;margin:.75rem 0 1rem">Cómo lo haría</h2>
     {{ETAPAS_HTML}}
   </div>
@@ -262,7 +280,7 @@
 <!-- ══════════════ 14 · PRÓXIMO PASO ══════════════ -->
 <section class="band band--soft" id="cierre">
   <div class="wrap">
-    <span class="eyebrow">Próximo paso</span>
+    <span class="eyebrow">{{EB_cierre}}Próximo paso</span>
     <h2 style="font-size:1.5rem;margin-top:.75rem">{{CIERRE_TITULO}}</h2>
     <p>{{CIERRE_BODY}}</p>
     <ol class="step-list">{{PASOS_HTML}}</ol>
@@ -297,7 +315,7 @@
 <!-- ══════════════ 16 · ACEPTACIÓN Y FIRMA ══════════════ -->
 <section class="band band--soft" id="aceptacion">
   <div class="wrap wrap--tight">
-    <span class="eyebrow">Aceptación</span>
+    <span class="eyebrow">{{EB_aceptacion}}Aceptación</span>
     <h2 style="font-size:1.25rem;margin-top:.75rem">Si estás de acuerdo, arrancamos</h2>
     <p>
       Con que me respondas «de acuerdo» ya alcanza para empezar: cargamos tus datos reales

@@ -2,8 +2,8 @@
   "_nota": "Secciones compartidas de la propuesta. El texto vive acá, no en la plantilla (regla de la casa). Un cliente puede pisar cualquier bloque desde su config: propuesta.glosario, propuesta.etapas, etc.",
 
   "indice": [
-    ["Tu situación hoy", "#evidencia"],
     ["Lo que ya está resuelto", "#sitio-nuevo"],
+    ["Tu situación hoy", "#evidencia"],
     ["Dónde estás parado", "#comparativo"],
     ["Add-ons disponibles", "#propuesta"],
     ["Forma de pago", "#pago"],
