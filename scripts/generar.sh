@@ -26,6 +26,10 @@ echo "== Generando informe y propuesta desde config.json =="
 "$PY" scripts/generate.py
 
 echo
+echo "== Verificando coherencia de precios contra la fuente unica =="
+"$PY" scripts/verificar-precios.py
+
+echo
 echo "== Verificando el render (Chrome headless) =="
 "$PY" scripts/verify.py
 

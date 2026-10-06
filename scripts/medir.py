@@ -73,11 +73,30 @@ def measure(url):
         "https": url.startswith("https"),
     }
     if status is None or body.startswith("__ERR__"):
+        # Mismo criterio que un 429: si no hubo respuesta, NADA de lo que sigue es una
+        # medición. Sin este flag, el resumen imprime status=None wa=None como si fueran
+        # datos y un diagnóstico sale acusando al cliente de no tener nada.
         out["error"] = body or "sin respuesta"
+        out["no_verificado"] = True
         return out
 
     kb = round(len(body.encode("utf-8", errors="replace")) / 1024, 1)
     out["bytes_html"] = kb
+
+    # Un 403 / 429 / 5xx devuelve una PÁGINA DE ERROR, no el sitio. Medir sus señales
+    # daría «0 botones de WhatsApp, 0 descripción, 0 Open Graph» como si fueran datos del
+    # cliente: es la peor forma de inventar un número, porque parece medido. Si la
+    # respuesta no es un 200 con HTML, acá no hay medición: se declara y se corta.
+    ctype = ""
+    try:
+        ctype = str((headers or {}).get("Content-Type", "") or "").lower()
+    except Exception:
+        ctype = ""
+    if status != 200 or "text/html" not in ctype:
+        out["error"] = (f"no se pudo medir: HTTP {status}" if status != 200
+                        else "no se pudo medir: la respuesta no es HTML")
+        out["no_verificado"] = True
+        return out
 
     base = re.match(r"^(https?://[^/]+)", final or url)
     root = base.group(1) if base else url.rstrip("/")
@@ -196,6 +215,9 @@ def main():
         r = measure(url)
         r["etiqueta"] = etiqueta
         res[etiqueta if etiqueta not in res else url] = r
+        if r.get("no_verificado"):
+            print(f"{etiqueta:<34}  ⚠ NO VERIFICADO — {r.get('error')}")
+            continue
         print(f"{etiqueta:<34} {str(r.get('status')):>4}  "
               f"desc={r.get('meta_description_len')}  wa={r.get('wa_botones')}  "
               f"ld={r.get('ldjson_bloques')}  lang={r.get('lang')}  "

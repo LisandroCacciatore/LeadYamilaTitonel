@@ -457,6 +457,44 @@ li { margin-bottom: var(--space-2); }
 /* §9.4: toda captura lleva epígrafe — izquierda «Hoy — …», derecha «Nuevo — …». */
 .shot-cap { font-size:var(--fs-sm); color:var(--ink-muted); margin:.5rem 0 0; }
 
+/* ---------- Índice de la propuesta ---------- */
+.toc-prop { list-style:none; counter-reset:toc; margin:0; padding:0;
+  columns:2; column-gap:2.5rem; }
+.toc-prop li { counter-increment:toc; break-inside:avoid; margin:0 0 .45rem; }
+.toc-prop a { display:flex; gap:.6rem; text-decoration:none; color:var(--ink-default);
+  border-bottom:1px solid var(--line-default); padding:.35rem 0; }
+.toc-prop a::before { content:counter(toc,decimal-leading-zero); color:var(--ink-muted);
+  font-variant-numeric:tabular-nums; flex:0 0 auto; }
+.toc-prop a:hover { border-bottom-color:var(--brand-default); }
+@media (max-width:700px){ .toc-prop { columns:1; } }
+
+/* ---------- Glosario SEO / GEO / AEO ---------- */
+.grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin:1rem 0; }
+@media (max-width:900px){ .grid-3 { grid-template-columns:1fr; } }
+.glos-card { border:1px solid var(--line-default); border-radius:var(--radius-md);
+  padding:1rem; background:var(--surface-default); }
+.glos-sigla { font-family:var(--font-mono,monospace); font-size:var(--fs-sm);
+  letter-spacing:.08em; text-transform:uppercase; color:var(--brand-default); }
+.glos-card h3 { font-size:1rem; margin:.35rem 0 .5rem; }
+.glos-card p { font-size:var(--fs-sm); margin:0; }
+
+/* ---------- Por etapas ---------- */
+.etapa { border-left:2px solid var(--line-default); padding:.15rem 0 .15rem 1rem;
+  margin-bottom:1rem; }
+.etapa-cuando { font-family:var(--font-mono,monospace); font-size:var(--fs-sm);
+  letter-spacing:.08em; text-transform:uppercase; color:var(--ink-muted); }
+.etapa h3 { font-size:1.05rem; margin:.35rem 0 .35rem; }
+.etapa p { margin:0; }
+
+/* ---------- Add-on recomendado ---------- */
+.module-card.rec { border-color:var(--brand-default);
+  box-shadow:0 0 0 1px var(--brand-default) inset; }
+.module-flag { display:inline-block; margin-left:.5rem; padding:.1rem .45rem;
+  border-radius:999px; font-family:var(--font-mono,monospace); font-size:11px;
+  letter-spacing:.06em; text-transform:uppercase; background:var(--brand-default);
+  color:#fff; vertical-align:middle; }
+.rec-legend { font-size:var(--fs-sm); color:var(--ink-muted); margin:.5rem 0 1.25rem; }
+
 /* ---------- La tabla de colegas pasa a bullets en mobile (§6.2) ---------- */
 @media (max-width:700px){
   .compare-table thead { display:none; }
@@ -497,6 +535,17 @@ li { margin-bottom: var(--space-2); }
       <a class="btn btn-brand" href="#sitio-nuevo">Mirá cómo se vería tu sitio &rarr;</a>
       <a class="btn btn-light" href="#propuesta">Ver qué propongo</a>
     </div>
+  </div>
+</section>
+
+<!-- ══════════════ ÍNDICE ══════════════
+     Se arma desde templates/secciones.json (índice): agregar una sección es una
+     línea de datos, no un cambio de plantilla. -->
+<section class="band band--soft" id="indice">
+  <div class="wrap">
+    <span class="eyebrow">Índice de la propuesta</span>
+    <h2 style="font-size:1.25rem;margin:.75rem 0 1rem">Qué encontrás en este documento</h2>
+    <ol class="toc-prop"><li><a href="#evidencia">Tu situación hoy</a></li><li><a href="#sitio-nuevo">Lo que ya está resuelto</a></li><li><a href="#comparativo">Dónde estás parado</a></li><li><a href="#propuesta">Add-ons disponibles</a></li><li><a href="#pago">Forma de pago</a></li><li><a href="#valor">Por qué esta propuesta vale lo que vale</a></li><li><a href="#glosario">En castellano: qué son SEO, GEO y AEO</a></li><li><a href="#wordpress">Decisión técnica: por qué no WordPress</a></li><li><a href="#etapas">Por etapas: cómo lo haría</a></li><li><a href="#cierre">Siguiente paso</a></li><li><a href="#aceptacion">Aceptación de la propuesta</a></li></ol>
   </div>
 </section>
 
@@ -569,7 +618,7 @@ li { margin-bottom: var(--space-2); }
 </section>
 
 <!-- ══════════════ 6-7 · CONTRA COLEGAS ══════════════ -->
-<section class="band band--soft">
+<section class="band band--soft" id="comparativo">
   <div class="wrap">
     <span class="eyebrow">Dónde estás parado</span>
     <h2 style="font-size:1.5rem;margin-top:.75rem">Dónde se va hoy tu tráfico</h2>
@@ -608,7 +657,9 @@ li { margin-bottom: var(--space-2); }
   </div>
 </section>
 
-<!-- ══════════════ 9-11 · BASE, MÓDULOS, ESCENARIOS Y PRECIOS (USD) ══════════════ -->
+<!-- ══════════════ 9-11 · BASE, ADD-ONS, ESCENARIOS Y PRECIOS (USD) ══════════════
+     Catálogo único: el cliente ve los 14 add-ons y el suyo viene marcado.
+     El precio de cada uno vive en templates/catalogo.json, no en la config del cliente. -->
 <section class="band" id="propuesta">
   <div class="wrap">
     <span class="eyebrow">Qué propongo</span>
@@ -627,6 +678,10 @@ li { margin-bottom: var(--space-2); }
       </ul>
     </div>
 
+    <p class="rec-legend"><strong>Recomendado para vos</strong> — los 4 que
+       atacan lo que midió tu diagnóstico y vienen marcados. Los demás están a la vista, por si
+       querés sumar alguno. El total arranca en la base: sumá los que quieras.</p>
+
     <div id="modules"></div>
 
     <div class="total-bar">
@@ -639,15 +694,59 @@ li { margin-bottom: var(--space-2); }
     </div>
 
     <h3 style="margin-top:2rem">Escenarios, para no decidir todo de una</h3>
-    <ul><li><strong>Entrada:</strong> Base sola — <strong>USD 350</strong></li><li><strong>Intermedio:</strong> Base + M1 + M2 — <strong>USD 680</strong></li><li><strong>Recomendado:</strong> Base + M1 + M2 + M3 — <strong>USD 800</strong></li><li><strong>Pack completo:</strong> Base + los 4 módulos — <strong>USD 900</strong></li><li><strong>Pack con descuento:</strong> Pack completo con 15 % de descuento — <strong>USD 765</strong></li></ul>
-    <p class="evsrc">Recomendado para tu caso: Base + M1 + M2 + M3 = USD 800.</p>
-    <p class="evsrc">Todos los precios están en dólares. No hay costos mensuales de plataforma ni licencias recurrentes.
-       La propuesta es válida por 30 días desde el 5 de octubre de 2026.</p>
+    <ul><li><strong>Entrada:</strong> Base sola — <strong>USD 350</strong></li><li><strong>Recomendado:</strong> Base + 4 add-ons (M1, M2, M3, M4) — <strong>USD 910</strong></li><li><strong>Pack completo:</strong> Base + los 14 add-ons del catálogo — <strong>USD 1.980</strong></li><li><strong>Pack con descuento:</strong> Pack completo con 15 % de descuento — <strong>USD 1.685</strong></li></ul>
+    <p class="evsrc">Recomendado para tu caso: Base + M1 + M2 + M3 + M4 = USD 910.</p>
+    <p class="evsrc">Todos los precios están en dólares. No hay costos mensuales de plataforma ni licencias recurrentes.</p>
+  </div>
+</section>
+
+<!-- ══════════════ FORMA DE PAGO ══════════════ -->
+<section class="band band--soft" id="pago">
+  <div class="wrap">
+    <span class="eyebrow">Cómo se paga</span>
+    <div style="margin-top:.75rem"><p><strong>Forma de pago</strong></p><ul><li><strong>Mitad y mitad</strong> Mitad al confirmar, mitad contra entrega. Sin recargos.</li><li><strong>En pesos, al día del pago</strong> La conversión se hace con la cotización que acordemos. Referencia a convenir: MEP o blue.</li><li><strong>Hasta tres pagos sin interés</strong> Para packs que superen los USD 1.500.</li></ul><p class="evsrc">Los precios están en dólares para protegerse de la variación cambiaria.</p></div>
+  </div>
+</section>
+
+<!-- ══════════════ POR QUÉ VALE LO QUE VALE ══════════════ -->
+<section class="band" id="valor">
+  <div class="wrap">
+    <span class="eyebrow">Por qué esta propuesta vale lo que vale</span>
+    <div style="margin-top:.75rem"><p><strong>No es la más barata del mercado. Es la que incluye desde el primer día cosas que se cobran aparte.</strong></p><ul><li><strong>No es una web, es una herramienta.</strong> Una agencia entrega páginas. Acá se entregan páginas más las automatizaciones que reciben y ordenan las consultas.</li><li><strong>Cumplimiento técnico verificable.</strong> Contraste medido, etiquetas de formulario reales y las páginas comprobadas automáticamente antes de cada publicación. No es una promesa: es una medición que se puede repetir.</li><li><strong>Sin costo mensual de plataforma.</strong> El sitio es estático: sin WordPress, sin licencias y sin plugins que se rompan en una actualización. Del lado del cliente sigue estando sólo el dominio, que ya tiene.</li><li><strong>Se paga con una consulta.</strong> Si una sola consulta de las que cobra vale más que la inversión total, se pagó con la primera. Y si no la cobra porque no hay cómo recibirla, eso también lo resuelve esta propuesta.</li></ul></div>
+  </div>
+</section>
+
+<!-- ══════════════ EN CASTELLANO: SEO, GEO Y AEO ══════════════ -->
+<section class="band band--soft" id="glosario">
+  <div class="wrap">
+    <span class="eyebrow">En castellano</span>
+    <h2 style="font-size:1.5rem;margin:.75rem 0 1rem">Qué son SEO, GEO y AEO</h2>
+    <p>Los tres trabajos se parecen y se confunden. En una línea cada uno:</p><div class="grid-3"><div class="glos-card"><div class="glos-sigla">SEO</div><h3>Que te encuentren en Google</h3><p>Es el trabajo para que aparezcas cuando alguien busca. Con tus datos reales el sitio se destraba solo, pero sin este trabajo vas a aparecer por tu nombre y poco más. La idea es que aparezcas por lo que vendés.</p></div><div class="glos-card"><div class="glos-sigla">GEO</div><h3>Que te nombren las inteligencias artificiales</h3><p>Es el trabajo para que ChatGPT, Perplexity o Gemini te mencionen cuando alguien les pregunta por un profesional como vos. Cada vez más gente no busca: pregunta.</p></div><div class="glos-card"><div class="glos-sigla">AEO</div><h3>Que tu respuesta sea la respuesta</h3><p>Es el trabajo para ocupar el recuadro que Google muestra arriba de los resultados. Cuando ves una respuesta directa sobre los links, salió de un sitio que la estructuró para eso.</p></div></div><p class="evsrc">GEO y AEO se solapan: en la práctica son el mismo trabajo, que una máquina entienda lo que decís y lo pueda citar. Nadie puede garantizar que una inteligencia artificial te mencione ni que estés primero en Google. Lo que sí se puede hacer es darle a esos sistemas lo que necesitan, y medir si pasa.</p>
+  </div>
+</section>
+
+<!-- ══════════════ DECISIÓN TÉCNICA (sólo si el sitio actual es WordPress) ══════════════
+     La banda llega vacía si el config no declara stackActual: no se afirma sobre un
+     stack que no se midió. -->
+<section class="band" id="wordpress">
+  <div class="wrap" id="wordpress-wrap">
+    <span class="eyebrow">Decisión técnica</span>
+    <h2 style="font-size:1.5rem;margin:.75rem 0 1rem">Por qué no WordPress</h2>
+    
+  </div>
+</section>
+
+<!-- ══════════════ POR ETAPAS ══════════════ -->
+<section class="band band--soft" id="etapas">
+  <div class="wrap">
+    <span class="eyebrow">Por etapas</span>
+    <h2 style="font-size:1.5rem;margin:.75rem 0 1rem">Cómo lo haría</h2>
+    <div class="etapa"><div class="etapa-cuando">Ahora</div><h3>El sitio en tu dominio</h3><p>Cargamos tus datos reales, conectamos el correo y apuntamos el dominio. Es lo que ya está construido.</p></div><div class="etapa"><div class="etapa-cuando">Después</div><h3>Contenido, SEO, GEO y AEO</h3><p>Es el escalón que hace que el trabajo del sitio rinda: que te encuentren y que te citen. Va aparte.</p></div><div class="etapa"><div class="etapa-cuando">Cuando esté probado</div><h3>Las automatizaciones</h3><p>Mensajería, formulario con backend, agenda y módulos a medida. Se suman de a uno, sobre algo que ya funciona.</p></div>
   </div>
 </section>
 
 <!-- ══════════════ 12-13 · QUÉ NO INCLUYE / LO QUE NECESITO ══════════════ -->
-<section class="band band--soft">
+<section class="band">
   <div class="wrap">
     <div class="wrap--tight">
       <div>
@@ -662,7 +761,7 @@ li { margin-bottom: var(--space-2); }
 </section>
 
 <!-- ══════════════ 14 · PRÓXIMO PASO ══════════════ -->
-<section class="band">
+<section class="band band--soft" id="cierre">
   <div class="wrap">
     <span class="eyebrow">Próximo paso</span>
     <h2 style="font-size:1.5rem;margin-top:.75rem">Nos sentamos veinte minutos</h2>
@@ -682,7 +781,7 @@ li { margin-bottom: var(--space-2); }
      §3.15 del spec v2.0 pide «Alcance de esta revisión»; §7.2 del spec editorial pide
      consolidar ahí los tres límites (medido / no medido / no incluido). Un solo bloque
      cumple las dos cosas: antes eran tres secciones que declaraban límites por separado. -->
-<section class="band band--soft">
+<section class="band" id="alcance">
   <div class="wrap wrap--tight">
     <div class="scope">
       <div class="scope-label">Alcance de esta revisión — límites de este documento</div>
@@ -697,7 +796,7 @@ li { margin-bottom: var(--space-2); }
 </section>
 
 <!-- ══════════════ 16 · ACEPTACIÓN Y FIRMA ══════════════ -->
-<section class="band">
+<section class="band band--soft" id="aceptacion">
   <div class="wrap wrap--tight">
     <span class="eyebrow">Aceptación</span>
     <h2 style="font-size:1.25rem;margin-top:.75rem">Si estás de acuerdo, arrancamos</h2>
@@ -723,6 +822,8 @@ li { margin-bottom: var(--space-2); }
     <div class="cta-row">
       <a class="btn btn-ink" href="mailto:lisandrocacciatore@gmail.com?subject=Acepto%20la%20propuesta%20-%20Lic.%20Yamila%20Titonel&body=Hola%2C%20acepto%20la%20propuesta.%20Arrancamos.">Aceptar propuesta &rarr;</a>
     </div>
+    <p class="evsrc" style="margin-top:1.5rem"><strong>Condiciones generales.</strong>
+       Esta propuesta es válida hasta el 4 de noviembre de 2026. Los plazos de entrega se confirman al inicio del trabajo según el alcance elegido. Los módulos a medida se desarrollan en coordinación con el cliente y pueden ajustarse durante el proceso. Cualquier alcance no detallado en este documento se cotiza aparte.</p>
   </div>
 </section>
 
@@ -735,7 +836,7 @@ li { margin-bottom: var(--space-2); }
 
 <script>
   var BASE = 350;
-  var MODULES = [{"id": "m1", "code": "M1", "icon": "edit_note", "title": "Blog con SEO", "price": 180, "short": "Que te encuentren cuando te buscan, con artículos propios.", "bullets": ["Cada artículo con su título, su descripción y su dirección propia", "Panel de edición visual: escribís y publicás sin tocar código", "Tus recetas de Instagram se vuelven artículos que siguen sumando visitas meses después", "Mapa del sitio y alta del blog en Google"]}, {"id": "m2", "code": "M2", "icon": "neurology", "title": "GEO y AEO: que las IA te nombren y Google te responda", "price": 150, "short": "Cada vez más gente le pregunta a una IA qué nutricionista recomendar.", "bullets": ["Cada artículo publicado en el formato que usan los asistentes de IA", "Archivo llms.txt para que las IA lean tu sitio ordenado", "Estructura de respuesta corta: el recuadro de arriba de todo se lo lleva quien la tiene", "Perfil de negocio alineado con lo que dicen tus artículos"]}, {"id": "m3", "code": "M3", "icon": "move_to_inbox", "title": "Migración de tus contenidos", "price": 120, "short": "Tus recetas y notas, adentro de tu sitio y con tu autoría.", "bullets": ["Traslado de tus publicaciones reales a artículos con autoría", "Sin inventar métricas ni testimonios", "Etiquetas y buscador por tema", "Un mínimo de arranque acordado (por ejemplo, diez artículos)"]}, {"id": "m4", "code": "M4", "icon": "monitoring", "title": "Medición y capacitación", "price": 100, "short": "Para que lo puedas manejar sola, sin depender de nadie.", "bullets": ["Alta y verificación en Google Search Console", "Analítica para ver qué artículo te trae consultas", "Capacitación de una hora, grabada", "Manual en PDF para publicar sola"]}];
+  var MODULES = [{"id": "blog-seo", "code": "M1", "title": "Blog con SEO (creación)", "price": 180, "short": "Que te encuentren cuando te buscan, con artículos propios.", "bullets": ["Blog propio, con dirección y título por artículo", "Indexación y alta del blog en Google", "Mapa del sitio al día", "Incluye 3 artículos iniciales de hasta 800 palabras cada uno"], "recomendado": true}, {"id": "geo-aeo", "code": "M2", "title": "GEO y AEO", "price": 150, "short": "Para que los asistentes de inteligencia artificial puedan citarte.", "bullets": ["Cada contenido publicado en el formato que leen los asistentes de IA", "Archivo llms.txt para que lean el sitio ordenado", "Estructura de respuesta corta: el recuadro de arriba se lo lleva quien la tiene", "Perfil de negocio alineado con lo que dicen tus artículos"], "recomendado": true}, {"id": "migracion", "code": "M3", "title": "Migración de contenidos", "price": 130, "short": "Tus contenidos actuales, adentro de tu sitio y con tu autoría.", "bullets": ["Traslado de tus publicaciones reales a artículos con autoría", "Sin inventar métricas ni testimonios", "Etiquetas y buscador por tema", "Un mínimo de arranque acordado (por ejemplo, diez contenidos)"], "recomendado": true}, {"id": "medicion", "code": "M4", "title": "Medición y capacitación", "price": 100, "short": "Para que lo manejes vos, sin depender de nadie.", "bullets": ["Alta y verificación en Google Search Console", "Analítica para ver qué contenido te trae consultas", "Capacitación de una hora, grabada", "Manual en PDF para publicar solo"], "recomendado": true}, {"id": "whatsapp", "code": "M5", "title": "WhatsApp contextual", "price": 100, "short": "El atajo directo, con el mensaje ya escrito según la sección.", "bullets": ["Botón flotante en todas las secciones", "El texto del mensaje cambia según dónde está la persona", "Abre en un clic desde el celular, sin copiar el número", "Sin costo mensual de plataforma"], "recomendado": false}, {"id": "terminacion", "code": "M6", "title": "Terminación y accesibilidad verificada", "price": 160, "short": "Que cualquiera pueda usar el formulario y leer el sitio sin esfuerzo.", "bullets": ["Contraste del cuerpo llevado al rango de accesibilidad (4,5:1 o más)", "Etiquetas reales, en español y asociadas a cada campo del formulario", "Descripciones reales en las imágenes que hoy tienen texto de relleno", "Foco de teclado visible: se puede navegar sin mouse"], "recomendado": false}, {"id": "peso", "code": "M7", "title": "Peso y velocidad", "price": 150, "short": "Menos espera en celular, medido antes y después.", "bullets": ["Agrupar y minificar los estilos", "Recortar el CSS a lo que cada página realmente usa", "Medición antes y después con el peso transferido, no con impresiones", "Sin plugins nuevos ni cambios de tema"], "recomendado": false}, {"id": "seo-estructurado", "code": "M8", "title": "SEO estructurado y Perfil de Empresa en Google", "price": 150, "short": "Que Google entienda quién sos y te muestre cuando te buscan.", "bullets": ["Datos estructurados de persona y profesión (schema.org)", "Descripción para buscadores, Open Graph y Twitter Cards", "Mapa del sitio y robots.txt", "Alta y verificación en Google Search Console"], "recomendado": false}, {"id": "recordatorios", "code": "M9", "title": "Recordatorios automáticos de turno", "price": 120, "short": "Bajan las ausencias sin que escribas un mensaje más.", "bullets": ["Aviso 24 horas antes del turno", "Confirmación automática al agendar", "Reagendado en dos toques", "Sirve para presencial y para online"], "recomendado": false}, {"id": "agenda", "code": "M10", "title": "Agenda online sincronizada", "price": 100, "short": "Reservan solos, a cualquier hora, en la agenda que ya usás.", "bullets": ["Sincronización con Google Calendar", "Bloqueo automático de horarios ya tomados", "Zona horaria automática para quien consulta desde el exterior", "Se puede convivir con otra plataforma o reemplazarla"], "recomendado": false}, {"id": "linkedin", "code": "M11", "title": "Sección LinkedIn / contenidos", "price": 100, "short": "Tus textos de LinkedIn, en tu sitio, sin depender de la red social.", "bullets": ["Sección de ensayos y notas con autoría", "Carga desde tus publicaciones reales, sin inventar métricas", "Buscador y etiquetas por tema", "Capacitación de 1 hora más manual para publicar solo"], "recomendado": false}, {"id": "verificacion", "code": "M12", "title": "Verificación y entrega documentada", "price": 80, "short": "No te quedás con mi palabra: te quedás con la medición.", "bullets": ["Remedición de todo lo del bloque de terminación, después de aplicado", "Comprobación en un celular real", "Documento corto con qué se cambió y con qué se verifica cada cosa", "Sin costo mensual ni licencia"], "recomendado": false}, {"id": "honorarios", "code": "M13", "title": "Página de honorarios y encuadre económico", "price": 60, "short": "Qué cuesta, cómo se paga y qué se entrega, sin vueltas.", "bullets": ["Honorarios visibles y sin ambigüedad", "Modalidad de pago y de coordinación de turnos", "Qué documentación se entrega (a definir con el profesional)", "Baja las consultas que no llegan a cerrar"], "recomendado": false}, {"id": "blog-conectar", "code": "M14", "title": "Conexión de blog existente", "price": 50, "short": "Si ya tenés blog, se conecta, se ordena y se deja indexable.", "bullets": ["Enlace al blog desde cada página de servicio", "Títulos y descripciones propios por artículo", "Indexable: mapa del sitio y datos estructurados de artículo", "Sin reescribir tus textos"], "recomendado": false}];
   var selected = {};
 
   function money(n) { return 'USD ' + n; }
@@ -743,11 +844,12 @@ li { margin-bottom: var(--space-2); }
   function render() {
     var html = '';
     MODULES.forEach(function (m) {
-      html += '<div class="module-card" data-id="' + m.id + '">' +
+      var flag = m.recomendado ? '<span class="module-flag">Recomendado</span>' : '';
+      html += '<div class="module-card' + (m.recomendado ? ' rec' : '') + '" data-id="' + m.id + '">' +
                 '<div class="module-head">' +
                   '<div>' +
                     '<div class="module-code">' + m.code + '</div>' +
-                    '<h3 class="module-title">' + m.title + '</h3>' +
+                    '<h3 class="module-title">' + m.title + flag + '</h3>' +
                   '</div>' +
                   '<span class="module-price">+ USD ' + m.price + '</span>' +
                 '</div>' +
@@ -789,7 +891,17 @@ li { margin-bottom: var(--space-2); }
       codes.length ? 'Base + ' + codes.join(' + ') : 'Sitio base';
   }
 
+  // La banda de WordPress se saca entera si el motor no inyectó contenido: una
+  // sección con título y nada abajo se lee como un error.
+  var wp = document.getElementById('wordpress');
+  if (wp && !document.getElementById('wordpress-wrap').querySelector('ul')) {
+    wp.parentNode.removeChild(wp);
+  }
+
   render();
+  // El total arranca en la base, no en el recomendado: el documento aprobado abre con
+  // «la propuesta queda en el sitio base» y verify.py verifica ese contrato. El número
+  // del recomendado se muestra igual, en la línea de escenarios.
 </script>
 </body>
 </html>

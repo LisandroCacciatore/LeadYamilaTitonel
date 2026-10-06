@@ -148,62 +148,208 @@
       "En ninguna parte del recorrido se captura un contacto, aunque el alcance es de cientos de miles de personas."
     ]
   },
+  "recomendados": [
+    "blog-seo",
+    "geo-aeo",
+    "migracion",
+    "medicion"
+  ],
   "modulos": [
     {
-      "id": "m1",
+      "id": "blog-seo",
       "code": "M1",
-      "icon": "edit_note",
-      "title": "Blog con SEO",
+      "title": "Blog con SEO (creación)",
       "price": 180,
       "short": "Que te encuentren cuando te buscan, con artículos propios.",
       "bullets": [
-        "Cada artículo con su título, su descripción y su dirección propia",
-        "Panel de edición visual: escribís y publicás sin tocar código",
-        "Tus recetas de Instagram se vuelven artículos que siguen sumando visitas meses después",
-        "Mapa del sitio y alta del blog en Google"
-      ]
+        "Blog propio, con dirección y título por artículo",
+        "Indexación y alta del blog en Google",
+        "Mapa del sitio al día",
+        "Incluye 3 artículos iniciales de hasta 800 palabras cada uno"
+      ],
+      "recomendado": true
     },
     {
-      "id": "m2",
+      "id": "geo-aeo",
       "code": "M2",
-      "icon": "neurology",
-      "title": "GEO y AEO: que las IA te nombren y Google te responda",
+      "title": "GEO y AEO",
       "price": 150,
-      "short": "Cada vez más gente le pregunta a una IA qué nutricionista recomendar.",
+      "short": "Para que los asistentes de inteligencia artificial puedan citarte.",
       "bullets": [
-        "Cada artículo publicado en el formato que usan los asistentes de IA",
-        "Archivo llms.txt para que las IA lean tu sitio ordenado",
-        "Estructura de respuesta corta: el recuadro de arriba de todo se lo lleva quien la tiene",
+        "Cada contenido publicado en el formato que leen los asistentes de IA",
+        "Archivo llms.txt para que lean el sitio ordenado",
+        "Estructura de respuesta corta: el recuadro de arriba se lo lleva quien la tiene",
         "Perfil de negocio alineado con lo que dicen tus artículos"
-      ]
+      ],
+      "recomendado": true
     },
     {
-      "id": "m3",
+      "id": "migracion",
       "code": "M3",
-      "icon": "move_to_inbox",
-      "title": "Migración de tus contenidos",
-      "price": 120,
-      "short": "Tus recetas y notas, adentro de tu sitio y con tu autoría.",
+      "title": "Migración de contenidos",
+      "price": 130,
+      "short": "Tus contenidos actuales, adentro de tu sitio y con tu autoría.",
       "bullets": [
         "Traslado de tus publicaciones reales a artículos con autoría",
         "Sin inventar métricas ni testimonios",
         "Etiquetas y buscador por tema",
-        "Un mínimo de arranque acordado (por ejemplo, diez artículos)"
-      ]
+        "Un mínimo de arranque acordado (por ejemplo, diez contenidos)"
+      ],
+      "recomendado": true
     },
     {
-      "id": "m4",
+      "id": "medicion",
       "code": "M4",
-      "icon": "monitoring",
       "title": "Medición y capacitación",
       "price": 100,
-      "short": "Para que lo puedas manejar sola, sin depender de nadie.",
+      "short": "Para que lo manejes vos, sin depender de nadie.",
       "bullets": [
         "Alta y verificación en Google Search Console",
-        "Analítica para ver qué artículo te trae consultas",
+        "Analítica para ver qué contenido te trae consultas",
         "Capacitación de una hora, grabada",
-        "Manual en PDF para publicar sola"
-      ]
+        "Manual en PDF para publicar solo"
+      ],
+      "recomendado": true
+    },
+    {
+      "id": "whatsapp",
+      "code": "M5",
+      "title": "WhatsApp contextual",
+      "price": 100,
+      "short": "El atajo directo, con el mensaje ya escrito según la sección.",
+      "bullets": [
+        "Botón flotante en todas las secciones",
+        "El texto del mensaje cambia según dónde está la persona",
+        "Abre en un clic desde el celular, sin copiar el número",
+        "Sin costo mensual de plataforma"
+      ],
+      "recomendado": false
+    },
+    {
+      "id": "terminacion",
+      "code": "M6",
+      "title": "Terminación y accesibilidad verificada",
+      "price": 160,
+      "short": "Que cualquiera pueda usar el formulario y leer el sitio sin esfuerzo.",
+      "bullets": [
+        "Contraste del cuerpo llevado al rango de accesibilidad (4,5:1 o más)",
+        "Etiquetas reales, en español y asociadas a cada campo del formulario",
+        "Descripciones reales en las imágenes que hoy tienen texto de relleno",
+        "Foco de teclado visible: se puede navegar sin mouse"
+      ],
+      "recomendado": false
+    },
+    {
+      "id": "peso",
+      "code": "M7",
+      "title": "Peso y velocidad",
+      "price": 150,
+      "short": "Menos espera en celular, medido antes y después.",
+      "bullets": [
+        "Agrupar y minificar los estilos",
+        "Recortar el CSS a lo que cada página realmente usa",
+        "Medición antes y después con el peso transferido, no con impresiones",
+        "Sin plugins nuevos ni cambios de tema"
+      ],
+      "recomendado": false
+    },
+    {
+      "id": "seo-estructurado",
+      "code": "M8",
+      "title": "SEO estructurado y Perfil de Empresa en Google",
+      "price": 150,
+      "short": "Que Google entienda quién sos y te muestre cuando te buscan.",
+      "bullets": [
+        "Datos estructurados de persona y profesión (schema.org)",
+        "Descripción para buscadores, Open Graph y Twitter Cards",
+        "Mapa del sitio y robots.txt",
+        "Alta y verificación en Google Search Console"
+      ],
+      "recomendado": false
+    },
+    {
+      "id": "recordatorios",
+      "code": "M9",
+      "title": "Recordatorios automáticos de turno",
+      "price": 120,
+      "short": "Bajan las ausencias sin que escribas un mensaje más.",
+      "bullets": [
+        "Aviso 24 horas antes del turno",
+        "Confirmación automática al agendar",
+        "Reagendado en dos toques",
+        "Sirve para presencial y para online"
+      ],
+      "recomendado": false
+    },
+    {
+      "id": "agenda",
+      "code": "M10",
+      "title": "Agenda online sincronizada",
+      "price": 100,
+      "short": "Reservan solos, a cualquier hora, en la agenda que ya usás.",
+      "bullets": [
+        "Sincronización con Google Calendar",
+        "Bloqueo automático de horarios ya tomados",
+        "Zona horaria automática para quien consulta desde el exterior",
+        "Se puede convivir con otra plataforma o reemplazarla"
+      ],
+      "recomendado": false
+    },
+    {
+      "id": "linkedin",
+      "code": "M11",
+      "title": "Sección LinkedIn / contenidos",
+      "price": 100,
+      "short": "Tus textos de LinkedIn, en tu sitio, sin depender de la red social.",
+      "bullets": [
+        "Sección de ensayos y notas con autoría",
+        "Carga desde tus publicaciones reales, sin inventar métricas",
+        "Buscador y etiquetas por tema",
+        "Capacitación de 1 hora más manual para publicar solo"
+      ],
+      "recomendado": false
+    },
+    {
+      "id": "verificacion",
+      "code": "M12",
+      "title": "Verificación y entrega documentada",
+      "price": 80,
+      "short": "No te quedás con mi palabra: te quedás con la medición.",
+      "bullets": [
+        "Remedición de todo lo del bloque de terminación, después de aplicado",
+        "Comprobación en un celular real",
+        "Documento corto con qué se cambió y con qué se verifica cada cosa",
+        "Sin costo mensual ni licencia"
+      ],
+      "recomendado": false
+    },
+    {
+      "id": "honorarios",
+      "code": "M13",
+      "title": "Página de honorarios y encuadre económico",
+      "price": 60,
+      "short": "Qué cuesta, cómo se paga y qué se entrega, sin vueltas.",
+      "bullets": [
+        "Honorarios visibles y sin ambigüedad",
+        "Modalidad de pago y de coordinación de turnos",
+        "Qué documentación se entrega (a definir con el profesional)",
+        "Baja las consultas que no llegan a cerrar"
+      ],
+      "recomendado": false
+    },
+    {
+      "id": "blog-conectar",
+      "code": "M14",
+      "title": "Conexión de blog existente",
+      "price": 50,
+      "short": "Si ya tenés blog, se conecta, se ordena y se deja indexable.",
+      "bullets": [
+        "Enlace al blog desde cada página de servicio",
+        "Títulos y descripciones propios por artículo",
+        "Indexable: mapa del sitio y datos estructurados de artículo",
+        "Sin reescribir tus textos"
+      ],
+      "recomendado": false
     }
   ],
   "nextSteps": [

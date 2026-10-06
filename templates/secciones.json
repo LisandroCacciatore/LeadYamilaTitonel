@@ -1,0 +1,104 @@
+{
+  "_nota": "Secciones compartidas de la propuesta. El texto vive acá, no en la plantilla (regla de la casa). Un cliente puede pisar cualquier bloque desde su config: propuesta.glosario, propuesta.etapas, etc.",
+
+  "indice": [
+    ["Tu situación hoy", "#evidencia"],
+    ["Lo que ya está resuelto", "#sitio-nuevo"],
+    ["Dónde estás parado", "#comparativo"],
+    ["Add-ons disponibles", "#propuesta"],
+    ["Forma de pago", "#pago"],
+    ["Por qué esta propuesta vale lo que vale", "#valor"],
+    ["En castellano: qué son SEO, GEO y AEO", "#glosario"],
+    ["Decisión técnica: por qué no WordPress", "#wordpress"],
+    ["Por etapas: cómo lo haría", "#etapas"],
+    ["Siguiente paso", "#cierre"],
+    ["Aceptación de la propuesta", "#aceptacion"]
+  ],
+
+  "glosario": {
+    "titulo": "Sin siglas: qué hace cada uno y por qué tu sitio los necesita",
+    "intro": "Los tres trabajos se parecen y se confunden. En una línea cada uno:",
+    "items": [
+      {
+        "sigla": "SEO",
+        "titulo": "Que te encuentren en Google",
+        "body": "Es el trabajo para que aparezcas cuando alguien busca. Con tus datos reales el sitio se destraba solo, pero sin este trabajo vas a aparecer por tu nombre y poco más. La idea es que aparezcas por lo que vendés."
+      },
+      {
+        "sigla": "GEO",
+        "titulo": "Que te nombren las inteligencias artificiales",
+        "body": "Es el trabajo para que ChatGPT, Perplexity o Gemini te mencionen cuando alguien les pregunta por un profesional como vos. Cada vez más gente no busca: pregunta."
+      },
+      {
+        "sigla": "AEO",
+        "titulo": "Que tu respuesta sea la respuesta",
+        "body": "Es el trabajo para ocupar el recuadro que Google muestra arriba de los resultados. Cuando ves una respuesta directa sobre los links, salió de un sitio que la estructuró para eso."
+      }
+    ],
+    "nota": "GEO y AEO se solapan: en la práctica son el mismo trabajo, que una máquina entienda lo que decís y lo pueda citar. Nadie puede garantizar que una inteligencia artificial te mencione ni que estés primero en Google. Lo que sí se puede hacer es darle a esos sistemas lo que necesitan, y medir si pasa."
+  },
+
+  "etapas": [
+    {
+      "cuando": "Ahora",
+      "titulo": "El sitio en tu dominio",
+      "body": "Cargamos tus datos reales, conectamos el correo y apuntamos el dominio. Es lo que ya está construido."
+    },
+    {
+      "cuando": "Después",
+      "titulo": "Contenido, SEO, GEO y AEO",
+      "body": "Es el escalón que hace que el trabajo del sitio rinda: que te encuentren y que te citen. Va aparte."
+    },
+    {
+      "cuando": "Cuando esté probado",
+      "titulo": "Las automatizaciones",
+      "body": "Mensajería, formulario con backend, agenda y módulos a medida. Se suman de a uno, sobre algo que ya funciona."
+    }
+  ],
+
+  "valor": {
+    "titulo": "No es la más barata del mercado. Es la que incluye desde el primer día cosas que se cobran aparte.",
+    "items": [
+      {
+        "titulo": "No es una web, es una herramienta.",
+        "body": "Una agencia entrega páginas. Acá se entregan páginas más las automatizaciones que reciben y ordenan las consultas."
+      },
+      {
+        "titulo": "Cumplimiento técnico verificable.",
+        "body": "Contraste medido, etiquetas de formulario reales y las páginas comprobadas automáticamente antes de cada publicación. No es una promesa: es una medición que se puede repetir."
+      },
+      {
+        "titulo": "Sin costo mensual de plataforma.",
+        "body": "El sitio es estático: sin WordPress, sin licencias y sin plugins que se rompan en una actualización. Del lado del cliente sigue estando sólo el dominio, que ya tiene."
+      },
+      {
+        "titulo": "Se paga con una consulta.",
+        "body": "Si una sola consulta de las que cobra vale más que la inversión total, se pagó con la primera. Y si no la cobra porque no hay cómo recibirla, eso también lo resuelve esta propuesta."
+      }
+    ]
+  },
+
+  "noWordpress": {
+    "aplica": "WordPress",
+    "intro": "No es una decisión técnica. Es una decisión de costo total.",
+    "items": [
+      ["Sin mantenimiento mensual", "WordPress necesita actualizaciones de núcleo, plugins y tema, y cada actualización puede romper algo. Un sitio estático no se actualiza porque no tiene nada que actualizar."],
+      ["Sin superficie de ataque", "Un sitio estático no tiene base de datos, ni panel de administración, ni plugins: no hay por dónde entrar. WordPress es el sistema más atacado justamente porque es el más usado."],
+      ["Carga en menos de un segundo", "No hay consultas a base de datos ni plugins que ejecutar antes de mostrar la página. Google lo premia con mejor posición, y quien entra no se va esperando."],
+      ["Sin hosting ni licencias", "No se paga hosting anual ni plugins premium. Se publica en un servicio estático sin costo y sigue funcionando sin que nadie lo mantenga."]
+    ],
+    "cierre": "El costo de un sitio en WordPress no termina el día que se entrega: sigue todos los meses. Acá termina."
+  },
+
+  "pago": {
+    "titulo": "Forma de pago",
+    "items": [
+      ["Mitad y mitad", "Mitad al confirmar, mitad contra entrega. Sin recargos."],
+      ["En pesos, al día del pago", "La conversión se hace con la cotización que acordemos. Referencia a convenir: MEP o blue."],
+      ["Hasta tres pagos sin interés", "Para packs que superen los USD 1.500."]
+    ],
+    "nota": "Los precios están en dólares para protegerse de la variación cambiaria."
+  },
+
+  "condiciones": "Los plazos de entrega se confirman al inicio del trabajo según el alcance elegido. Los módulos a medida se desarrollan en coordinación con el cliente y pueden ajustarse durante el proceso. Cualquier alcance no detallado en este documento se cotiza aparte."
+}

@@ -31,6 +31,11 @@ TEMPLATES = ROOT / "templates"
 
 PRINT_JS_MARKER = "Paginador del informe"
 
+# Secciones compartidas de la propuesta (índice, glosario, etapas, pago...). El texto
+# vive en datos y cada cliente lo puede pisar desde su config.
+SECCIONES = json.loads((TEMPLATES / "secciones.json").read_text(encoding="utf-8")) \
+    if (TEMPLATES / "secciones.json").exists() else {}
+
 
 def read(path: Path) -> str:
     return Path(path).read_text(encoding="utf-8")
@@ -152,20 +157,109 @@ def kpi_row(kpis: list) -> str:
 
 
 def scenarios(base: int, modulos: list) -> list:
-    """Mismos escenarios que calcula el paginador. Se derivan, no se escriben."""
+    """Mismos escenarios que calcula el paginador. Se derivan, no se escriben.
+
+    Con el catálogo único el «Recomendado» dejó de ser «los tres primeros»: es
+    exactamente el subconjunto que el config marcó como recomendado.
+    """
+    recs = [m for m in modulos if m.get("recomendado")] or modulos[:3]
     prices = [int(m.get("price", 0)) for m in modulos]
-    combo2 = base + (prices[0] if len(prices) > 0 else 0) + (prices[1] if len(prices) > 1 else 0)
-    combo3 = combo2 + (prices[2] if len(prices) > 2 else 0)
     total = base + sum(prices)
     pack = round(total * 0.85 / 5) * 5
-    codes = [m.get("code", "") for m in modulos]
+    codes = [m.get("code", "") for m in recs]
     return [
         ("Entrada", "Base sola", base),
-        ("Intermedio", f"Base + {codes[0]} + {codes[1]}", combo2),
-        ("Recomendado", f"Base + {codes[0]} + {codes[1]} + {codes[2]}", combo3),
-        ("Pack completo", f"Base + los {len(modulos)} módulos", total),
+        ("Recomendado", f"Base + {len(codes)} add-ons ({', '.join(codes)})",
+         base + sum(int(m.get("price", 0)) for m in recs)),
+        ("Pack completo", f"Base + los {len(modulos)} add-ons del catálogo", total),
         ("Pack con descuento", "Pack completo con 15 % de descuento", pack),
     ]
+
+
+def seccion(cfg: dict, clave: str):
+    """Un bloque de secciones.json, pisable desde la config (propuesta.<clave>).
+
+    El texto vive en datos, no en la plantilla: así el mismo motor sirve para otro
+    cliente sin editar HTML.
+    """
+    override = (cfg.get("propuesta") or {}).get(clave)
+    return override if override is not None else SECCIONES.get(clave)
+
+
+def indice_html(items) -> str:
+    if not items:
+        return ""
+    lis = "".join(f'<li><a href="{esc(h)}">{esc(t)}</a></li>' for t, h in items)
+    return f'<ol class="toc-prop">{lis}</ol>'
+
+
+def glosario_html(g) -> str:
+    if not g or not g.get("items"):
+        return ""
+    cards = "".join(
+        f'<div class="glos-card">'
+        f'<div class="glos-sigla">{esc(i.get("sigla"))}</div>'
+        f'<h3>{esc(i.get("titulo"))}</h3><p>{esc(i.get("body"))}</p></div>'
+        for i in g["items"]
+    )
+    nota = f'<p class="evsrc">{esc(g.get("nota"))}</p>' if g.get("nota") else ""
+    return f'<p>{esc(g.get("intro", ""))}</p><div class="grid-3">{cards}</div>{nota}'
+
+
+def etapas_html(items) -> str:
+    if not items:
+        return ""
+    return "".join(
+        f'<div class="etapa"><div class="etapa-cuando">{esc(e.get("cuando"))}</div>'
+        f'<h3>{esc(e.get("titulo"))}</h3><p>{esc(e.get("body"))}</p></div>'
+        for e in items
+    )
+
+
+def lista_titulada(bloque, default_titulo: str = "") -> str:
+    """Bloque {titulo|intro, items, nota|cierre}.
+
+    `items` acepta las dos formas que usa secciones.json:
+      - pares       [["Mitad y mitad", "Mitad al confirmar..."], ...]   (pago)
+      - objetos     [{"titulo": "...", "body": "..."}, ...]             (valor)
+    Sin normalizar, la forma de objeto se desempaqueta como (clave, clave) y el
+    documento imprime literalmente «título body»: pasó, y ningún gate lo vio.
+    """
+    if not bloque:
+        return ""
+    titulo = bloque.get("titulo") or default_titulo
+    head = f"<p><strong>{esc(titulo)}</strong></p>" if titulo else ""
+    lis = []
+    for it in bloque.get("items", []) or []:
+        if isinstance(it, dict):
+            lis.append(f'<li><strong>{esc(it.get("titulo"))}</strong> {esc(it.get("body"))}</li>')
+        else:
+            a, b = it
+            lis.append(f"<li><strong>{esc(a)}</strong> {esc(b)}</li>")
+    cola = bloque.get("nota") or bloque.get("cierre")
+    tail = f'<p class="evsrc">{esc(cola)}</p>' if cola else ""
+    return f"{head}<ul>{''.join(lis)}</ul>{tail}"
+
+
+def valor_html(v) -> str:
+    return lista_titulada(v)
+
+
+def wordpress_html(w, stack_actual: str) -> str:
+    """La banda de WordPress sólo entra si el sitio actual del cliente lo es.
+
+    No se afirma sobre un stack que no se midió: el dato lo pone la config.
+    """
+    if not w:
+        return ""
+    aplica = (w.get("aplica") or "").strip().lower()
+    if not stack_actual or aplica not in stack_actual.strip().lower():
+        return ""
+    items = "".join(
+        f"<li><strong>{esc(a)}</strong> {esc(b)}</li>" for a, b in w.get("items", [])
+    )
+    return (f'<p>{esc(w.get("intro", ""))}</p><ul>{items}</ul>'
+            f'<p class="evsrc">{esc(w.get("cierre", ""))}</p>')
 
 
 def brand_override(cfg: dict) -> str:
@@ -376,12 +470,12 @@ def main() -> int:
             f'<p style="margin:.5rem 0 0">{esc(narrativa("comparativoCierre", ""))}</p>'
             "</div>" if narrativa("comparativoCierre", "") else ""),
         "COSTO_NOTA": narrativa("costoNota", "en la llamada lo validamos con tus números reales, que yo no veo."),
-        "PROPUESTA_TITULO": narrativa("propuestaTitulo", "Un sitio tuyo, y los bloques que quieras sumar"),
+        "PROPUESTA_TITULO": narrativa("propuestaTitulo", "Un sitio tuyo, y los add-ons que quieras sumar"),
         "PROPUESTA_INTRO": narrativa(
             "propuestaIntro",
             "La base es no depender más de una plataforma de terceros: sitio propio, tus datos reales "
-            "y las señales que Google necesita para mostrarte. Los bloques se suman según lo que más "
-            "te duela y según el presupuesto."),
+            "y las señales que Google necesita para mostrarte. Los add-ons se suman según lo que más "
+            "te duela y según el presupuesto. Están todos a la vista: tildá los que quieras."),
         "BASE_LABEL": narrativa("baseLabel", "Base — Sitio profesional propio"),
         "PREGUNTAS_TITULO": narrativa("preguntasTitulo", "Datos que no puedo inventar"),
         "CIERRE_TITULO": narrativa("cierreTitulo", "Una llamada de veinte minutos"),
@@ -428,11 +522,26 @@ def main() -> int:
             for n, d, u in scenarios(base, modulos)
         ),
         # §10 del spec editorial: al lado de la tabla, la línea del recomendado.
+        # Con el catálogo único el recomendado son TODOS los marcados, no los tres primeros.
         "RECOMENDADO_LINE": (
             "Recomendado para tu caso: Base + " +
-            " + ".join(str(m.get("code")) for m in modulos[:3]) +
-            f" = {money(base + sum(int(m.get('price', 0)) for m in modulos[:3]))}."
-            if len(modulos) >= 3 else ""),
+            " + ".join(str(m.get("code")) for m in modulos if m.get("recomendado")) +
+            f" = {money(base + sum(int(m.get('price', 0)) for m in modulos if m.get('recomendado')))}."
+            if any(m.get("recomendado") for m in modulos) else ""),
+        "N_RECOMENDADOS": str(sum(1 for m in modulos if m.get("recomendado"))),
+        "N_CATALOGO": str(len(modulos)),
+
+        # ---- Secciones nuevas (documento aprobado 3/10). El texto vive en
+        # templates/secciones.json y cada cliente puede pisarlo desde su config.
+        "INDICE_HTML": indice_html(seccion(cfg, "indice")),
+        "GLOSARIO_HTML": glosario_html(seccion(cfg, "glosario")),
+        "ETAPAS_HTML": etapas_html(seccion(cfg, "etapas")),
+        "VALOR_HTML": valor_html(seccion(cfg, "valor")),
+        "NO_WORDPRESS_HTML": wordpress_html(
+            seccion(cfg, "noWordpress"), cfg.get("stackActual") or ""),
+        "PAGO_HTML": lista_titulada(seccion(cfg, "pago")),
+        "CONDICIONES": esc(seccion(cfg, "condiciones") or ""),
+
         "SHOTS_BAND": shots_band(cfg),
         "WHATSAPP_CTA_HTML": (
             f'<a class="btn btn-wa" href="https://wa.me/{esc(author.get("whatsapp"))}'

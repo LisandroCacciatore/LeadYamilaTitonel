@@ -120,7 +120,9 @@ def main() -> int:
 
     # ---- Invariante 3: la propuesta ejecutó su JS y calcula el total
     prop = dom_prop
-    n_cards = len(re.findall(r'class="module-card"', prop))
+    # Cuenta tarjetas, no una clase exacta: el recomendado va con clase extra
+    # («module-card rec») y con el patrón cerrado el gate daba 9 de 14 en falso.
+    n_cards = len(re.findall(r'class="module-card[ "]', prop))
     total = re.search(r'id="total"[^>]*>([^<]+)<', prop)
     total_txt = total.group(1).strip() if total else None
     n_kpi = len(re.findall(r'class="kpi"', prop))
@@ -134,6 +136,13 @@ def main() -> int:
     # unidad común entre ellos. Menos de 3 sí es un cuadro pobre.
     if n_kpi < 3 or n_kpi > 4:
         errores.append(f"propuesta: el cuadro tiene {n_kpi} indicadores (el spec pide 3 o 4)")
+    # Guard de datos sin resolver: un bloque mal formado (items como objeto en vez de
+    # par) hacía que el documento imprimiera las CLAVES — «título body» — y los tres
+    # gates pasaban igual. Los placeholders {{...}} ya se chequean; esto es la otra
+    # mitad: el dato llegó, pero se leyó mal.
+    for artefacto in ("título body", "titulo body", ">None<", "&gt;None&lt;", "{}"):
+        if artefacto in prop:
+            errores.append(f"propuesta: quedó un dato sin resolver en el DOM: {artefacto!r}")
     # El comparativo puede ser tabla (colegas medidos, §6.2) o 3 bullets (cuando no hay
     # comparables medidos). Antes bastaba con que la clase apareciera en el CSS.
     if '<table class="compare-table"' not in prop and "comp-bullets" not in prop:

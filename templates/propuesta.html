@@ -16,6 +16,44 @@
 /* §9.4: toda captura lleva epígrafe — izquierda «Hoy — …», derecha «Nuevo — …». */
 .shot-cap { font-size:var(--fs-sm); color:var(--ink-muted); margin:.5rem 0 0; }
 
+/* ---------- Índice de la propuesta ---------- */
+.toc-prop { list-style:none; counter-reset:toc; margin:0; padding:0;
+  columns:2; column-gap:2.5rem; }
+.toc-prop li { counter-increment:toc; break-inside:avoid; margin:0 0 .45rem; }
+.toc-prop a { display:flex; gap:.6rem; text-decoration:none; color:var(--ink-default);
+  border-bottom:1px solid var(--line-default); padding:.35rem 0; }
+.toc-prop a::before { content:counter(toc,decimal-leading-zero); color:var(--ink-muted);
+  font-variant-numeric:tabular-nums; flex:0 0 auto; }
+.toc-prop a:hover { border-bottom-color:var(--brand-default); }
+@media (max-width:700px){ .toc-prop { columns:1; } }
+
+/* ---------- Glosario SEO / GEO / AEO ---------- */
+.grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin:1rem 0; }
+@media (max-width:900px){ .grid-3 { grid-template-columns:1fr; } }
+.glos-card { border:1px solid var(--line-default); border-radius:var(--radius-md);
+  padding:1rem; background:var(--surface-default); }
+.glos-sigla { font-family:var(--font-mono,monospace); font-size:var(--fs-sm);
+  letter-spacing:.08em; text-transform:uppercase; color:var(--brand-default); }
+.glos-card h3 { font-size:1rem; margin:.35rem 0 .5rem; }
+.glos-card p { font-size:var(--fs-sm); margin:0; }
+
+/* ---------- Por etapas ---------- */
+.etapa { border-left:2px solid var(--line-default); padding:.15rem 0 .15rem 1rem;
+  margin-bottom:1rem; }
+.etapa-cuando { font-family:var(--font-mono,monospace); font-size:var(--fs-sm);
+  letter-spacing:.08em; text-transform:uppercase; color:var(--ink-muted); }
+.etapa h3 { font-size:1.05rem; margin:.35rem 0 .35rem; }
+.etapa p { margin:0; }
+
+/* ---------- Add-on recomendado ---------- */
+.module-card.rec { border-color:var(--brand-default);
+  box-shadow:0 0 0 1px var(--brand-default) inset; }
+.module-flag { display:inline-block; margin-left:.5rem; padding:.1rem .45rem;
+  border-radius:999px; font-family:var(--font-mono,monospace); font-size:11px;
+  letter-spacing:.06em; text-transform:uppercase; background:var(--brand-default);
+  color:#fff; vertical-align:middle; }
+.rec-legend { font-size:var(--fs-sm); color:var(--ink-muted); margin:.5rem 0 1.25rem; }
+
 /* ---------- La tabla de colegas pasa a bullets en mobile (§6.2) ---------- */
 @media (max-width:700px){
   .compare-table thead { display:none; }
@@ -45,6 +83,17 @@
   </div>
 </section>
 
+<!-- ══════════════ ÍNDICE ══════════════
+     Se arma desde templates/secciones.json (índice): agregar una sección es una
+     línea de datos, no un cambio de plantilla. -->
+<section class="band band--soft" id="indice">
+  <div class="wrap">
+    <span class="eyebrow">Índice de la propuesta</span>
+    <h2 style="font-size:1.25rem;margin:.75rem 0 1rem">Qué encontrás en este documento</h2>
+    {{INDICE_HTML}}
+  </div>
+</section>
+
 <!-- ══════════════ 4 · TU SITIO NUEVO (el resultado, primero) ══════════════ -->
 <section class="band band--soft" id="sitio-nuevo">
   <div class="wrap">
@@ -68,7 +117,7 @@
 </section>
 
 <!-- ══════════════ 6-7 · CONTRA COLEGAS ══════════════ -->
-<section class="band band--soft">
+<section class="band band--soft" id="comparativo">
   <div class="wrap">
     <span class="eyebrow">Dónde estás parado</span>
     <h2 style="font-size:1.5rem;margin-top:.75rem">{{COMPARATIVO_TITULO}}</h2>
@@ -107,7 +156,9 @@
   </div>
 </section>
 
-<!-- ══════════════ 9-11 · BASE, MÓDULOS, ESCENARIOS Y PRECIOS (USD) ══════════════ -->
+<!-- ══════════════ 9-11 · BASE, ADD-ONS, ESCENARIOS Y PRECIOS (USD) ══════════════
+     Catálogo único: el cliente ve los {{N_CATALOGO}} add-ons y el suyo viene marcado.
+     El precio de cada uno vive en templates/catalogo.json, no en la config del cliente. -->
 <section class="band" id="propuesta">
   <div class="wrap">
     <span class="eyebrow">Qué propongo</span>
@@ -126,6 +177,10 @@
       </ul>
     </div>
 
+    <p class="rec-legend"><strong>Recomendado para vos</strong> — los {{N_RECOMENDADOS}} que
+       atacan lo que midió tu diagnóstico y vienen marcados. Los demás están a la vista, por si
+       querés sumar alguno. El total arranca en la base: sumá los que quieras.</p>
+
     <div id="modules"></div>
 
     <div class="total-bar">
@@ -140,13 +195,57 @@
     <h3 style="margin-top:2rem">Escenarios, para no decidir todo de una</h3>
     <ul>{{ESCENARIOS_HTML}}</ul>
     <p class="evsrc">{{RECOMENDADO_LINE}}</p>
-    <p class="evsrc">Todos los precios están en dólares. No hay costos mensuales de plataforma ni licencias recurrentes.
-       La propuesta es válida por 30 días desde el {{FECHA}}.</p>
+    <p class="evsrc">Todos los precios están en dólares. No hay costos mensuales de plataforma ni licencias recurrentes.</p>
+  </div>
+</section>
+
+<!-- ══════════════ FORMA DE PAGO ══════════════ -->
+<section class="band band--soft" id="pago">
+  <div class="wrap">
+    <span class="eyebrow">Cómo se paga</span>
+    <div style="margin-top:.75rem">{{PAGO_HTML}}</div>
+  </div>
+</section>
+
+<!-- ══════════════ POR QUÉ VALE LO QUE VALE ══════════════ -->
+<section class="band" id="valor">
+  <div class="wrap">
+    <span class="eyebrow">Por qué esta propuesta vale lo que vale</span>
+    <div style="margin-top:.75rem">{{VALOR_HTML}}</div>
+  </div>
+</section>
+
+<!-- ══════════════ EN CASTELLANO: SEO, GEO Y AEO ══════════════ -->
+<section class="band band--soft" id="glosario">
+  <div class="wrap">
+    <span class="eyebrow">En castellano</span>
+    <h2 style="font-size:1.5rem;margin:.75rem 0 1rem">Qué son SEO, GEO y AEO</h2>
+    {{GLOSARIO_HTML}}
+  </div>
+</section>
+
+<!-- ══════════════ DECISIÓN TÉCNICA (sólo si el sitio actual es WordPress) ══════════════
+     La banda llega vacía si el config no declara stackActual: no se afirma sobre un
+     stack que no se midió. -->
+<section class="band" id="wordpress">
+  <div class="wrap" id="wordpress-wrap">
+    <span class="eyebrow">Decisión técnica</span>
+    <h2 style="font-size:1.5rem;margin:.75rem 0 1rem">Por qué no WordPress</h2>
+    {{NO_WORDPRESS_HTML}}
+  </div>
+</section>
+
+<!-- ══════════════ POR ETAPAS ══════════════ -->
+<section class="band band--soft" id="etapas">
+  <div class="wrap">
+    <span class="eyebrow">Por etapas</span>
+    <h2 style="font-size:1.5rem;margin:.75rem 0 1rem">Cómo lo haría</h2>
+    {{ETAPAS_HTML}}
   </div>
 </section>
 
 <!-- ══════════════ 12-13 · QUÉ NO INCLUYE / LO QUE NECESITO ══════════════ -->
-<section class="band band--soft">
+<section class="band">
   <div class="wrap">
     <div class="wrap--tight">
       <div>
@@ -161,7 +260,7 @@
 </section>
 
 <!-- ══════════════ 14 · PRÓXIMO PASO ══════════════ -->
-<section class="band">
+<section class="band band--soft" id="cierre">
   <div class="wrap">
     <span class="eyebrow">Próximo paso</span>
     <h2 style="font-size:1.5rem;margin-top:.75rem">{{CIERRE_TITULO}}</h2>
@@ -181,7 +280,7 @@
      §3.15 del spec v2.0 pide «Alcance de esta revisión»; §7.2 del spec editorial pide
      consolidar ahí los tres límites (medido / no medido / no incluido). Un solo bloque
      cumple las dos cosas: antes eran tres secciones que declaraban límites por separado. -->
-<section class="band band--soft">
+<section class="band" id="alcance">
   <div class="wrap wrap--tight">
     <div class="scope">
       <div class="scope-label">Alcance de esta revisión — límites de este documento</div>
@@ -196,7 +295,7 @@
 </section>
 
 <!-- ══════════════ 16 · ACEPTACIÓN Y FIRMA ══════════════ -->
-<section class="band">
+<section class="band band--soft" id="aceptacion">
   <div class="wrap wrap--tight">
     <span class="eyebrow">Aceptación</span>
     <h2 style="font-size:1.25rem;margin-top:.75rem">Si estás de acuerdo, arrancamos</h2>
@@ -222,6 +321,8 @@
     <div class="cta-row">
       <a class="btn btn-ink" href="{{MAILTO_ACEPTAR}}">Aceptar propuesta &rarr;</a>
     </div>
+    <p class="evsrc" style="margin-top:1.5rem"><strong>Condiciones generales.</strong>
+       Esta propuesta es válida hasta el {{VALIDEZ}}. {{CONDICIONES}}</p>
   </div>
 </section>
 
@@ -237,11 +338,12 @@
   function render() {
     var html = '';
     MODULES.forEach(function (m) {
-      html += '<div class="module-card" data-id="' + m.id + '">' +
+      var flag = m.recomendado ? '<span class="module-flag">Recomendado</span>' : '';
+      html += '<div class="module-card' + (m.recomendado ? ' rec' : '') + '" data-id="' + m.id + '">' +
                 '<div class="module-head">' +
                   '<div>' +
                     '<div class="module-code">' + m.code + '</div>' +
-                    '<h3 class="module-title">' + m.title + '</h3>' +
+                    '<h3 class="module-title">' + m.title + flag + '</h3>' +
                   '</div>' +
                   '<span class="module-price">+ USD ' + m.price + '</span>' +
                 '</div>' +
@@ -283,7 +385,17 @@
       codes.length ? 'Base + ' + codes.join(' + ') : 'Sitio base';
   }
 
+  // La banda de WordPress se saca entera si el motor no inyectó contenido: una
+  // sección con título y nada abajo se lee como un error.
+  var wp = document.getElementById('wordpress');
+  if (wp && !document.getElementById('wordpress-wrap').querySelector('ul')) {
+    wp.parentNode.removeChild(wp);
+  }
+
   render();
+  // El total arranca en la base, no en el recomendado: el documento aprobado abre con
+  // «la propuesta queda en el sitio base» y verify.py verifica ese contrato. El número
+  // del recomendado se muestra igual, en la línea de escenarios.
 </script>
 </body>
 </html>

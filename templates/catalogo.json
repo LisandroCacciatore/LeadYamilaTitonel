@@ -1,0 +1,174 @@
+{
+  "_nota": "Catálogo único de add-ons. Fuente de verdad de precios y textos: un precio se cambia ACÁ y se propaga a todas las propuestas. Los códigos M1..Mn NO se escriben: los asigna generate.py según el orden del cliente (primero los recomendados). El copy no nombra ningún rubro: cada cliente ve el mismo menú, y su subconjunto recomendado sale de config.recomendados.",
+  "_pricesFrom": "Adrián Campanaro 3/10/2026 (documento «Tu sitio web, al día»), unificado",
+  "addons": [
+    {
+      "id": "whatsapp",
+      "title": "WhatsApp contextual",
+      "price": 100,
+      "short": "El atajo directo, con el mensaje ya escrito según la sección.",
+      "bullets": [
+        "Botón flotante en todas las secciones",
+        "El texto del mensaje cambia según dónde está la persona",
+        "Abre en un clic desde el celular, sin copiar el número",
+        "Sin costo mensual de plataforma"
+      ]
+    },
+    {
+      "id": "terminacion",
+      "title": "Terminación y accesibilidad verificada",
+      "price": 160,
+      "short": "Que cualquiera pueda usar el formulario y leer el sitio sin esfuerzo.",
+      "bullets": [
+        "Contraste del cuerpo llevado al rango de accesibilidad (4,5:1 o más)",
+        "Etiquetas reales, en español y asociadas a cada campo del formulario",
+        "Descripciones reales en las imágenes que hoy tienen texto de relleno",
+        "Foco de teclado visible: se puede navegar sin mouse"
+      ]
+    },
+    {
+      "id": "blog-seo",
+      "title": "Blog con SEO (creación)",
+      "price": 180,
+      "short": "Que te encuentren cuando te buscan, con artículos propios.",
+      "bullets": [
+        "Blog propio, con dirección y título por artículo",
+        "Indexación y alta del blog en Google",
+        "Mapa del sitio al día",
+        "Incluye 3 artículos iniciales de hasta 800 palabras cada uno"
+      ]
+    },
+    {
+      "id": "geo-aeo",
+      "title": "GEO y AEO",
+      "price": 150,
+      "short": "Para que los asistentes de inteligencia artificial puedan citarte.",
+      "bullets": [
+        "Cada contenido publicado en el formato que leen los asistentes de IA",
+        "Archivo llms.txt para que lean el sitio ordenado",
+        "Estructura de respuesta corta: el recuadro de arriba se lo lleva quien la tiene",
+        "Perfil de negocio alineado con lo que dicen tus artículos"
+      ]
+    },
+    {
+      "id": "migracion",
+      "title": "Migración de contenidos",
+      "price": 130,
+      "short": "Tus contenidos actuales, adentro de tu sitio y con tu autoría.",
+      "bullets": [
+        "Traslado de tus publicaciones reales a artículos con autoría",
+        "Sin inventar métricas ni testimonios",
+        "Etiquetas y buscador por tema",
+        "Un mínimo de arranque acordado (por ejemplo, diez contenidos)"
+      ]
+    },
+    {
+      "id": "medicion",
+      "title": "Medición y capacitación",
+      "price": 100,
+      "short": "Para que lo manejes vos, sin depender de nadie.",
+      "bullets": [
+        "Alta y verificación en Google Search Console",
+        "Analítica para ver qué contenido te trae consultas",
+        "Capacitación de una hora, grabada",
+        "Manual en PDF para publicar solo"
+      ]
+    },
+    {
+      "id": "peso",
+      "title": "Peso y velocidad",
+      "price": 150,
+      "short": "Menos espera en celular, medido antes y después.",
+      "bullets": [
+        "Agrupar y minificar los estilos",
+        "Recortar el CSS a lo que cada página realmente usa",
+        "Medición antes y después con el peso transferido, no con impresiones",
+        "Sin plugins nuevos ni cambios de tema"
+      ]
+    },
+    {
+      "id": "seo-estructurado",
+      "title": "SEO estructurado y Perfil de Empresa en Google",
+      "price": 150,
+      "short": "Que Google entienda quién sos y te muestre cuando te buscan.",
+      "bullets": [
+        "Datos estructurados de persona y profesión (schema.org)",
+        "Descripción para buscadores, Open Graph y Twitter Cards",
+        "Mapa del sitio y robots.txt",
+        "Alta y verificación en Google Search Console"
+      ]
+    },
+    {
+      "id": "recordatorios",
+      "title": "Recordatorios automáticos de turno",
+      "price": 120,
+      "short": "Bajan las ausencias sin que escribas un mensaje más.",
+      "bullets": [
+        "Aviso 24 horas antes del turno",
+        "Confirmación automática al agendar",
+        "Reagendado en dos toques",
+        "Sirve para presencial y para online"
+      ]
+    },
+    {
+      "id": "agenda",
+      "title": "Agenda online sincronizada",
+      "price": 100,
+      "short": "Reservan solos, a cualquier hora, en la agenda que ya usás.",
+      "bullets": [
+        "Sincronización con Google Calendar",
+        "Bloqueo automático de horarios ya tomados",
+        "Zona horaria automática para quien consulta desde el exterior",
+        "Se puede convivir con otra plataforma o reemplazarla"
+      ]
+    },
+    {
+      "id": "linkedin",
+      "title": "Sección LinkedIn / contenidos",
+      "price": 100,
+      "short": "Tus textos de LinkedIn, en tu sitio, sin depender de la red social.",
+      "bullets": [
+        "Sección de ensayos y notas con autoría",
+        "Carga desde tus publicaciones reales, sin inventar métricas",
+        "Buscador y etiquetas por tema",
+        "Capacitación de 1 hora más manual para publicar solo"
+      ]
+    },
+    {
+      "id": "verificacion",
+      "title": "Verificación y entrega documentada",
+      "price": 80,
+      "short": "No te quedás con mi palabra: te quedás con la medición.",
+      "bullets": [
+        "Remedición de todo lo del bloque de terminación, después de aplicado",
+        "Comprobación en un celular real",
+        "Documento corto con qué se cambió y con qué se verifica cada cosa",
+        "Sin costo mensual ni licencia"
+      ]
+    },
+    {
+      "id": "honorarios",
+      "title": "Página de honorarios y encuadre económico",
+      "price": 60,
+      "short": "Qué cuesta, cómo se paga y qué se entrega, sin vueltas.",
+      "bullets": [
+        "Honorarios visibles y sin ambigüedad",
+        "Modalidad de pago y de coordinación de turnos",
+        "Qué documentación se entrega (a definir con el profesional)",
+        "Baja las consultas que no llegan a cerrar"
+      ]
+    },
+    {
+      "id": "blog-conectar",
+      "title": "Conexión de blog existente",
+      "price": 50,
+      "short": "Si ya tenés blog, se conecta, se ordena y se deja indexable.",
+      "bullets": [
+        "Enlace al blog desde cada página de servicio",
+        "Títulos y descripciones propios por artículo",
+        "Indexable: mapa del sitio y datos estructurados de artículo",
+        "Sin reescribir tus textos"
+      ]
+    }
+  ]
+}
