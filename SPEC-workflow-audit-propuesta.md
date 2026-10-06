@@ -58,7 +58,7 @@ Reemplaza el placeholder actual. Orden exacto:
 
 1. **H1:** `{Nombre del profesional} — Cómo se vería tu sitio`
 2. **Subtítulo:** una línea con el gancho específico del caso.
-3. **Preview del sitio nuevo:** captura o iframe + botón `Abrir el sitio nuevo →`.
+3. **Botón al sitio nuevo:** bloque de portal (botón grande + dirección visible). **Sin captura ni iframe.** La captura se ve chica, se corta al paginar y no reemplaza al clic; el iframe directamente no imprime.
 4. **Cuadro de 4-5 números grandes** del diagnóstico.
 5. **CTAs:** `Ver la propuesta →` (primario) / `Ver el informe →` (secundario).
 6. **Nota técnica** `noindex` / `robots.txt` al pie, colapsable.
@@ -76,7 +76,7 @@ Orden exacto:
 1. Titular con gancho
 2. Subtítulo con contexto: "medí X, Y y Z con la misma herramienta y el mismo día"
 3. Cuadro de números grandes (4-5)
-4. SECCIÓN "Tu sitio nuevo" — captura + link + CTA
+4. SECCIÓN "Tu sitio nuevo" — botón grande al sitio (bloque `.portal`), sin captura
 5. "Lo que encontré" — hallazgos con patrón fijo (ver §5)
 6. Tabla comparativa contra colegas (solo si cumple §6)
 7. "Lo que dice esta tabla, en una línea"
@@ -265,23 +265,33 @@ Aplica las mismas reglas de calidad que la propuesta exige al sitio viejo:
 
 ## 12. Validaciones automáticas antes de publicar
 
-Hermes corre esto antes de dar por buena una propuesta:
+**La checklist es un script.** Un comando:
 
-```
-[ ] Ninguna fecha futura en ningún documento
-[ ] Ninguna conversión a pesos ni a sesiones
-[ ] Ninguna tabla "Agencia vs Esta propuesta"
-[ ] Todos los hallazgos en formato Medido/Significa/Propongo
-[ ] Segunda persona (vos) en todo el cuerpo
-[ ] El sitio nuevo está linkeado desde la home del lead
-[ ] El sitio nuevo está linkeado desde el primer scroll de la propuesta
-[ ] Informe y propuesta no repiten más del 30% del contenido
-[ ] Todo CTA es botón clickeable con mailto o link
-[ ] La propuesta es válida por 30 días desde la fecha de emisión
-[ ] El sitio nuevo cumple todo lo que la propuesta promete
+```bash
+bash scripts/verificar-todo.sh
 ```
 
-Si alguna falla, la propuesta no se publica.
+Corre los seis gates en orden y resume al final:
+
+| Gate | Qué cubre |
+|---|---|
+| 1 · construir | genera las dos piezas, verifica precios contra `catalogo.json` y el render real |
+| 2 · workflow v2.0 | orden, fechas, solo USD, promesas de base, coherencia sitio↔propuesta |
+| 3 · editorial v1.0 | patrón de hallazgos, segunda persona, mobile, tipografía |
+| 4 · promesas | lo prometido contra el sitio publicado |
+| 5 · PDF del informe | hojas, membrete repetido, sin precios (§4) |
+| 6 · PDF de la propuesta | |
+
+Dos fases, a propósito: los gates de diagnóstico corren **todos** aunque uno
+falle (un rojo temprano no esconde los demás), y **los PDFs sólo se escriben si
+la fase 1 quedó entera en verde**. Un entregable recién escrito con un error se
+manda; por eso con gates en rojo los PDFs **no se tocan**.
+
+**Regla para agregar un gate:** va como script en `scripts/` y se suma al
+runner. Una regla que no es un script es una regla que se olvida — y los tres
+errores que más caro salieron en este proyecto (precios de línea mal que se
+cancelan en el total, hojas medio vacías por `break-inside`, desborde en mobile)
+los cazó un script, no una relectura.
 
 ---
 
@@ -316,13 +326,16 @@ Para evitar regresiones, se preserva:
 ## 15. Referencias de implementación
 
 - Script de medición: `scripts/medir.py --pares 00-auditoria/pares.txt`
-- Estructura de carpetas por lead:
+- Estructura de carpetas por lead (el motor es `~/motor-leads`; cada lead es una copia):
   ```
-  /LeadX/
-    index.html          (home del lead)
-    /informe/           (diagnóstico)
-    /propuesta/         (solución)
-  /X/                   (sitio nuevo del profesional)
+  ~/lead-<cliente>/
+    00-auditoria/    informe.html + informe-<slug>.pdf + evidencia
+    01-propuesta/    propuesta.html + propuesta-<slug>.pdf
+    02-sitio/        capturas y assets del sitio medido
+    brand/           brand.css, membrete, pie, fuentes embebidas
+    templates/       catalogo.json, secciones.json, plantillas
+    config.json      datos y narrativa del cliente
+    scripts/         el motor
   ```
 - Fecha de corte de este spec: 2026-10-05
 - Versión anterior (v1.0): deprecada.

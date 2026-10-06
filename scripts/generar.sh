@@ -1,14 +1,19 @@
 #!/usr/bin/env bash
 # ==========================================================================
-# scripts/generar.sh — genera las dos piezas del lead y las verifica.
+# scripts/generar.sh — CONSTRUYE las dos piezas del lead.
 #
-#   1. informe.html    (00-auditoria/)   documento A4 paginado
-#   2. propuesta.html  (01-propuesta/)   propuesta comercial con selector
-#   3. verify.py                         render real en Chrome headless
+#   1. informe.html          (00-auditoria/)   documento A4 paginado
+#   2. propuesta.html        (01-propuesta/)   propuesta comercial con selector
+#   3. verificar-precios.py                    precios del render vs catalogo.json
+#   4. verify.py                               render real en Chrome headless
 #
-# Si algo no cierra, no hay entregable: el script corta con error.
+# No exporta PDF y no reclama que el documento esté bien: eso es
+# `scripts/verificar-todo.sh`, que es EL COMANDO ESTÁNDAR. Este script existe
+# para iterar contenido sin pagar el costo de los seis gates.
 #
-# Uso:  ./scripts/generar.sh
+# Si algo no cierra, corta con error.
+#
+# Uso:  bash scripts/generar.sh
 # ==========================================================================
 set -euo pipefail
 
@@ -34,15 +39,9 @@ echo "== Verificando el render (Chrome headless) =="
 "$PY" scripts/verify.py
 
 echo
-echo "== Exportando la propuesta a PDF =="
-"$PY" scripts/exportar-pdf.py
-
-echo
-echo "Listo:"
+echo "Construido:"
 echo "  00-auditoria/informe.html"
 echo "  01-propuesta/propuesta.html"
-echo "  01-propuesta/propuesta-*.pdf"
 echo
-echo "Para el PDF del informe y la evidencia:"
-echo "  python scripts/verify-pdf.py"
-echo "  python scripts/consolidar-evidencia.py"
+echo "Para validar y exportar el entregable completo:"
+echo "  bash scripts/verificar-todo.sh"
